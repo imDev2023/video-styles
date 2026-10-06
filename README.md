@@ -29,3 +29,9 @@ This repository holds code, documents, MIDI written by code, a few SIL Open Font
 It does not hold downloaded music, sound effects, stock photos, voice recordings or renders: their licences allow use in a film but not redistribution, so every style fetches them at build time.
 API keys are read from the workspace `.env` at run time and never written into files.
 The workspace's `TOOLKIT.md` lists the tools each style expects to find installed.
+
+## Licence
+
+The code and documents are under the MIT licence (`LICENSE`).
+The fonts in `paper-theatre-sketchbook/template/assets/fonts/` stay under the SIL Open Font License that ships beside them.
+The reference stills are frames from the finished films and contain third-party photographs (CC0 from StockSnap and Unsplash-licensed photos via Lorem Picsum); those photographs keep their own licences.
