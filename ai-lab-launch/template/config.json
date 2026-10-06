@@ -1,0 +1,1557 @@
+{
+ "_about": "Everything that changes per video. This example is the Stoker launch film (2026-10-05). Engine and scenes read only this file, voice/words.json and assets/.",
+ "product": {
+  "name": "Stoker",
+  "pitch": "Launch a coin on Solana, paired with any asset. Creators earn from every trade."
+ },
+ "render": {
+  "size": 1440,
+  "fps": 60,
+  "subframes": 8,
+  "shutter": 0.5,
+  "hold_end": 2.0,
+  "voice_lead_in": 0.4
+ },
+ "voice": {
+  "provider": "elevenlabs",
+  "voice_id": "pFZP5JQG7iQjIQuC4Bku",
+  "voice_name": "Lily - Velvety Actress (premade; library voices need a paid plan)",
+  "model": "eleven_v4",
+  "seeds": [
+   11,
+   22,
+   33,
+   44
+  ],
+  "lines": [
+   "This is Stoker.",
+   "[softly] A Solana launchpad... made for creators.",
+   "[excited] Launch against ANY asset.",
+   "[softly] Pair it with a stock - and it just... works.",
+   "The more they trade, the MORE you earn.",
+   "Tune its reward tax. Its burn. Its airdrop.",
+   "Every coin - exactly how you see it.",
+   "Stoker.",
+   "Live on Solana."
+  ],
+  "take": "voice/takes/take2.mp3"
+ },
+ "music": {
+  "file": "assets/music/song.mp3",
+  "title": "Cascade Breathe (Future Garage) by NverAvetyanMusic",
+  "page": "https://pixabay.com/music/beats-cascade-breathe-future-garage-412839/",
+  "url": "https://cdn.pixabay.com/download/audio/2025/09/30/audio_a59a02b883.mp3?filename=nveravetyanmusic-cascade-breathe-future-garage-412839.mp3",
+  "license": "Pixabay Content License (marked Content ID Registered: YouTube may claim it)",
+  "bpm": 130,
+  "drop": 75.72,
+  "gain_db": -10.5
+ },
+ "brand": {
+  "ink": "#121826",
+  "ink2": "#4a5468",
+  "ink3": "#7b8498",
+  "accent": "#2b45ff",
+  "accentStrong": "#1b2fd1",
+  "accent2": "#7086ff",
+  "plate": "#dfe3ff",
+  "fog": "#eef0f4",
+  "gradient": [
+   "#1b2fd1",
+   "#2b45ff",
+   "#7086ff"
+  ],
+  "glow": "rgba(43,69,255,0.45)",
+  "aura": [
+   [
+    "#dfe3ff",
+    0.95,
+    520,
+    0.11,
+    0.0
+   ],
+   [
+    "#9fb0ff",
+    0.55,
+    380,
+    0.17,
+    1.7
+   ],
+   [
+    "#7086ff",
+    0.38,
+    300,
+    0.13,
+    3.1
+   ],
+   [
+    "#c8bfff",
+    0.5,
+    340,
+    0.09,
+    4.4
+   ],
+   [
+    "#2b45ff",
+    0.16,
+    260,
+    0.15,
+    5.6
+   ]
+  ],
+  "font": {
+   "family": "Archivo",
+   "file": "assets/font/Archivo.ttf",
+   "url": "https://github.com/google/fonts/raw/main/ofl/archivo/Archivo%5Bwdth%2Cwght%5D.ttf",
+   "stretch": "62% 125%"
+  },
+  "logo": "assets/logo.png",
+  "logo_height": 128
+ },
+ "_anchors": "Word index in voice/words.json and the word expected there. Rendering stops with an error if the take does not match.",
+ "anchors": {
+  "s2": [
+   6,
+   "made"
+  ],
+  "drop": [
+   9,
+   "launch"
+  ],
+  "s4": [
+   13,
+   "pair"
+  ],
+  "pick": [
+   17,
+   "stock"
+  ],
+  "s4b": [
+   18,
+   "and"
+  ],
+  "s5": [
+   22,
+   "the"
+  ],
+  "s6": [
+   30,
+   "tune"
+  ],
+  "set1": [
+   32,
+   "reward"
+  ],
+  "set2": [
+   35,
+   "burn"
+  ],
+  "set3": [
+   37,
+   "airdrop"
+  ],
+  "s7": [
+   38,
+   "every"
+  ],
+  "logo": [
+   45,
+   "stoker"
+  ],
+  "tagline": [
+   46,
+   "live"
+  ],
+  "last": [
+   48,
+   "solana"
+  ]
+ },
+ "display": {
+  "comma_after": [
+   39
+  ],
+  "lowercase": [
+   "ANY",
+   "MORE"
+  ],
+  "gradient_word": "more"
+ },
+ "captions": {
+  "name": [
+   [
+    0,
+    2
+   ],
+   600,
+   104
+  ],
+  "category": [
+   [
+    3,
+    5
+   ],
+   500,
+   76
+  ],
+  "made": [
+   [
+    6,
+    8
+   ],
+   600,
+   88
+  ],
+  "verb": [
+   [
+    9,
+    12
+   ],
+   500,
+   50
+  ],
+  "input": [
+   [
+    13,
+    17
+   ],
+   500,
+   50
+  ],
+  "getsyou": [
+   [
+    18,
+    21
+   ],
+   500,
+   50
+  ],
+  "more1": [
+   [
+    22,
+    25
+   ],
+   500,
+   54
+  ],
+  "more2": [
+   [
+    26,
+    29
+   ],
+   650,
+   128
+  ],
+  "every": [
+   [
+    38,
+    44
+   ],
+   500,
+   44
+  ],
+  "wordmark": [
+   [
+    45,
+    45
+   ],
+   800,
+   124,
+   "expanded"
+  ],
+  "tagline": [
+   [
+    46,
+    48
+   ],
+   500,
+   40
+  ]
+ },
+ "scenes": {
+  "collage": {
+   "set": "coins",
+   "count": 20
+  },
+  "hero": {
+   "set": "hero"
+  },
+  "prompt": {
+   "text": "$EMBER",
+   "placeholder": "Coin name",
+   "set": "fire"
+  },
+  "result": {
+   "set": "fire",
+   "base": "EMBER",
+   "chip_prefix": "paired with ",
+   "pick_tile": 2
+  },
+  "tiles": [
+   [
+    "SOL",
+    "Solana",
+    "SOL"
+   ],
+   [
+    "USDC",
+    "USD Coin",
+    "Stablecoin"
+   ],
+   [
+    "TSLAx",
+    "Tesla xStock",
+    "Stock"
+   ],
+   [
+    "NVDAx",
+    "NVIDIA xStock",
+    "Stock"
+   ],
+   [
+    "JUP",
+    "Jupiter",
+    "Community"
+   ],
+   [
+    "BONK",
+    "Bonk",
+    "Community"
+   ],
+   [
+    "AAPLx",
+    "Apple xStock",
+    "Stock"
+   ],
+   [
+    "USDG",
+    "Global Dollar",
+    "Stablecoin"
+   ],
+   [
+    "SPYx",
+    "S&P 500 xStock",
+    "Stock"
+   ],
+   [
+    "WIF",
+    "dogwifhat",
+    "Community"
+   ],
+   [
+    "GOOGLx",
+    "Alphabet xStock",
+    "Stock"
+   ],
+   [
+    "PYUSD",
+    "PayPal USD",
+    "Stablecoin"
+   ],
+   [
+    "METAx",
+    "Meta xStock",
+    "Stock"
+   ],
+   [
+    "RAY",
+    "Raydium",
+    "Community"
+   ],
+   [
+    "MSTRx",
+    "Strategy xStock",
+    "Stock"
+   ]
+  ],
+  "tile_colors": [
+   "#2b45ff",
+   "#121826",
+   "#7086ff",
+   "#0e7f59",
+   "#c62d35",
+   "#8a5a00",
+   "#4a5468",
+   "#1b2fd1",
+   "#5b3cc4"
+  ],
+  "settings": {
+   "header": "LAUNCH SETTINGS",
+   "set": "parrot",
+   "hue": 150,
+   "sliders": [
+    {
+     "label": "Reward tax",
+     "anchor": "set1",
+     "from": 0.2,
+     "to": 0.6,
+     "scale": 10,
+     "decimals": 1,
+     "suffix": "%"
+    },
+    {
+     "label": "Burn",
+     "anchor": "set2",
+     "from": 0.1,
+     "to": 0.5,
+     "scale": 100,
+     "decimals": 0,
+     "suffix": "%"
+    },
+    {
+     "label": "Airdrop",
+     "anchor": "set3",
+     "from": 0.0,
+     "to": 0.6,
+     "scale": 500,
+     "decimals": 0,
+     "suffix": " wallets"
+    }
+   ]
+  },
+  "burst": {
+   "set": "coins",
+   "count": 120,
+   "offset": 20
+  }
+ },
+ "mix": {
+  "duck": {
+   "low": 0.3,
+   "mid": 0.85,
+   "air": 0.55
+  },
+  "target_db": 9.0,
+  "lookahead": 0.05,
+  "hold": 0.3,
+  "attack": 0.04,
+  "release": 0.5,
+  "lufs": -14.0,
+  "true_peak": -1.0,
+  "sfx_plan": {
+   "key": [
+    -23,
+    0.03,
+    0.12
+   ],
+   "click": [
+    -21,
+    0.012,
+    0.09
+   ],
+   "land": [
+    -13,
+    0.03,
+    0.15
+   ],
+   "whoosh_1": [
+    -17,
+    0.6,
+    0.7
+   ],
+   "whoosh_2": [
+    -18,
+    0.35,
+    0.7
+   ],
+   "impact_drop": [
+    -7,
+    0.45,
+    2.6
+   ],
+   "impact_logo": [
+    -11,
+    0.3,
+    2.2
+   ],
+   "riser": [
+    -15,
+    2.4,
+    0.05
+   ]
+  }
+ },
+ "images": {
+  "coins": {
+   "size": 480,
+   "items": [
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/YAG9NYBYZW.jpg",
+     "credit": "Michal Kulesza",
+     "page": "https://stocksnap.io/photo/goldenretreiver-dog-YAG9NYBYZW",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/05DMCHNN56.jpg",
+     "credit": "Andrew E Weber",
+     "page": "https://stocksnap.io/photo/cat-eyes-05DMCHNN56",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/5RGLQ3FOLM.jpg",
+     "credit": "World Wildlife",
+     "page": "https://stocksnap.io/photo/frog-nature-5RGLQ3FOLM",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/9TYTI2BWYV.jpg",
+     "credit": "Massimo Mancini",
+     "page": "https://stocksnap.io/photo/owl-bird-9TYTI2BWYV",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/H28JZPIS0O.jpg",
+     "credit": "Ray Hennessy",
+     "page": "https://stocksnap.io/photo/snow-winter-H28JZPIS0O",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/YFZGHV9INZ.jpg",
+     "credit": "Travel Photographer",
+     "page": "https://stocksnap.io/photo/parrot-bird-YFZGHV9INZ",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/DPSYTCI33Q.jpg",
+     "credit": "Ruben Engel",
+     "page": "https://stocksnap.io/photo/animals-amphibians-DPSYTCI33Q",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/FP8EF43PFV.jpg",
+     "credit": "Antonio Lapa",
+     "page": "https://stocksnap.io/photo/animals-cats-FP8EF43PFV",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/REEH401AJS.jpg",
+     "credit": "Lukasz Kowalewski",
+     "page": "https://stocksnap.io/photo/dog-tongue-REEH401AJS",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/K7O1R79ESF.jpg",
+     "credit": "Martin Jernberg",
+     "page": "https://stocksnap.io/photo/animal-monkey-K7O1R79ESF",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/ZQZ6Q9LN9K.jpg",
+     "credit": "Bernard Spragg",
+     "page": "https://stocksnap.io/photo/penguin-wildlife-ZQZ6Q9LN9K",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/WIGF8FHJFK.jpg",
+     "credit": "Quentin Dr",
+     "page": "https://stocksnap.io/photo/owl-bird-WIGF8FHJFK",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/R5XTX7OG27.jpg",
+     "credit": "Linnea Sandbakk",
+     "page": "https://stocksnap.io/photo/animals-wildlife-R5XTX7OG27",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/SOY68754UC.jpg",
+     "credit": "Stefan Stefancik",
+     "page": "https://stocksnap.io/photo/nature-animals-SOY68754UC",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/2ANB3L3OFJ.jpg",
+     "credit": "Bernard Spragg",
+     "page": "https://stocksnap.io/photo/frog-leaf-2ANB3L3OFJ",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/0A5CNJCGRF.jpg",
+     "credit": "Nirzar Pangarkar",
+     "page": "https://stocksnap.io/photo/cat-kitten-0A5CNJCGRF",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/19KEJ58BB9.jpg",
+     "credit": "Jairo Alzate",
+     "page": "https://stocksnap.io/photo/dog-puppy-19KEJ58BB9",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/69H124AYVR.jpg",
+     "credit": "Kelly Sikkema",
+     "page": "https://stocksnap.io/photo/gorilla-monkey-69H124AYVR",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/GBO98Y3P9Y.jpg",
+     "credit": "Nathan Anderson",
+     "page": "https://stocksnap.io/photo/brown-fox-GBO98Y3P9Y",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/6CWM5R4XTE.jpg",
+     "credit": "Stephanie Ecate",
+     "page": "https://stocksnap.io/photo/hand-bracelet-6CWM5R4XTE",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/JHPVE3XLUE.jpg",
+     "credit": "Matthew Henry",
+     "page": "https://stocksnap.io/photo/pug-dog-JHPVE3XLUE",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/RM97YA77HX.jpg",
+     "credit": "Matthew Henry",
+     "page": "https://stocksnap.io/photo/pug-dog-RM97YA77HX",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/YNI4E0XAAS.jpg",
+     "credit": "Krista Mangulsone",
+     "page": "https://stocksnap.io/photo/dog-cat-YNI4E0XAAS",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/4T0BQID9GS.jpg",
+     "credit": "Michal Kulesza",
+     "page": "https://stocksnap.io/photo/dog-pet-4T0BQID9GS",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/S2QPBLPTL5.jpg",
+     "credit": "Pawel Kadysz",
+     "page": "https://stocksnap.io/photo/dog-pet-S2QPBLPTL5",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/JVSG0V22X6.jpg",
+     "credit": "Andrew Pons",
+     "page": "https://stocksnap.io/photo/dog-pet-JVSG0V22X6",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/2SQMYBPQGK.jpg",
+     "credit": "Ken Cooper",
+     "page": "https://stocksnap.io/photo/dog-sad-2SQMYBPQGK",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/63348D1909.jpg",
+     "credit": "Jay Mantri",
+     "page": "https://stocksnap.io/photo/dogs-animals-63348D1909",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/YNI4E0XAAS.jpg",
+     "credit": "Krista Mangulsone",
+     "page": "https://stocksnap.io/photo/dog-cat-YNI4E0XAAS",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/OU5O7ZUVH7.jpg",
+     "credit": "Snapwire",
+     "page": "https://stocksnap.io/photo/gray-cat-OU5O7ZUVH7",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/7BXCZNT5JF.jpg",
+     "credit": "Ian Livesey",
+     "page": "https://stocksnap.io/photo/cat-grooming-7BXCZNT5JF",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/46VP4U7UQQ.jpg",
+     "credit": "Kasia Serbin",
+     "page": "https://stocksnap.io/photo/black-cat-46VP4U7UQQ",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/G8YFG3OSZ4.jpg",
+     "credit": "Alex Andrews",
+     "page": "https://stocksnap.io/photo/ginger-cat-G8YFG3OSZ4",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/C6FB7E9253.jpg",
+     "credit": "Skitter Photo",
+     "page": "https://stocksnap.io/photo/cat-pet-C6FB7E9253",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/UCS90HFBJL.jpg",
+     "credit": "Freddie Marriage",
+     "page": "https://stocksnap.io/photo/animals-cats-UCS90HFBJL",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/F3KHH9U6JH.jpg",
+     "credit": "Lynn Warren",
+     "page": "https://stocksnap.io/photo/cat-whiskers-F3KHH9U6JH",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/MR16HMQQ4J.jpg",
+     "credit": "Ray Hennessy",
+     "page": "https://stocksnap.io/photo/animals-frogs-MR16HMQQ4J",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/SR5RJX452I.jpg",
+     "credit": "Mali Maeder",
+     "page": "https://stocksnap.io/photo/animals-frog-SR5RJX452I",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/VSOEAZW3YY.jpg",
+     "credit": "Macro Mama",
+     "page": "https://stocksnap.io/photo/frog-animal-VSOEAZW3YY",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/845B9MAJFG.jpg",
+     "credit": "Altered Reality",
+     "page": "https://stocksnap.io/photo/frog-leaf-845B9MAJFG",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/QGH7N7JP0P.jpg",
+     "credit": "Janko Ferlic",
+     "page": "https://stocksnap.io/photo/rock-wood-QGH7N7JP0P",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/JZHQMGU8X6.jpg",
+     "credit": "Tim Stief",
+     "page": "https://stocksnap.io/photo/green-leaf-JZHQMGU8X6",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/1S833P58D0.jpg",
+     "credit": "Jay Ruzesky",
+     "page": "https://stocksnap.io/photo/penguin-bird-1S833P58D0",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/QNK8VUK2UI.jpg",
+     "credit": "World Wildlife",
+     "page": "https://stocksnap.io/photo/penguin-bird-QNK8VUK2UI",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/3IJWZZLA8U.jpg",
+     "credit": "Yuriy Rzhemovskiy",
+     "page": "https://stocksnap.io/photo/nature-grass-3IJWZZLA8U",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/ROZ6I3LEBW.jpg",
+     "credit": "Leeroy",
+     "page": "https://stocksnap.io/photo/owl-bird-ROZ6I3LEBW",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/E1CMK2AIID.jpg",
+     "credit": "World Wildlife",
+     "page": "https://stocksnap.io/photo/owl-eyes-E1CMK2AIID",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/MBDJJMPNJP.jpg",
+     "credit": "World Wildlife",
+     "page": "https://stocksnap.io/photo/owl-eyes-MBDJJMPNJP",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/6UOTM0S9YO.jpg",
+     "credit": "World Wildlife",
+     "page": "https://stocksnap.io/photo/owl-bird-6UOTM0S9YO",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/HYVE0F6B8T.jpg",
+     "credit": "World Wildlife",
+     "page": "https://stocksnap.io/photo/owl-eyes-HYVE0F6B8T",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/97Z2NAXQQW.jpg",
+     "credit": "Gary Bendig",
+     "page": "https://stocksnap.io/photo/owl-bird-97Z2NAXQQW",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/6C4MY9MUEY.jpg",
+     "credit": "Tricia Gray",
+     "page": "https://stocksnap.io/photo/owl-wildlife-6C4MY9MUEY",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/JENKYX8RSH.jpg",
+     "credit": "Joe deSousa",
+     "page": "https://stocksnap.io/photo/monkey-portrait-JENKYX8RSH",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/6X0PULZQ5K.jpg",
+     "credit": "Quentin Dr",
+     "page": "https://stocksnap.io/photo/monkey-animal-6X0PULZQ5K",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/EVJRUBMBJZ.jpg",
+     "credit": "Joe deSousa",
+     "page": "https://stocksnap.io/photo/monkey-portrait-EVJRUBMBJZ",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/1D708934C3.jpg",
+     "credit": "JESHOOTS.com",
+     "page": "https://stocksnap.io/photo/monkey-animal-1D708934C3",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/7IXWFEWAA3.jpg",
+     "credit": "Nitin Dhumal",
+     "page": "https://stocksnap.io/photo/monkey-animal-7IXWFEWAA3",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/RY7DLRL4LW.jpg",
+     "credit": "World Wildlife",
+     "page": "https://stocksnap.io/photo/monkey-portrait-RY7DLRL4LW",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/QB1C0N09JQ.jpg",
+     "credit": "Francisco Moreno",
+     "page": "https://stocksnap.io/photo/fox-animal-QB1C0N09JQ",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/ZV5I6S8BL2.jpg",
+     "credit": "Ray Hennessy",
+     "page": "https://stocksnap.io/photo/animals-foxes-ZV5I6S8BL2",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/KKU0W6GZA6.jpg",
+     "credit": "Nathan Anderson",
+     "page": "https://stocksnap.io/photo/fox-animal-KKU0W6GZA6",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/VXQZDKSFKE.jpg",
+     "credit": "Bob Richards",
+     "page": "https://stocksnap.io/photo/white-fox-VXQZDKSFKE",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/PXN1URQXLQ.jpg",
+     "credit": "Free Nature Stock",
+     "page": "https://stocksnap.io/photo/fox-animal-PXN1URQXLQ",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/FE9E922C69.jpg",
+     "credit": "Ruth Caron",
+     "page": "https://stocksnap.io/photo/green-parrot-FE9E922C69",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/WRN7A2LYCA.jpg",
+     "credit": "Bernard Spragg",
+     "page": "https://stocksnap.io/photo/green-parrot-WRN7A2LYCA",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/E3RCYXLSTJ.jpg",
+     "credit": "Isaac Benhesed",
+     "page": "https://stocksnap.io/photo/love-birds-E3RCYXLSTJ",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/7GEACIHKGD.jpg",
+     "credit": "Mikhail Vasilyev",
+     "page": "https://stocksnap.io/photo/bird-beak-7GEACIHKGD",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/Z4Y3YOKTYT.jpg",
+     "credit": "Andrew Pons",
+     "page": "https://stocksnap.io/photo/bird-beak-Z4Y3YOKTYT",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/6P8AXJ0J00.jpg",
+     "credit": "Matthias Zomer",
+     "page": "https://stocksnap.io/photo/bird-beak-6P8AXJ0J00",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/4ECS7YUQO3.jpg",
+     "credit": "Sven Scheuermeier",
+     "page": "https://stocksnap.io/photo/bird-animal-4ECS7YUQO3",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/TCKIW7HSE8.jpg",
+     "credit": "Matthias Zomer",
+     "page": "https://stocksnap.io/photo/blue-sky-TCKIW7HSE8",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/AOZCS77GSL.jpg",
+     "credit": "Skitter Photo",
+     "page": "https://stocksnap.io/photo/match-fire-AOZCS77GSL",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/0G7N1L3G2F.jpg",
+     "credit": "Skitter Photo",
+     "page": "https://stocksnap.io/photo/fire-bonfire-0G7N1L3G2F",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/ABMMJRIYZF.jpg",
+     "credit": "Stephen Radford",
+     "page": "https://stocksnap.io/photo/fire-flames-ABMMJRIYZF",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/JOQIB2Q07I.jpg",
+     "credit": "Pawel Kadysz",
+     "page": "https://stocksnap.io/photo/bonfire-fire-JOQIB2Q07I",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/F1HNCL1XYT.jpg",
+     "credit": "Pawel Kadysz",
+     "page": "https://stocksnap.io/photo/fire-flames-F1HNCL1XYT",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/AUVDUG2IVM.jpg",
+     "credit": "Torsten Dettlaff",
+     "page": "https://stocksnap.io/photo/blue-fire-AUVDUG2IVM",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/GO8WSAD6EJ.jpg",
+     "credit": "Ethan Brooke",
+     "page": "https://stocksnap.io/photo/neon-street-GO8WSAD6EJ",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/1MB7WMS2HX.jpg",
+     "credit": "Designecologist",
+     "page": "https://stocksnap.io/photo/red-neon-1MB7WMS2HX",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/4AGMHST0M6.jpg",
+     "credit": "Ethan Brooke",
+     "page": "https://stocksnap.io/photo/street-neon-4AGMHST0M6",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/OMECCADMRG.jpg",
+     "credit": "Manu Aguirre",
+     "page": "https://stocksnap.io/photo/neon-sign-OMECCADMRG",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/BYJO5BAWIT.jpg",
+     "credit": "Jerod Young",
+     "page": "https://stocksnap.io/photo/neon-sign-BYJO5BAWIT",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/M32OGTILV8.jpg",
+     "credit": "Andrea P. Coan",
+     "page": "https://stocksnap.io/photo/love-neon-M32OGTILV8",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/VWWBOFQBGZ.jpg",
+     "credit": "Burst",
+     "page": "https://stocksnap.io/photo/neon-tokyo-VWWBOFQBGZ",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/FFVGSML6FS.jpg",
+     "credit": "Teddy Tavan",
+     "page": "https://stocksnap.io/photo/woman-neon-FFVGSML6FS",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/05JCAOWT0B.jpg",
+     "credit": "Bob Richards",
+     "page": "https://stocksnap.io/photo/neon-lights-05JCAOWT0B",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/VA2J8OJRQV.jpg",
+     "credit": "ISO Republic",
+     "page": "https://stocksnap.io/photo/neon-sign-VA2J8OJRQV",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/DHJUBKAJGB.jpg",
+     "credit": "HD Wallpapers",
+     "page": "https://stocksnap.io/photo/abstract-neon-DHJUBKAJGB",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/PBWHOLOF9A.jpg",
+     "credit": "YesManPro",
+     "page": "https://stocksnap.io/photo/neon-lights-PBWHOLOF9A",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/Q5FBXIHYEH.jpg",
+     "credit": "Jerod Young",
+     "page": "https://stocksnap.io/photo/neon-lights-Q5FBXIHYEH",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/0CYCR9EMAB.jpg",
+     "credit": "Ian Livesey",
+     "page": "https://stocksnap.io/photo/neon-sign-0CYCR9EMAB",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/HYUAOTF9LQ.jpg",
+     "credit": "Macro Mama",
+     "page": "https://stocksnap.io/photo/heart-candy-HYUAOTF9LQ",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/E7A1WR39Y7.jpg",
+     "credit": "Krzysztof%20Puszczy%u0144ski",
+     "page": "https://stocksnap.io/photo/skittles-candy-E7A1WR39Y7",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/XRNYW2FAMX.jpg",
+     "credit": "Macro Mama",
+     "page": "https://stocksnap.io/photo/heart-candy-XRNYW2FAMX",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/54A30A2537.jpg",
+     "credit": "Skitter Photo",
+     "page": "https://stocksnap.io/photo/cookies-candy-54A30A2537",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/IHIHHZJODB.jpg",
+     "credit": "Macro Mama",
+     "page": "https://stocksnap.io/photo/heart-candy-IHIHHZJODB",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/AMMFXWHKSD.jpg",
+     "credit": "Macro Mama",
+     "page": "https://stocksnap.io/photo/heart-candy-AMMFXWHKSD",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/F661126F0C.jpg",
+     "credit": "Lisa Hess",
+     "page": "https://stocksnap.io/photo/candy-flowers-F661126F0C",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/ROSWFAPM8F.jpg",
+     "credit": "Macro Mama",
+     "page": "https://stocksnap.io/photo/heart-candy-ROSWFAPM8F",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/R8U6CVZ24Q.jpg",
+     "credit": "Birch Landing Home",
+     "page": "https://stocksnap.io/photo/children-toys-R8U6CVZ24Q",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/AAPS1PYWT4.jpg",
+     "credit": "Daria Nepriakhina",
+     "page": "https://stocksnap.io/photo/teddybear-toy-AAPS1PYWT4",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/HNG621YITW.jpg",
+     "credit": "Alex%20Bl%u0103jan",
+     "page": "https://stocksnap.io/photo/teddybear-toy-HNG621YITW",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/2F0K9XM0NX.jpg",
+     "credit": "Mike Birdy",
+     "page": "https://stocksnap.io/photo/toy-car-2F0K9XM0NX",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/IYVUDV09UU.jpg",
+     "credit": "Mike Birdy",
+     "page": "https://stocksnap.io/photo/toy-car-IYVUDV09UU",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/53ZL5GR6DC.jpg",
+     "credit": "Redd Angelo",
+     "page": "https://stocksnap.io/photo/nike-sneakers-53ZL5GR6DC",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/1U68PK9DJ0.jpg",
+     "credit": "Kasia Serbin",
+     "page": "https://stocksnap.io/photo/clothes-sneakers-1U68PK9DJ0",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/PNF27F144F.jpg",
+     "credit": "Redd Angelo",
+     "page": "https://stocksnap.io/photo/nike-sneakers-PNF27F144F",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/9EBTRPN0IA.jpg",
+     "credit": "Redd Angelo",
+     "page": "https://stocksnap.io/photo/shoes-sneakers-9EBTRPN0IA",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/DAVLOF8C3R.jpg",
+     "credit": "Kristin Hardwick",
+     "page": "https://stocksnap.io/photo/sneakers-weights-DAVLOF8C3R",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/FE0EF1E2A5.jpg",
+     "credit": "Jay Mantri",
+     "page": "https://stocksnap.io/photo/shoes-sneakers-FE0EF1E2A5",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/MLEZOMCWOW.jpg",
+     "credit": "Macro Mama",
+     "page": "https://stocksnap.io/photo/macro-flower-MLEZOMCWOW",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/R5A1SRFKG9.jpg",
+     "credit": "Macro Mama",
+     "page": "https://stocksnap.io/photo/macro-flower-R5A1SRFKG9",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/GWT9JVALSV.jpg",
+     "credit": "Bernard Spragg",
+     "page": "https://stocksnap.io/photo/yellow-flower-GWT9JVALSV",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/88IQEON0CF.jpg",
+     "credit": "Negative Space",
+     "page": "https://stocksnap.io/photo/dandelion-flower-88IQEON0CF",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/832OF9DX15.jpg",
+     "credit": "Aaron Burden",
+     "page": "https://stocksnap.io/photo/daisy-flower-832OF9DX15",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/I5U0KA81R5.jpg",
+     "credit": "Paulina Lohunko",
+     "page": "https://stocksnap.io/photo/bouquet-flowers-I5U0KA81R5",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/U5LYW9UWS0.jpg",
+     "credit": "Alisa Anton",
+     "page": "https://stocksnap.io/photo/tulips-flowers-U5LYW9UWS0",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/ERM78DQMOZ.jpg",
+     "credit": "Bernard Spragg",
+     "page": "https://stocksnap.io/photo/rain-flower-ERM78DQMOZ",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/0YEQU9SK3P.jpg",
+     "credit": "Macro Mama",
+     "page": "https://stocksnap.io/photo/flower-bloom-0YEQU9SK3P",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/ZNN96DDKLT.jpg",
+     "credit": "Josh Felise",
+     "page": "https://stocksnap.io/photo/roses-flowers-ZNN96DDKLT",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/L40XGTETYH.jpg",
+     "credit": "Aaron Burden",
+     "page": "https://stocksnap.io/photo/flowers-plants-L40XGTETYH",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/DUF4FAWKPD.jpg",
+     "credit": "Arno Smit",
+     "page": "https://stocksnap.io/photo/flowers-nature-DUF4FAWKPD",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/FJPQF5LY0H.jpg",
+     "credit": "Wanda Bowers",
+     "page": "https://stocksnap.io/photo/flowers-peach-FJPQF5LY0H",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/FRO30GHJAP.jpg",
+     "credit": "NASA",
+     "page": "https://stocksnap.io/photo/astronaut-helmet-FRO30GHJAP",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/XJTWRVS4Q8.jpg",
+     "credit": "NASA",
+     "page": "https://stocksnap.io/photo/people-man-XJTWRVS4Q8",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/4KM4XVP02P.jpg",
+     "credit": "NASA",
+     "page": "https://stocksnap.io/photo/space-moon-4KM4XVP02P",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/7V1JEO2YXQ.jpg",
+     "credit": "SpaceX",
+     "page": "https://stocksnap.io/photo/rocket-launch-7V1JEO2YXQ",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/O5PRP2Y2MQ.jpg",
+     "credit": "SpaceX",
+     "page": "https://stocksnap.io/photo/rocket-launch-O5PRP2Y2MQ",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/XFOCYIPVGL.jpg",
+     "credit": "SpaceX",
+     "page": "https://stocksnap.io/photo/rocket-space-XFOCYIPVGL",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/00U6BMTEN6.jpg",
+     "credit": "SpaceX",
+     "page": "https://stocksnap.io/photo/rockets-rocketship-00U6BMTEN6",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/QLXO02GEWL.jpg",
+     "credit": "SpaceX",
+     "page": "https://stocksnap.io/photo/space-rocket-QLXO02GEWL",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/JXKQNCFYCT.jpg",
+     "credit": "SpaceX",
+     "page": "https://stocksnap.io/photo/space-rocket-JXKQNCFYCT",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/M2IXWNZDKT.jpg",
+     "credit": "SpaceX",
+     "page": "https://stocksnap.io/photo/space-rocket-M2IXWNZDKT",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/NW5UMULXAE.jpg",
+     "credit": "SpaceX",
+     "page": "https://stocksnap.io/photo/rocket-liftoff-NW5UMULXAE",
+     "license": "CC0"
+    }
+   ]
+  },
+  "fire": {
+   "size": 720,
+   "items": [
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/0G7N1L3G2F.jpg",
+     "credit": "Skitter Photo",
+     "page": "https://stocksnap.io/photo/fire-bonfire-0G7N1L3G2F",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/ABMMJRIYZF.jpg",
+     "credit": "Stephen Radford",
+     "page": "https://stocksnap.io/photo/fire-flames-ABMMJRIYZF",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/JOQIB2Q07I.jpg",
+     "credit": "Pawel Kadysz",
+     "page": "https://stocksnap.io/photo/bonfire-fire-JOQIB2Q07I",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/F1HNCL1XYT.jpg",
+     "credit": "Pawel Kadysz",
+     "page": "https://stocksnap.io/photo/fire-flames-F1HNCL1XYT",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/K5CCEEPQPK.jpg",
+     "credit": "Pawel Kadysz",
+     "page": "https://stocksnap.io/photo/fire-flames-K5CCEEPQPK",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/7DAJCGKHON.jpg",
+     "credit": "Anton Nicu Adrian",
+     "page": "https://stocksnap.io/photo/fire-flame-7DAJCGKHON",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/LRI3JRN9GW.jpg",
+     "credit": "Jamie Hamel-Smith",
+     "page": "https://stocksnap.io/photo/fire-fireplace-LRI3JRN9GW",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/A11GSJHTRD.jpg",
+     "credit": "Miriam Espacio",
+     "page": "https://stocksnap.io/photo/nature-fire-A11GSJHTRD",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/Y8RQ9HWKV4.jpg",
+     "credit": "Timothy Meinberg",
+     "page": "https://stocksnap.io/photo/nature-fire-Y8RQ9HWKV4",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/PYEFZG5D2P.jpg",
+     "credit": "Josh Felise",
+     "page": "https://stocksnap.io/photo/fire-bonfire-PYEFZG5D2P",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/AOZCS77GSL.jpg",
+     "credit": "Skitter Photo",
+     "page": "https://stocksnap.io/photo/match-fire-AOZCS77GSL",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/EAYRCBDWQ3.jpg",
+     "credit": "Tyler Lastovich",
+     "page": "https://stocksnap.io/photo/flame-fire-EAYRCBDWQ3",
+     "license": "CC0"
+    }
+   ]
+  },
+  "parrot": {
+   "size": 720,
+   "items": [
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/YFZGHV9INZ.jpg",
+     "credit": "Travel Photographer",
+     "page": "https://stocksnap.io/photo/parrot-bird-YFZGHV9INZ",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/SOY68754UC.jpg",
+     "credit": "Stefan Stefancik",
+     "page": "https://stocksnap.io/photo/nature-animals-SOY68754UC",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/7GEACIHKGD.jpg",
+     "credit": "Mikhail Vasilyev",
+     "page": "https://stocksnap.io/photo/bird-beak-7GEACIHKGD",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/4ECS7YUQO3.jpg",
+     "credit": "Sven Scheuermeier",
+     "page": "https://stocksnap.io/photo/bird-animal-4ECS7YUQO3",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/WRN7A2LYCA.jpg",
+     "credit": "Bernard Spragg",
+     "page": "https://stocksnap.io/photo/green-parrot-WRN7A2LYCA",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/Z4Y3YOKTYT.jpg",
+     "credit": "Andrew Pons",
+     "page": "https://stocksnap.io/photo/bird-beak-Z4Y3YOKTYT",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/6P8AXJ0J00.jpg",
+     "credit": "Matthias Zomer",
+     "page": "https://stocksnap.io/photo/bird-beak-6P8AXJ0J00",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/TCKIW7HSE8.jpg",
+     "credit": "Matthias Zomer",
+     "page": "https://stocksnap.io/photo/blue-sky-TCKIW7HSE8",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/6CWM5R4XTE.jpg",
+     "credit": "Stephanie Ecate",
+     "page": "https://stocksnap.io/photo/hand-bracelet-6CWM5R4XTE",
+     "license": "CC0"
+    },
+    {
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/FE9E922C69.jpg",
+     "credit": "Ruth Caron",
+     "page": "https://stocksnap.io/photo/green-parrot-FE9E922C69",
+     "license": "CC0"
+    }
+   ]
+  },
+  "hero": {
+   "size": 1600,
+   "items": [
+    {
+     "picsum": 433,
+     "credit": "Thomas Lefebvre",
+     "page": "https://unsplash.com/photos/aRXPJnXQ9lU",
+     "license": "Unsplash License"
+    },
+    {
+     "picsum": 593,
+     "credit": "Paula Borowska",
+     "page": "https://unsplash.com/photos/OM7CvKnhjfs",
+     "license": "Unsplash License"
+    },
+    {
+     "picsum": 407,
+     "credit": "Kelley Bozarth",
+     "page": "https://unsplash.com/photos/n6vS3xlnsCc",
+     "license": "Unsplash License"
+    },
+    {
+     "picsum": 564,
+     "credit": "Sebastian Boguszewicz",
+     "page": "https://unsplash.com/photos/YG_Fxyqz9xg",
+     "license": "Unsplash License"
+    },
+    {
+     "picsum": 537,
+     "credit": "Juskteez Vu",
+     "page": "https://unsplash.com/photos/TIrXot28Znc",
+     "license": "Unsplash License"
+    },
+    {
+     "picsum": 237,
+     "credit": "Andr\u00e9 Spieker",
+     "page": "https://unsplash.com/photos/8wTPqxlnKM4",
+     "license": "Unsplash License"
+    },
+    {
+     "picsum": 274,
+     "credit": "Wojtek Witkowski",
+     "page": "https://unsplash.com/photos/h7rOzTmGxWE",
+     "license": "Unsplash License"
+    },
+    {
+     "picsum": 158,
+     "credit": "Daniel Robert",
+     "page": "https://unsplash.com/photos/MRxD-J9-4ps",
+     "license": "Unsplash License"
+    },
+    {
+     "picsum": 581,
+     "credit": "Lance Anderson",
+     "page": "https://unsplash.com/photos/2Q8zDWkj0Yw",
+     "license": "Unsplash License"
+    },
+    {
+     "picsum": 525,
+     "credit": "Luca Zanon",
+     "page": "https://unsplash.com/photos/aViOQZzikVs",
+     "license": "Unsplash License"
+    },
+    {
+     "picsum": 503,
+     "credit": "Ramiro Checchi",
+     "page": "https://unsplash.com/photos/BpN4qo98j-Y",
+     "license": "Unsplash License"
+    },
+    {
+     "picsum": 219,
+     "credit": "Martyn Seddon",
+     "page": "https://unsplash.com/photos/7iB4OZDlRok",
+     "license": "Unsplash License"
+    },
+    {
+     "picsum": 429,
+     "credit": "Glen Carrie",
+     "page": "https://unsplash.com/photos/FjjUVn_KHLU",
+     "license": "Unsplash License"
+    },
+    {
+     "picsum": 360,
+     "credit": "Cas Cornelissen",
+     "page": "https://unsplash.com/photos/G2UTNecskWg",
+     "license": "Unsplash License"
+    }
+   ]
+  }
+ },
+ "sfx": {
+  "click": {
+   "mixkit_id": 3124,
+   "url": "https://assets.mixkit.co/active_storage/sfx/3124/3124.wav",
+   "title": "Modern technology select"
+  },
+  "key": {
+   "mixkit_id": 2541,
+   "url": "https://assets.mixkit.co/active_storage/sfx/2541/2541.wav",
+   "title": "Single key press in a laptop"
+  },
+  "land": {
+   "mixkit_id": 3005,
+   "url": "https://assets.mixkit.co/active_storage/sfx/3005/3005.wav",
+   "title": "Explainer video pops whoosh light pop"
+  },
+  "whoosh_1": {
+   "mixkit_id": 1489,
+   "url": "https://assets.mixkit.co/active_storage/sfx/1489/1489.wav",
+   "title": "Air woosh"
+  },
+  "whoosh_2": {
+   "mixkit_id": 1471,
+   "url": "https://assets.mixkit.co/active_storage/sfx/1471/1471.wav",
+   "title": "Cinematic wind swoosh"
+  },
+  "impact_drop": {
+   "mixkit_id": 1143,
+   "url": "https://assets.mixkit.co/active_storage/sfx/1143/1143.mp3",
+   "title": "Cinematic whoosh deep impact"
+  },
+  "impact_logo": {
+   "mixkit_id": 2353,
+   "url": "https://assets.mixkit.co/active_storage/sfx/2353/2353.wav",
+   "title": "Magic glitter shot"
+  },
+  "riser": {
+   "mixkit_id": 790,
+   "url": "https://assets.mixkit.co/active_storage/sfx/790/790.wav",
+   "title": "Cinematic trailer riser"
+  }
+ }
+}

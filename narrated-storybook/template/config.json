@@ -1,0 +1,92 @@
+{
+  "_readme": "Everything that changes per video lives in this file. The example content is the Mila jungle story; replace it. Scene 'draw' keys name a scene painter in scene-renderer.js (the per-video part of that file).",
+  "slug": "mila-jungle",
+  "title": "Mila and the whispering jungle",
+  "width": 1920,
+  "height": 1080,
+  "fps": 24,
+  "background": "#102f30",
+  "text": {
+    "titleLine1": "Mila & the",
+    "titleLine2": "whispering jungle",
+    "tagline": "A SMALL CAT. A VERY BIG ADVENTURE.",
+    "closing": "A little courage.",
+    "closingSub": "A WHOLE NEW WORLD."
+  },
+  "timing": {
+    "targetSeconds": 47,
+    "maxTempo": 1.2,
+    "firstVoiceAt": 0.65,
+    "voiceOffset": 0.16,
+    "sceneTail": 0.26,
+    "endHold": 0.6
+  },
+  "voice": {
+    "provider": "gemini",
+    "lang": "en",
+    "loudnessLUFS": -18,
+    "gemini": {
+      "model": "gemini-3.8-flash-tts",
+      "voice": "Sulafat",
+      "style": "A warm, natural female storyteller with a gentle British accent. Intimate cinematic storytelling, expressive but never theatrical. Clear, flowing delivery around 160 words per minute. Short natural pauses, no long dramatic gaps. Read only the supplied story text."
+    },
+    "elevenlabs": {
+      "model": "eleven_v4",
+      "voice": "pFZP5JQG7iQjIQuC4Bku",
+      "voiceName": "Lily (premade)",
+      "seed": 11
+    }
+  },
+  "ambience": {
+    "volume": 0.32,
+    "waterScenes": ["river", "home"],
+    "rainScene": "rain",
+    "thunder": { "scene": "rain", "at": 1.0 },
+    "nightFrom": "fireflies",
+    "seed": 761947
+  },
+  "scenes": [
+    {
+      "id": "dawn",
+      "draw": "dawn",
+      "chapter": "Into the green",
+      "previewSeconds": 7.5,
+      "narration": "At sunrise, Mila slipped into the jungle. Every rustle sounded like the beginning of an adventure."
+    },
+    {
+      "id": "butterfly",
+      "draw": "butterfly",
+      "chapter": "A surprising hello",
+      "previewSeconds": 7.0,
+      "narration": "A blue butterfly led her deeper, until a tiny frog jumped out. Mila nearly jumped higher!"
+    },
+    {
+      "id": "river",
+      "draw": "river",
+      "chapter": "One brave leap",
+      "previewSeconds": 8.8,
+      "narration": "At the river, the stones seemed terribly far apart. One deep breath, one brave leap... and she was across."
+    },
+    {
+      "id": "rain",
+      "draw": "rain",
+      "chapter": "A little shelter",
+      "previewSeconds": 6.7,
+      "narration": "Then thunder grumbled. Rain drummed on the canopy, and Mila sheltered beneath an enormous leaf."
+    },
+    {
+      "id": "fireflies",
+      "draw": "fireflies",
+      "chapter": "A sky full of friends",
+      "previewSeconds": 8.3,
+      "narration": "When the rain stopped, fireflies shimmered around her. The unfamiliar jungle suddenly felt like a sky full of friends."
+    },
+    {
+      "id": "home",
+      "draw": "home",
+      "chapter": "Somewhere to belong",
+      "previewSeconds": 8.7,
+      "narration": "Under the stars, Mila curled up, tired and happy. Sometimes, finding your courage feels a little like finding home."
+    }
+  ]
+}

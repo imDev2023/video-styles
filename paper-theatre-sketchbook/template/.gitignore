@@ -1,0 +1,15 @@
+# Never commit rendered or licensed media, or HyperFrames working folders.
+assets/music/
+out/
+renders/
+snapshots/
+node_modules/
+.hyperframes/
+.thumbnails/
+.media/
+.waveform-cache/
+*.mp4
+*.m4a
+*.mp3
+*.wav
+.DS_Store

@@ -1,0 +1,17 @@
+{
+  "name": "narrated-storybook",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "fetch-assets": "node fetch-assets.mjs",
+    "voice:dry": "node scripts/generate-voice.mjs --dry-run",
+    "voice": "node scripts/generate-voice.mjs",
+    "assemble": "node scripts/assemble.mjs",
+    "assemble:silent": "node scripts/assemble.mjs --silent-preview",
+    "verify": "node scripts/verify-narration.mjs",
+    "dev": "npx --yes hyperframes@0.8.106 preview",
+    "check": "npx --yes hyperframes@0.8.106 check",
+    "snapshot": "npx --yes hyperframes@0.8.106 snapshot --describe false",
+    "render": "npx --yes hyperframes@0.8.106 render --fps 24 --quality delivery"
+  }
+}
