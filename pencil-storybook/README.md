@@ -49,7 +49,7 @@ The Moon Boat came first: one static scene with ambient motion (a frog rowing, f
 
 ## Stack
 
-skia-canvas frames from a custom pencil-and-crayon pen (`lib.mjs`), piped as raw RGBA to ffmpeg in parallel segments; a midi-writer-js score rendered by spessasynth_core with a General MIDI soundfont; ffmpeg convolution reverb, loudnorm and mux.
+skia-canvas frames from a custom pencil-and-crayon pen (`lib.mjs`), piped as raw RGBA to ffmpeg in parallel segments; a midi-writer-js score rendered by spessasynth_core with a General MIDI soundfont; ffmpeg convolution reverb, a gain-and-true-peak-limiter master and mux.
 
 ## Reference stills
 

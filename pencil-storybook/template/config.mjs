@@ -88,10 +88,11 @@ export const MUSIC = {
   reverbSeconds: 2.2, // length of the synthetic concert-hall impulse response
 };
 
-// Mastering (master.mjs): convolution reverb, fades, loudness, mux.
+// Mastering (master.mjs): convolution reverb, fades, gain and true-peak limiter, mux.
 export const MASTER = {
   reverbWet: 0.35,
   fadeIn: 0.5, fadeOut: 3.0,
-  lufs: -15, truePeak: -2, lra: 9,
+  lufs: -15, truePeak: -2, // integrated loudness target and true-peak ceiling of the finished file
+  limiterHeadroom: 0.5, // dB under the ceiling the limiter aims for; AAC encoding adds a little overshoot
   aacBitrate: '192k',
 };

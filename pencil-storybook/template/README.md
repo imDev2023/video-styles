@@ -26,7 +26,7 @@ node render.mjs beats            # one still per STORY beat in config.mjs -> out
 node render.mjs sheet 3          # contact sheet, a frame every 3 s -> out/test/sheet.jpg
 node run.mjs                     # full render in parallel segments -> out/silent.mp4 (about 40 s for 60 s of video)
 node music.mjs                   # out/score.mid, out/music_raw.wav, out/ir.wav (about 10 s)
-node master.mjs                  # reverb, fades, loudnorm, mux -> out/<slug>.mp4, then prints loudness
+node master.mjs                  # reverb, fades, gain and true-peak limiter, mux -> out/<slug>.mp4; fails if loudness is out of spec
 ```
 
 To try another soundfont without touching the picture:
@@ -50,7 +50,7 @@ Copy the export you keep to the workspace root, as the workspace `CLAUDE.md` ask
 | `render.mjs` | no | Stills, beats, contact sheet and segment rendering. |
 | `run.mjs` | no | Parallel segment render and lossless concat, with a frame-count check. |
 | `music.mjs` | no | MIDI writing, MIDI channel check, soundfont render, synthetic reverb impulse. |
-| `master.mjs` | no | ffmpeg master and mux, then loudness and duration report. |
+| `master.mjs` | no | ffmpeg master and mux, then loudness and duration report; exits non-zero when out of spec. |
 | `fetch-assets.mjs` | no | Fetches the font and soundfont. |
 
 Everything generated goes to `out/`, which the repository ignores.

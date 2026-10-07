@@ -115,6 +115,7 @@ node music.mjs ~/soundfonts/TimbresOfHeaven.sf2 timbres && node master.mjs timbr
 
    Each track's two sets must be equal, and 0-based channel 9 must only appear on a percussion track.
 5. `master.mjs` prints the result: video and audio durations must both equal `DUR`, integrated loudness must be within 1 LU of -15 LUFS, and true peak at or below -2 dBTP.
+   It exits non-zero when loudness or true peak is out of spec; check the durations by eye.
 6. A contact sheet of the actual export, with every frame pulled at an exact time (see gotcha 11 for why not the `fps` filter):
 
    ```bash
@@ -165,7 +166,8 @@ Each one is symptom, cause, fix.
 8. **A cue plays 1.3 s before its event (found while building this style).**
    Symptom: in the shipped autumn film the celesta "bucket tips" sparkle plays at 32.2 s, but the bucket tips at 33.5 s.
    Cause: the cue time was typed by hand into the score, while the real time comes out of the water wheel simulation.
-   Fix: `world.mjs` exports `TIMES` (including `T_TIP`) and `score.mjs` uses it; the template's score is corrected, the shipped export is not.
+   Fix: `world.mjs` exports `TIMES` (including `T_TIP`) and `score.mjs` uses it.
+   The shipped export and both soundfont variants were re-scored from the template and re-muxed onto the unchanged picture on 2026-10-07; the MIDI diff against the old score was exactly those 14 notes, moved 1.29 s later.
 9. **A jump or pop every 5 seconds in the full render.**
    Symptom: motion snaps at segment boundaries (frames 150, 300, ...).
    Cause: each segment is rendered by a fresh process that starts at its own first frame, so any state carried from frame to frame resets there.
@@ -182,6 +184,13 @@ Each one is symptom, cause, fix.
     Symptom: a noisy paper texture looks blocky and grainy in the H.264 export.
     Cause: fine noise is exactly what H.264 compresses worst.
     Fix: keep the paper a flat colour and let the hatching carry the texture; encode at CRF 16.
+13. **The master misses its loudness and true-peak targets (found while re-scoring autumn).**
+    Symptom: the shipped autumn exports measured -13.3, -14.0 and -13.6 LUFS against a -15 target, and the Timbres of Heaven one had a -1.4 dBTP true peak against a -2 ceiling; the old `master.mjs` printed the numbers but did not fail.
+    Cause: single-pass ffmpeg `loudnorm` lands 1 to 2 LU hot on these 60 s scores, and AAC encoding adds a few tenths of a dB of true peak after it.
+    Two-pass `loudnorm` with measured values does hit -15, but the reverb mix peaks near 0 dBTP, so it cannot stay linear and falls back to dynamic mode, which rides the gain and squeezes the loudness range.
+    Fix: `master.mjs` now applies a plain gain, then ffmpeg `alimiter` (5 ms look-ahead, 80 ms release, `level=false`, `latency=true`) on 4x oversampled audio so it limits true peaks, aimed 0.5 dB under the ceiling (`MASTER.limiterHeadroom`) for the AAC overshoot, and iterates the gain until the EBU R128 meter reads the target.
+    It exits non-zero if the finished file is more than 1 LU off or over the ceiling.
+    On autumn the limiter acts on 1 to 2 percent of the film, at most 2 to 4 dB, the output is sample-aligned with its input (`latency=true` removes the look-ahead delay), and all three soundfonts land at -15.0 to -15.2 LUFS and -2.4 to -2.5 dBTP.
 
 ### Hardening in the template (not problems that were hit)
 
