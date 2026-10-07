@@ -14,6 +14,7 @@ styles/<style-name>/
     config.*       everything that changes per video (text, timings, colours, asset lists) in one place
     fetch-assets.* downloads every third-party asset the style needs (music, SFX, images, fonts)
   reference/       contact sheet and a few stills (JPEG, under 400 KB each)
+styles/tools/      checks shared by every style, which need only the finished video, ffmpeg and Node
 ```
 
 ## README.md
@@ -29,11 +30,22 @@ The prompt a user pastes to start a new video in this style.
 It names the inputs to ask for, the defaults to use when one is skipped, the shape of the script or story, the direction, the structure, the sound and the build.
 Write it so it reflects what actually worked, not what was first asked for: defaults that turned out not to work are replaced with ones that did, and say why in PLAYBOOK.md.
 
+It also names the three check-ins, in order, and says that nothing is animated or scored before the third is approved, because a wrong story or look costs a full build:
+
+1. Story check: a numbered beat table (time, what happens, the bridge into the next beat, the sound's role) to approve, change or redirect.
+2. Look check: 2 to 4 full-size frames of the most different beats, approved frame by frame.
+3. Storyboard check: every beat as one numbered panel in the approved look, approved by panel number.
+
+Each one names the exact command that produces its frames in this style.
+
 ## PLAYBOOK.md
 
 1. Setup: what to copy where, what to install (point to `TOOLKIT.md` in the workspace for what already exists).
 2. The steps in order, each with the exact command.
 3. Checks before showing anyone anything (stills, contact sheet, QA scripts).
+   Every style includes the dead-beat check (`tools/deadbeats.mjs` on the silent or final render, with any deliberate hold named in `--exempt`) and a text check for strings cut off by the frame edge, overlapping other text, or under the phone UI on a vertical frame.
+   Where the text check is measured by code, say which script; where it is still done by eye, list every string the style draws and where it sits, and name the hook point for a port.
+   Report the checks' numbers, not "looks good".
 4. Gotchas: every problem found while making the examples, as "symptom, cause, fix".
 5. Open questions or known weak spots.
 

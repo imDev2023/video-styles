@@ -21,7 +21,15 @@ Every style's template was smoke-tested from a fresh copy and re-renders its ori
 3. Follow the playbook, and run its checks before showing anyone anything.
 4. Write what you learn back here: new gotchas into `PLAYBOOK.md`, better defaults into `BRIEF.md`, engine fixes into `template/`.
 
+Every brief walks through three check-ins before anything is animated: a beat table to approve, 2 to 4 look frames, then a storyboard of every beat.
+Every playbook's checks include two measured ones adopted from the animate skill: a dead-beat check (`tools/deadbeats.mjs`, any pipeline) and a text check (cut off, overlapping, under the phone UI), measured by code in pencil-storybook and by eye elsewhere until ported.
+
 `FORMAT.md` describes the folder shape for a new style and what may be committed.
+
+## Shared tools
+
+`tools/deadbeats.mjs <video> [--max 3] [--exempt a-b,...]` finds stretches where the picture barely changes, from the video file alone (ffmpeg, ffprobe and Node 18 or newer).
+It exits 1 when a stretch is longer than the limit, so a playbook can treat it as a gate.
 
 ## Assets and licences
 
@@ -33,5 +41,6 @@ The workspace's `TOOLKIT.md` lists the tools each style expects to find installe
 ## Licence
 
 The code and documents are under the MIT licence (`LICENSE`).
+`tools/deadbeats.mjs` and `pencil-storybook/template/textcheck.mjs` are adapted from the animate skill (https://github.com/cth9191/animate, MIT, Copyright (c) 2026 cth9191) and keep its notice in their headers.
 The fonts in `paper-theatre-sketchbook/template/assets/fonts/` stay under the SIL Open Font License that ships beside them.
 The reference stills are frames from the finished films and contain third-party photographs (CC0 from StockSnap and Unsplash-licensed photos via Lorem Picsum); those photographs keep their own licences.

@@ -34,8 +34,9 @@ If you do install something, add it to `TOOLKIT.md` in the same session.
 ### 2.1 Settings and story beats (`config.mjs`)
 
 Set `VIDEO` (slug, size, fps, length), `TITLE`, `END`, and the palette.
-Write the story as `STORY` beats, one line and one time each.
+Write the story as `STORY` beats, one line and one time each, from the beat table the operator approved at the story check (`BRIEF.md`, check-in 1).
 `node render.mjs beats` renders one still per beat and is the main loop for the whole build.
+`node render.mjs board` tiles the same stills into one numbered storyboard (`out/test/board.jpg`) for the storyboard check-in; the operator answers by panel number.
 
 ### 2.2 The world (`world.mjs`)
 
@@ -124,6 +125,24 @@ node music.mjs ~/soundfonts/TimbresOfHeaven.sf2 timbres && node master.mjs timbr
    ```
 
 7. Watch the whole export once with sound, and check that every cue lands on its event.
+8. Text check, measured rather than eyeballed: a cropped label looks fine on a contact sheet, and a one-frame overlap is never on the sheet at all.
+
+   ```bash
+   node textcheck.mjs              # every 6th frame plus every STORY beat, about 10 s
+   node textcheck.mjs --every 1    # every frame, about 75 s, for the final pass
+   ```
+
+   It hooks every `fillText` and `strokeText` on the frame canvas, traces each string's box through the camera transform to screen space, and fails (exit 1) on text cut off by the frame edge or overlapping other text; on a vertical frame it also warns about text under the phone UI (top 240/1920, bottom 420/1920 and right 140/1080 of the frame, or `CHECK.safe` in `config.mjs`).
+   A deliberate crowd of text goes in `CHECK.textIgnore` as `[t0, t1, "why"]` so the check still guards the rest of the film.
+   On autumn it passes at every frame; with the title baselines moved 55 px apart and the end card at y 1100 it reports the overlap and the cut-off, so it does catch what it claims to.
+9. Dead-beat check on the silent render, with the shared tool from the library root: something new should happen on screen every 2 to 4 seconds, and a stretch longer than 3 s where the picture barely changes is a hold the eye forgives on a contact sheet but not in the film.
+
+   ```bash
+   node ../../styles/tools/deadbeats.mjs out/silent.mp4                 # exit 1 on any stretch over 3 s
+   node ../../styles/tools/deadbeats.mjs out/silent.mp4 --exempt 56-60  # when a hold is deliberate, say so
+   ```
+
+   It decodes the film to 96 px grayscale and measures each frame against the frame half a second earlier; "still" is a quarter of the film's own median change, so the boiling pencil does not hide a dead beat (autumn's median change is 5.8, still is below 1.45, and it passes with no stretch over 2 s).
 
 ## 4. Gotchas
 

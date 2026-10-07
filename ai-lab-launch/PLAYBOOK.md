@@ -67,7 +67,16 @@ cd ../audio && python3 mix.py     # prints voice over music for every phrase; al
 python3 master.py                 # -14 LUFS, true peak under -1 dBTP
 cd .. && ffmpeg -y -i out/silent.mp4 -i audio/mix.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 256k -ar 48000 -movflags +faststart -shortest out/film.mp4
 python3 qa.py out/film.mp4        # contact sheet, single-frame pop scan, voice over music table
+node ../../styles/tools/deadbeats.mjs out/film.mp4 --exempt 21-23   # dead-beat check; the end-card hold is the one deliberate exemption
 ```
+
+The dead-beat check is the shared tool from the library root: something new should happen on screen every 2 to 4 seconds, and it flags any stretch over 3 s where the picture barely changes (each frame against the frame half a second earlier, on a 96 px grayscale copy, "still" at a quarter of the film's own median change).
+On the Stoker export it flags 19.5 to 23.0 s: the logo and the closing line, held 2 s by design and then the fade.
+Exempt only the held end card, and let the check see everything before it; this style's constant camera drift should keep every other scene alive.
+
+Text check: the typed captions, the chip names, the slider labels, the prompt bar text and the closing line.
+At the last frame of every caption (fully typed) and at the first and last frame of every scene, confirm that no string comes within 3 px of the frame edge, that no two strings overlap (the caption pill over the burst in scene 7, the chip over the result card in scene 3), and that the gradient word's glow does not run under the next line.
+This is still a manual check here; the measured version lives in `pencil-storybook/template/textcheck.mjs`, and a port is nearly verbatim from the animate skill's browser version: `film/render.mjs` already drives the page in Playwright, so hook `CanvasRenderingContext2D.prototype.fillText` there and sample the frames.
 
 Copy the finished export to the workspace root under the video's name.
 

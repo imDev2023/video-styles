@@ -75,6 +75,20 @@ ffmpeg -i out/video.mp4 -vf "fps=1/2,scale=384:-1,tile=6x4:padding=6:margin=6:co
 ffprobe -v error -show_entries stream=codec_type,r_frame_rate,duration -of compact out/video.mp4
 ```
 
+- Dead-beat check on the render, with the shared tool from the library root: something new should happen on screen every 2 to 4 seconds, and the check flags any stretch over 3 s where the picture barely changes.
+
+```bash
+node ../../styles/tools/deadbeats.mjs out/video.mp4     # exit 1 on any stretch over 3 s
+```
+
+  It measures each frame against the frame half a second earlier on a 96 px grayscale copy, with "still" set at a quarter of the film's own median change.
+  This style's median change is low (about 1.0 on the dinosaur film, because the stage holds and only the characters move), so the floor of 0.8 applies, and on the finished export it flags 0.5 to 3.5 s: the opening egg beat before anything hatches.
+  Give the opening beat idle life (a wobble, a crack, a bird crossing) rather than exempt it.
+- Text check: the title, the two panel names, the label under each panel, the caption, the chapter name and the range footer.
+  The engine shrinks any string to its `maxWidth`, so cut-off is rare, but a long caption at y 998 can touch the chapter name and the range footer at y 1028, and a long label can touch the card edge.
+  At the first and last frame of every beat and at the middle of each dissolve, confirm that no string touches another and that none comes within 3 px of the frame or a card edge.
+  This is still a manual check here; the measured version lives in `pencil-storybook/template/textcheck.mjs`, and a port is nearly verbatim from the animate skill's browser version: open `index.html` in Playwright, hook `CanvasRenderingContext2D.prototype.fillText`, and call `window.PaperTheatre.drawFrame(t)` for the sampled times after `PaperTheatre.ready()`.
+
 ## 4. Gotchas (symptom, cause, fix)
 
 - Symptom: handwritten text renders in a fallback cursive.

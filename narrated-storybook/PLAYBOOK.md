@@ -101,6 +101,18 @@ The workspace keeps the latest export of each video in its root folder.
 - The contact sheet shows six distinct scenes, a palette that travels from day to night, and no blank frames at the cuts.
 - `ffprobe` shows 1920x1080, 24 fps, the expected duration and an AAC track; loudness lands near -15 LUFS integrated with the true peak below -1 dBTP (the original measured -15.2 LUFS and -1.9 dBTP).
 - Listen once end to end: no clipped first or last word at a cut, no audible tempo artefacts.
+- Dead-beat check on the render, with the shared tool from the library root: something new should happen on screen every 2 to 4 seconds, and the check flags any stretch over 3 s where the picture barely changes.
+
+  ```bash
+  node ../../styles/tools/deadbeats.mjs renders/<name>.mp4     # exit 1 on any stretch over 3 s
+  ```
+
+  It measures each frame against the frame half a second earlier on a 96 px grayscale copy, with "still" set at a quarter of the film's own median change (floor 0.8).
+  On the finished jungle film it flags 38.5 to 47.0 s: the last scene, where the hero sleeps and only the fireflies drift.
+  A narrated film may hold a picture while the voice carries it, but 8 s is long; give the closing scene one more small event (a firefly landing on the nose, the tail curling, a star appearing) or pass `--exempt` knowingly and say so in the session summary.
+- Text check: the title and tagline, the chapter labels and the closing line.
+  In the still of every scene and at the first and last frame of each text window, confirm that no string comes within 3 px of the frame edge, that no two strings overlap, and that no leaf or vine crosses a string (the text is painted after the foreground, so this only fails when a painter draws foliage late).
+  This is still a manual check here; the measured version lives in `pencil-storybook/template/textcheck.mjs`, and a port follows the animate skill's browser version: open the composition in Playwright, hook `CanvasRenderingContext2D.prototype.fillText`, and drive the HyperFrames timeline to the sampled times.
 
 ## 4. Gotchas
 

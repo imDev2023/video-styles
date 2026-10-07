@@ -68,11 +68,26 @@ because the voice is a metered API call.
 - The procedural ambience bed from `scripts/generate-ambience.mjs`, with water, rain, thunder and night insects assigned to scenes by id in `config.json`.
 - No music by default; if music is wanted, fetch it in `fetch-assets.mjs` and never commit it.
 
+## Check-ins
+
+Three check-ins, in this order, and nothing is animated or narrated before the third is approved: a wrong story or look costs a full build, and the voice is a metered API call.
+
+1. Story check (text only, before any code).
+   Show me a numbered beat table with one row per scene: the mood, the narration line, the one action the picture shows, the bridge into the next scene (what the cut lands on), and the sound's role (which ambience plays, where the thunder is, where it goes quiet).
+   Wait for "approve", "change beats" or "different angle", and revise until approved; then write the lines into `config.json`.
+2. Look check (2 to 4 frames).
+   Paint the two to four most different scenes as full-size stills from the silent preview (`node scripts/assemble.mjs --silent-preview`, then `snapshot --describe false` for those scenes): the title over the dawn arrival, the leap, the rain, the night.
+   Wait for a thumbs up per frame, "change the look" or "try another style".
+3. Storyboard check (every scene).
+   Paint every scene in the approved look and show one still per scene with its narration line under it, numbered in order.
+   Wait for thumbs up or down by panel number, repaint what is down, and show the set again until every panel is up.
+   The panels are the film's own scene painters, so nothing is drawn twice.
+
 ## Build
 
 1. Copy the template, run `node fetch-assets.mjs`, and write the story into `config.json`.
 2. Adapt or write the scene painters in the `SCENES` table at the bottom of `scene-renderer.js`.
-3. `node scripts/assemble.mjs --silent-preview`, `check`, and stills of every scene with `snapshot --describe false`; show them with the six lines and wait for approval.
-4. `node scripts/generate-voice.mjs --dry-run`, then the real run once approved.
+3. `node scripts/assemble.mjs --silent-preview`, `check`, and stills of every scene with `snapshot --describe false` for the look and storyboard check-ins above.
+4. `node scripts/generate-voice.mjs --dry-run`, then the real run once the storyboard is approved.
 5. `node scripts/assemble.mjs` and `node scripts/verify-narration.mjs`; fix any mismatch by regenerating that line with `--only <scene>`.
-6. Render at 24 fps, quality delivery, then verify the render's audio, make a contact sheet, check loudness, and only then show it.
+6. Render at 24 fps, quality delivery, then verify the render's audio, make a contact sheet, check loudness, run the dead-beat check and the text check from `PLAYBOOK.md` section 3, report their numbers, and only then show it.

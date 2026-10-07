@@ -2,6 +2,7 @@
 //   node render.mjs test 4.5 12 ...      full-size PNG stills at those times -> out/test/
 //   node render.mjs beats                one still per STORY beat in config.mjs -> out/test/
 //   node render.mjs sheet [step]         contact sheet, one frame every `step` s (default 3) -> out/test/sheet.jpg
+//   node render.mjs board                storyboard: one labelled panel per STORY beat -> out/test/board.jpg
 //   node render.mjs seg <a> <b> <out>    frames a..b-1 to an H.264 segment (run.mjs calls this)
 import { Canvas } from 'skia-canvas';
 import { spawn } from 'node:child_process';
@@ -53,6 +54,29 @@ if (mode === 'test') {
   const out = path.join(testDir, 'sheet.jpg');
   await sheet.toFile(out, { quality: 0.85 });
   console.log(path.relative(here, out), `(${times.length} frames)`);
+} else if (mode === 'board') {
+  // The storyboard check-in: every beat as a panel, numbered, with its time and its line from STORY, so the
+  // operator can approve or reject by panel number before anything is animated or scored.
+  fs.mkdirSync(testDir, { recursive: true });
+  const cols = 4, cell = 360, pad = 10, label = 92, rows = Math.ceil(STORY.length / cols);
+  const cellH = Math.round(cell * H / W);
+  const board = new Canvas(pad + cols * (cell + pad), pad + rows * (cellH + label + pad)), bc = board.getContext('2d');
+  bc.fillStyle = '#e6dfcf'; bc.fillRect(0, 0, board.width, board.height);
+  const wrapText = (s, max) => { const words = s.split(' '), lines = []; let cur = ''; for (const w of words) { const next = cur ? `${cur} ${w}` : w; if (bc.measureText(next).width > max && cur) { lines.push(cur); cur = w; } else cur = next; } if (cur) lines.push(cur); return lines; };
+  for (const [i, { t, beat }] of STORY.entries()) {
+    drawFrame(ctx, t, camAt(cams, t));
+    const x = pad + (i % cols) * (cell + pad), y = pad + Math.floor(i / cols) * (cellH + label + pad);
+    bc.drawImage(canvas, x, y, cell, cellH);
+    bc.fillStyle = rgba(PALETTE.INK); bc.font = 'bold 18px sans-serif';
+    const num = `${i + 1}`; bc.fillText(num, x + 6, y + cellH + 22);
+    const numW = bc.measureText(num).width;
+    bc.font = '15px sans-serif'; bc.fillText(`${t.toFixed(1)} s`, x + 6 + numW + 10, y + cellH + 22);
+    bc.font = '14px sans-serif';
+    wrapText(beat, cell - 12).slice(0, 3).forEach((line, k) => bc.fillText(line, x + 6, y + cellH + 44 + k * 18));
+  }
+  const out = path.join(testDir, 'board.jpg');
+  await board.toFile(out, { quality: 0.9 });
+  console.log(path.relative(here, out), `(${STORY.length} panels)`);
 } else if (mode === 'seg') {
   const a = parseInt(process.argv[3]), b = Math.min(NF, parseInt(process.argv[4])), out = process.argv[5];
   const ff = spawn('ffmpeg', ['-y', '-v', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgba', '-s', `${W}x${H}`, '-r', String(FPS), '-i', '-',
@@ -65,6 +89,6 @@ if (mode === 'test') {
   }
   ff.stdin.end(); await closed;
 } else {
-  console.log('usage: node render.mjs test <t...> | beats | sheet [step] | seg <a> <b> <out.mp4>');
+  console.log('usage: node render.mjs test <t...> | beats | sheet [step] | board | seg <a> <b> <out.mp4>');
   process.exit(1);
 }

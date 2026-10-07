@@ -63,11 +63,21 @@ Fade the music on a dB curve under the end card.
 Master to -14 LUFS with true peaks under -1 dBTP using a transparent look-ahead limiter.
 </sound>
 
+<check-ins>
+Three check-ins, in this order, and nothing is animated or mixed before the third is approved: a wrong script or look costs a full build and a voice run.
+1. Story check (text only, before any code): a numbered beat table with one row per scene: the spoken line, the time it starts, what the picture does, the bridge into the next scene (what hands its content on, and at what zoom), and the sound's role (where the drop lands, where the clicks and whooshes are, where the music fades).
+   Wait for "approve", "change beats" or "different angle", then generate the voice takes from the approved script.
+2. Look check (2 to 4 frames): the most different scenes as full-size stills (`node render.mjs stills <t> <t> <t>` in film/): the name typing over the collage, the glass prompt bar on the drop, the settings panel, the logo collapse.
+   Wait for a thumbs up per frame or "change the look".
+3. Storyboard check (every scene): the 8 stills from PLAYBOOK.md section 5, one per scene plus the moments either side of a scene change, numbered in order.
+   Wait for thumbs up or down by panel number, redraw what is down, and show the set again until every panel is up.
+</check-ins>
+
 <build>
 Use the ai-lab-launch template from the video-styles library: copy it to videos/<name>/, fill config.json, run fetch-assets.py, and follow its PLAYBOOK.md.
-Before you show me anything: 8 stills, then after the full render a contact sheet, a frame-diff scan for single-frame pops (only the 16th-note runs may jump), and the voice-over-music ratio for every phrase.
+After the full render and before you show me anything: a contact sheet, a frame-diff scan for single-frame pops (only the 16th-note runs may jump), the voice-over-music ratio for every phrase, the dead-beat check and the text check from PLAYBOOK.md section 6, with their numbers.
 </build>
 
 <start>
-Ask me for the inputs, write the script, send me 4 voice takes to pick, then show me 8 stills before the full render.
+Ask me for the inputs, write the script and show me the beat table, send me 4 voice takes to pick, then the look frames and the storyboard before the full render.
 </start>

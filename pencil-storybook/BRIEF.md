@@ -80,12 +80,25 @@ Put a short cue on every picture event, with its time taken from world.mjs TIMES
 Use no voice and no downloaded music or sound effects.
 Master with the synthetic hall reverb at 0.35 wet, a 0.5 s fade in, a 3 s fade out, -15 LUFS and a -2 dBTP ceiling.
 
+CHECK-INS
+Three check-ins, in this order, and nothing is animated or scored before the third is approved: a wrong story or look costs a full build.
+1. Story check (text only, before any code).
+   Show me a numbered beat table with one row per beat: the time, what happens, the bridge into the next beat (the physical hand-off), and the sound's role (where the quiet is, where the loudest hit lands).
+   Wait for "approve", "change beats" or "different angle", and revise until approved; then write the table into config.mjs STORY.
+2. Look check (2 to 4 frames).
+   Draw the two to four most different beats as full-size stills (`node render.mjs test <t> <t> <t>`): the title over the opening place, a station mid-action, the machine, the final wide shot.
+   Wait for a thumbs up per frame, "change the look" or "try another style".
+3. Storyboard check (every beat).
+   Draw every beat in the approved look and show `node render.mjs board`, one numbered panel per STORY beat with its time and line.
+   Wait for thumbs up or down by panel number, redraw what is down, and show the board again until every panel is up.
+   The panels are the film's own scene code, so nothing is drawn twice.
+
 BUILD
 Follow PLAYBOOK.md step by step.
 Write config.mjs and STORY first, then world.mjs (layout, hero path, scenes, camera).
 After every change run `node render.mjs beats` or `node render.mjs sheet 3` and look at the stills.
 Then write score.mjs, and run `node run.mjs`, `node music.mjs` and `node master.mjs`.
-Run every check in PLAYBOOK section 3.
+Run every check in PLAYBOOK section 3, including `node textcheck.mjs` and the dead-beat check on out/silent.mp4, and report their numbers, not "looks good".
 Show me the contact sheet and two or three stills before the full render.
 Copy the final out/<slug>.mp4 to the workspace root.
 ```

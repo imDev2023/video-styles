@@ -71,6 +71,17 @@ export const STORY = [
   { t: 58.0, beat: 'The camera pulls back over the whole machine: "The End."' },
 ];
 
+// Text check (textcheck.mjs). textEvery: sample every Nth frame (every STORY beat is always sampled).
+// textIgnore: [t0, t1, "why"] ranges where crowded or cropped text is deliberate. safe: the phone UI zone
+// for a vertical film as { top, bottom, right } in pixels, or null to scale the default 1080x1920 zone
+// (top 240, bottom 420, right 140). The dead-beat check is the shared styles/tools/deadbeats.mjs and takes
+// its limits on the command line (PLAYBOOK.md section 3).
+export const CHECK = {
+  textEvery: 6,
+  textIgnore: [],
+  safe: null,
+};
+
 // Rendering. Segments are rendered in parallel by run.mjs, then concatenated without re-encoding.
 export const RENDER = {
   segFrames: 150, // 5 s per segment at 30 fps

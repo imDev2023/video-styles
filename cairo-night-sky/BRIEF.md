@@ -58,9 +58,23 @@ Proportions from the 48 s original; scale the times to the chosen length.
 - Keep every cue in C major pentatonic so it always sits in the key.
 - Master to about -15 LUFS with the peak near -4 dBFS.
 
+## Check-ins
+
+Three check-ins, in this order, and nothing is animated or scored before the third is approved: a wrong story or look costs a full build.
+
+1. Story check (text only, before any code).
+   Show me a numbered beat table with one row per station, launch and reveal: the time, what happens, the bridge into the next beat (the physical hand-off), and the sound's role (where the quiet is, where the loudest hit lands).
+   Wait for "approve", "change beats" or "different angle", and revise until approved; then write the times into `config.py`.
+2. Look check (2 to 4 frames).
+   Draw the two to four most different beats as full-size stills (`python3 render.py test <t> <t> <t>`): the title over the opening scene, a station mid-action, the machine at work, the final wide shot under the night sky.
+   Wait for a thumbs up per frame, "change the look" or "try another style".
+3. Storyboard check (every beat).
+   Draw every beat in the approved look, render one still per beat (`python3 render.py test` with every beat time) and show them in order, numbered.
+   Wait for thumbs up or down by panel number, redraw what is down, and show the set again until every panel is up.
+   The panels are the film's own scene code, so nothing is drawn twice.
+
 ## Build
 
-1. Propose a beat sheet with times for every station, launch and reveal, and wait for my go.
-2. Put the words, timeline, camera keys and score data in `config.py`; rewrite the geometry, the hero's path and the scenes in `world.py`; adjust the cues in `music.py` `compose()`.
-3. Show me 4 to 6 stills (`render.py test`) and the contact sheet (`render.py sheet`) before any full render.
-4. Then `music.py`, `render.py full`, `render.py mux`, run the checks in `PLAYBOOK.md`, copy the export to the workspace root and tell me its path.
+1. Put the words, timeline, camera keys and score data in `config.py`; rewrite the geometry, the hero's path and the scenes in `world.py`; adjust the cues in `music.py` `compose()`.
+2. Show me the contact sheet (`render.py sheet`) before any full render.
+3. Then `music.py`, `render.py full`, run the checks in `PLAYBOOK.md` section 3 (including the dead-beat check on `out/silent.mp4` and the text check) and report their numbers, then `render.py mux`, copy the export to the workspace root and tell me its path.

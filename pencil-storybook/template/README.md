@@ -24,7 +24,10 @@ Needs Node 20 or newer and the system `ffmpeg` and `ffprobe` on the PATH.
 node render.mjs test 4.5 12      # full-size PNG stills at those times -> out/test/
 node render.mjs beats            # one still per STORY beat in config.mjs -> out/test/beat_*.png
 node render.mjs sheet 3          # contact sheet, a frame every 3 s -> out/test/sheet.jpg
+node render.mjs board            # storyboard, one numbered panel per STORY beat -> out/test/board.jpg
+node textcheck.mjs               # text cut off, overlapping or under the phone UI, on sampled frames; exit 1 on a fail
 node run.mjs                     # full render in parallel segments -> out/silent.mp4 (about 40 s for 60 s of video)
+node ../../styles/tools/deadbeats.mjs out/silent.mp4   # stretches over 3 s where nothing changes; exit 1 when found
 node music.mjs                   # out/score.mid, out/music_raw.wav, out/ir.wav (about 10 s)
 node master.mjs                  # reverb, fades, gain and true-peak limiter, mux -> out/<slug>.mp4; fails if loudness is out of spec
 ```
@@ -42,12 +45,13 @@ Copy the export you keep to the workspace root, as the workspace `CLAUDE.md` ask
 
 | File | Per-video? | What it holds |
 | --- | --- | --- |
-| `config.mjs` | yes | Size, fps, length, palette, font, title and end card, fades, camera smoothing, story beats, render, music and mastering settings. |
+| `config.mjs` | yes | Size, fps, length, palette, font, title and end card, fades, camera smoothing, story beats, text-check limits, render, music and mastering settings. |
 | `world.mjs` | yes | Geometry, the hero's path, camera keyframes and every scene. Exports `cameraKeys`, `BACKGROUND`, `SCENES`, `TIMES`. |
 | `score.mjs` | yes | Instruments, chords, melody and the cues that land on `TIMES`. |
 | `lib.mjs` | no | The pencil and crayon pen (`Pen`) and geometry helpers. |
 | `frame.mjs` | no | Font loading, camera smoothing and the frame compositor (paper, layers, title, end card, fades). |
-| `render.mjs` | no | Stills, beats, contact sheet and segment rendering. |
+| `render.mjs` | no | Stills, beats, contact sheet, storyboard and segment rendering. |
+| `textcheck.mjs` | no | Hooks every text draw and flags strings cut off, overlapping or under the phone UI; limits in `config.mjs` `CHECK`. |
 | `run.mjs` | no | Parallel segment render and lossless concat, with a frame-count check. |
 | `music.mjs` | no | MIDI writing, MIDI channel check, soundfont render, synthetic reverb impulse. |
 | `master.mjs` | no | ffmpeg master and mux, then loudness and duration report; exits non-zero when out of spec. |

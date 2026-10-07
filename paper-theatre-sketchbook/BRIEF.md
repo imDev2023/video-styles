@@ -63,10 +63,25 @@ Load the `hyperframes` skill, then `hyperframes-core` and `hyperframes-cli`, bef
 - Master the bed to about -16 to -19 LUFS integrated with a true peak under -2 dBFS before handing it to `fetch-assets`.
 - Put the music credit in `config.js` and in the video description.
 
+## Check-ins
+
+Three check-ins, in this order, and nothing is animated or scored before the third is approved: a wrong story or look costs a full build.
+
+1. Story check (text only, before any code).
+   Show me a numbered beat table with one row per beat: the start time and length, the chapter name, the label, the caption, what moves in the panels, the bridge into the next beat (what dissolves into what), and the music's role (where it drops for the dark beat, where it swells).
+   Wait for "approve", "change beats" or "different angle", and revise until approved; then write the beats into `config.js`.
+2. Look check (2 to 4 frames).
+   Draw the two to four most different beats as full-size frames (`npm run snapshot -- <t>,<t>,<t>`): the opening, the biggest creature, the dark beat, the ending.
+   Wait for a thumbs up per frame, "change the look" or "try another style".
+3. Storyboard check (every beat).
+   Draw every beat in the approved look and show `npm run snapshot` (one frame at the middle of every beat), numbered in order.
+   Wait for thumbs up or down by panel number, redraw what is down, and show the set again until every panel is up.
+   The panels are the film's own scene code, so nothing is drawn twice.
+
 ## Build and checks
 
 - `npm run assets`, then `npm run check` until it passes with no warnings.
 - `npm run snapshot` and look at every frame: check that both panels read clearly, nothing is clipped at a panel edge, and the dark beat's silhouettes are still visible.
 - `npm run window -- <start> 2` around every beat boundary and the turning point, and watch them.
-- Show me the snapshots and window clips before the full render.
-- Full render only after I approve: `npm run render` (24 fps, delivery quality), then copy `out/video.mp4` to the workspace root as `<slug>.mp4`.
+- Show me the window clips before the full render.
+- Full render only after I approve: `npm run render` (24 fps, delivery quality), then run the checks in `PLAYBOOK.md` section 3 (including the dead-beat check and the text check) and report their numbers, then copy `out/video.mp4` to the workspace root as `<slug>.mp4`.

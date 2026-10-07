@@ -71,6 +71,20 @@
   Expect about -15 LUFS integrated, the peak near -4 dBFS, and the exact `DUR`.
 - Watch the muxed file once with sound: every cue lands on its event.
 - When changing engine code, diff a few frames against a known-good build; tiny float differences can move a handful of anti-aliased pixels (see the last gotcha), anything bigger is a real change.
+- Dead-beat check on the silent render, with the shared tool from the library root: something new should happen on screen every 2 to 4 seconds, and the check flags any stretch over 3 s where the picture barely changes.
+
+  ```bash
+  node ../../styles/tools/deadbeats.mjs out/silent.mp4                # exit 1 on any stretch over 3 s
+  node ../../styles/tools/deadbeats.mjs out/silent.mp4 --exempt 40-48 # only when the hold is deliberate
+  ```
+
+  It measures each frame against the frame half a second earlier on a 96 px grayscale copy, with "still" set at a quarter of the film's own median change, so the boiling pencil does not hide a dead beat.
+  On the finished night-stars export it flags 39.7 to 48.0 s: the held wide shot under the finished sky, where only "The End." fades up and out.
+  A new film should give that hold idle life (stars that twinkle, a moon that blinks, a last breath of chimney smoke) rather than exempt it.
+- Text check: the title, the sign on the machine, the speech bubble and the end card.
+  At the first and last frame of each string's window and in every beat still, confirm that no string comes within 3 px of the frame edge, that no two strings overlap, and that the speech bubble is not hidden behind a later layer.
+  For a vertical film also keep every string out of the top 240/1920, the bottom 420/1920 and the right 140/1080 of the frame, where the phone UI sits.
+  This is still a manual check here; the measured version lives in `pencil-storybook/template/textcheck.mjs`, and the port point is `pen.D.text` in `template/pen.py` (`text_extents` plus `user_to_device` give the screen box).
 
 ## 4. Gotchas
 
