@@ -96,6 +96,13 @@
   ```
 
   Count the frames each read gets (30 frames is 1 s here): the spark arriving, the station firing and the object colouring in each need their own frames, and a read under 8 frames or two on the same frames means the beat table changes.
+- Determinism check: the same still rendered in two different orders must be identical, or state is leaking between frames (a counter, a cached station state), which breaks every re-render.
+
+  ```bash
+  python3 render.py test 12 40 && cp out/test/t12*.png /tmp/a.png && python3 render.py test 40 12 && cmp /tmp/a.png out/test/t12*.png && echo identical
+  ```
+
+  Pick times on either side of a station firing, because a cached state only shows when the frames cross it.
 - Text check: the title, the sign on the machine, the speech bubble and the end card.
   At the first and last frame of each string's window and in every beat still, confirm that no string comes within 3 px of the frame edge, that no two strings overlap, and that the speech bubble is not hidden behind a later layer.
   For a vertical film also keep every string out of the top 240/1920, the bottom 420/1920 and the right 140/1080 of the frame, where the phone UI sits.

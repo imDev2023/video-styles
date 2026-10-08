@@ -38,7 +38,10 @@ It assumes a steady 4/4 grid, so for a rubato score read its onsets rather than 
 
 `tools/strip.mjs <video> --from <s> --dur <s> [--cols 6] [--w 240] [--out strip.jpg]` tiles every frame of a short stretch into one image with the frame number on each tile, for reading a transition or a key motion frame by frame (ffmpeg with drawtext, ffprobe and Node 18 or newer).
 
-`cuts.py` and `beats.py` are adapted from makevoid/motion-graphics-music-video-skill (MIT, Copyright (c) 2026 makevoid) and keep its notice in their headers; `strip.mjs` is written on ffmpeg after the strip mode of JohnHeibel/ClaudeAnimationBase.
+`tools/sfx.mjs cues.json picture.mp4 out.mp4 [--bed bed.wav --bed-vol .5 --bed-at 0 --lufs -14] [--keep-audio]` synthesizes sound effects (pop, whoosh, whip, tick, thump, crack, sparkle, buzz, scratch, drip, boing, riser, splash, click, step, fall, chime, chirp, burner) at the times in a cue list, mixes them over an optional bed or the picture's own track, loudness-normalises to -14 LUFS with a true-peak ceiling, and muxes the result onto the picture (Node 18 or newer, ffmpeg and ffprobe).
+Write the cue list from the beat table's sound-cue column, each cue about 0.03 s before its visual.
+
+`cuts.py` and `beats.py` are adapted from makevoid/motion-graphics-music-video-skill (MIT, Copyright (c) 2026 makevoid) and keep its notice in their headers; `sfx.mjs` is adapted from buildwithhanif/claude-animation-skill (MIT, Copyright (c) 2026 Hanif) with its notice; `strip.mjs` is written on ffmpeg after the strip mode of JohnHeibel/ClaudeAnimationBase.
 
 ## Assets and licences
 

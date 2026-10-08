@@ -32,7 +32,8 @@ Write it so it reflects what actually worked, not what was first asked for: defa
 
 It also names the three check-ins, in order, and says that nothing is animated or scored before the third is approved, because a wrong story or look costs a full build:
 
-1. Story check: a numbered beat table (time, what happens, the bridge into the next beat, the sound's role) to approve, change or redirect.
+1. Story check: a numbered beat table (time, what happens, the end state the viewer could point at, the bridge into the next beat, the camera, the sound's role and its cue time) to approve, change or redirect.
+   A row with no end state is not a beat yet; the key moment of a shot sits in its middle, not at the cut; a cut must add information, otherwise the camera moves instead (adopted from the beat sheet in buildwithhanif/claude-animation-skill, MIT).
 2. Look check: 2 to 4 full-size frames of the most different beats, approved frame by frame.
 3. Storyboard check: every beat as one numbered panel in the approved look, approved by panel number.
    Under each panel, its reads: what the viewer must understand in that beat, in order, each with a start and an end time.
@@ -49,6 +50,7 @@ Each one names the exact command that produces its frames in this style.
    Every style includes the dead-beat check (`tools/deadbeats.mjs` on the silent or final render, with any deliberate hold named in `--exempt`) and a text check for strings cut off by the frame edge, overlapping other text, or under the phone UI on a vertical frame.
    Where the text check is measured by code, say which script; where it is still done by eye, list every string the style draws and where it sits, and name the hook point for a port.
    Every style also runs the hard-cut check (`tools/cuts.py`: `--max 0` where the style promises continuous motion, `--max N` where it cuts between N + 1 scenes on purpose, and `--beats` from `tools/beats.py` where it cuts on the music) and reads a frame strip (`tools/strip.mjs`) of every transition and every key motion against the panel's reads: how many frames each read gets, whether two reads overlap, whether anything pops between frames or every part moves at once.
+   Every style also runs a determinism check: one frame rendered on its own and the same frame rendered inside a run must be identical (compare the PNGs, not the encoded video), because state carried between frames breaks seeking, parallel segments and re-renders; each playbook names the command for its pipeline (after `verify` in buildwithhanif/claude-animation-skill).
    Check the storyboard and the strips against the common failures: a sign or caption that repeats the story, a hero standing still while nothing happens, everything moving at one brisk speed with no holds, a moment over before the viewer understands it, faces that snap between expressions, every part moving at once or two things mirrored in sync, a hard cut where a transition was promised, and a film that just starts or just stops.
    Report the checks' numbers, not "looks good".
 4. Gotchas: every problem found while making the examples, as "symptom, cause, fix".

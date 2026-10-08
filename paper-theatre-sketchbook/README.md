@@ -56,4 +56,4 @@ The template in `template/` rebuilds this example from `config.js` and `scenes.j
 
 ## Stack
 
-Canvas 2D drawn as a pure function of time inside a HyperFrames 0.8.106 HTML composition, driven by one paused GSAP timeline and rendered with `npx hyperframes render`.
+Canvas 2D drawn as a pure function of time inside a HyperFrames 0.8.140 HTML composition, driven by one paused GSAP timeline and rendered with `npx hyperframes render`.

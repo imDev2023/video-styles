@@ -3,7 +3,7 @@
 A HyperFrames project that draws a twin-panel explainer on one canvas, every frame a pure function of time.
 As shipped it rebuilds the 47.5 s dinosaur example.
 
-Needs Node 22 or newer, ffmpeg and ffprobe, and network access the first time `npx` fetches HyperFrames 0.8.106.
+Needs Node 22 or newer, ffmpeg and ffprobe, and network access the first time `npx` fetches HyperFrames 0.8.140.
 
 ## Commands
 

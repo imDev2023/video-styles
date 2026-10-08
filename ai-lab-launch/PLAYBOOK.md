@@ -93,6 +93,14 @@ node ../../styles/tools/strip.mjs out/film.mp4 --from <t> --dur 0.5 --cols 10   
 
 A hand-off should carry its zoom across the seam (no pop between two frames), the typed line's first read should get its frames before the next control appears, and a 16th-note run should change on every 7th frame and nowhere else.
 
+Determinism check: the same still rendered in two different orders must be identical, or state is leaking between frames (a typed-caret counter, a cached image index), which breaks the parallel workers and every re-render.
+
+```bash
+cd film && node render.mjs stills 4 12 && cp out/stills/t4*.png /tmp/a.png && node render.mjs stills 12 4 && cmp /tmp/a.png out/stills/t4*.png && echo identical
+```
+
+Pick times on either side of a scene hand-off and inside a 16th-note run, where a cached index would show.
+
 Text check: the typed captions, the chip names, the slider labels, the prompt bar text and the closing line.
 At the last frame of every caption (fully typed) and at the first and last frame of every scene, confirm that no string comes within 3 px of the frame edge, that no two strings overlap (the caption pill over the burst in scene 7, the chip over the result card in scene 3), and that the gradient word's glow does not run under the next line.
 This is still a manual check here; the measured version lives in `pencil-storybook/template/textcheck.mjs`, and a port is nearly verbatim from the animate skill's browser version: `film/render.mjs` already drives the page in Playwright, so hook `CanvasRenderingContext2D.prototype.fillText` there and sample the frames.

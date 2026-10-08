@@ -6,9 +6,10 @@ The style was inspired by Kevin T. Ngo's animation "The history of the dinosaurs
 ## 1. Setup
 
 - Tools: Node 22 or newer, ffmpeg and ffprobe on PATH, and network access for the first `npx` call.
-  `TOOLKIT.md` in the workspace root lists what is already installed on this machine (Node 26, ffmpeg 8.0, HyperFrames 0.8.106 in `js-kit/`).
-- HyperFrames runs through `npx --yes hyperframes@0.8.106`, pinned in `template/package.json`; nothing is installed into the project.
+  `TOOLKIT.md` in the workspace root lists what is already installed on this machine (Node 26, ffmpeg 8.0, HyperFrames 0.8.140 in `js-kit/`).
+- HyperFrames runs through `npx --yes hyperframes@0.8.140`, pinned in `template/package.json`; nothing is installed into the project.
   The first run downloads the CLI and its headless Chrome; `npx hyperframes doctor` reports what is missing.
+  The pin moved from 0.8.106 to 0.8.140 on 2026-10-08 after a scratch copy of this template rendered the same 2 s window on both versions with identical frames (mean absolute difference 0.0); before any further bump, repeat that test (`npm run window -- 26 2` on both pins, compare the frames) rather than trusting the changelog.
 - Skills to load before editing composition code, in this order:
   `hyperframes` (the entry point and router), `hyperframes-core` (the composition contract: `data-*` timing, one paused timeline, determinism), and `hyperframes-cli` (check, snapshot, render).
   The example was authored through the `general-video` workflow (`authoringSkill` in `hyperframes.json`, `workflow: general-video` in its brief).
@@ -100,6 +101,13 @@ node ../../styles/tools/deadbeats.mjs out/video.mp4     # exit 1 on any stretch 
   ```
 
   Both panels should change together through the dissolve, and the caption should not be readable on top of two different pictures; count the frames the new beat's first read gets after the dissolve ends.
+- Determinism check: the same snapshot taken in two different orders must be identical, or state is leaking between frames, which breaks seeking in Studio and every re-render.
+
+  ```bash
+  npm run snapshot -- 8,29.5 && cp out/snapshots/*8.00*.png /tmp/a.png && npm run snapshot -- 29.5,8 && cmp /tmp/a.png out/snapshots/*8.00*.png && echo identical
+  ```
+
+  Pick times on either side of a dissolve, because a cached beat state only shows when the frames cross it.
 - Text check: the title, the two panel names, the label under each panel, the caption, the chapter name and the range footer.
   The engine shrinks any string to its `maxWidth`, so cut-off is rare, but a long caption at y 998 can touch the chapter name and the range footer at y 1028, and a long label can touch the card edge.
   At the first and last frame of every beat and at the middle of each dissolve, confirm that no string touches another and that none comes within 3 px of the frame or a card edge.

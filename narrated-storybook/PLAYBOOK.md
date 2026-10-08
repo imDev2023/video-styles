@@ -3,7 +3,8 @@
 ## 1. Setup
 
 Read `TOOLKIT.md` in the workspace root first; everything this style needs is already installed there.
-It needs Node 22 or newer (26.9 is installed), the system ffmpeg and ffprobe, and HyperFrames 0.8.106 through `npx --yes hyperframes@0.8.106`, which also brings its own Chrome.
+It needs Node 22 or newer (26.9 is installed), the system ffmpeg and ffprobe, and HyperFrames 0.8.140 through `npx --yes hyperframes@0.8.140`, which also brings its own Chrome.
+The pin moved from 0.8.106 to 0.8.140 on 2026-10-08 after a scratch copy of this template passed `check` and gave identical snapshots at 3 s and 19 s on both versions; before any further bump, repeat that test rather than trusting the changelog.
 The narration check uses whisper.cpp and the `ggml-small.en.bin` model that HyperFrames installs under `~/.cache/hyperframes/whisper`; on a new machine run `npx hyperframes transcribe <any short wav>` once to install them.
 Nothing is installed with npm inside the project: it has no dependencies.
 
@@ -36,12 +37,12 @@ Set `previewSeconds` per scene to roughly the expected line length (words divide
 
 ```sh
 node scripts/assemble.mjs --silent-preview
-npx --yes hyperframes@0.8.106 check
-npx --yes hyperframes@0.8.106 snapshot --describe false --no-end --at 3,10,19,26.5,33,43
+npx --yes hyperframes@0.8.140 check
+npx --yes hyperframes@0.8.140 snapshot --describe false --no-end --at 3,10,19,26.5,33,43
 ```
 
 Look at every still at full size, then show the stills and the six lines for approval before spending anything on narration.
-`npx --yes hyperframes@0.8.106 preview` opens the Studio for scrubbing (an agent should use `preview --background`, `preview --status` and `preview --stop`).
+`npx --yes hyperframes@0.8.140 preview` opens the Studio for scrubbing (an agent should use `preview --background`, `preview --status` and `preview --stop`).
 
 ### 2.3 Narration
 
@@ -83,7 +84,7 @@ The timings it prints are coarse segment times for orientation only; nothing in 
 ### 2.6 Render and verify the render
 
 ```sh
-npx --yes hyperframes@0.8.106 render --fps 24 --quality delivery -o renders/<name>.mp4
+npx --yes hyperframes@0.8.140 render --fps 24 --quality delivery -o renders/<name>.mp4
 node scripts/verify-narration.mjs --from renders/<name>.mp4
 node scripts/contact-sheet.mjs renders/<name>.mp4
 ffmpeg -hide_banner -i renders/<name>.mp4 -af ebur128=peak=true -f null - 2>&1 | tail -12
@@ -95,7 +96,7 @@ The workspace keeps the latest export of each video in its root folder.
 
 ## 3. Checks before showing anyone
 
-- `npx --yes hyperframes@0.8.106 check` passes with 0 errors and 0 warnings.
+- `npx --yes hyperframes@0.8.140 check` passes with 0 errors and 0 warnings.
 - Stills of every scene at full size, looked at by eye: text not crossed by foliage, hero face clear, hero readable against the background, nothing clipped at the frame edge.
 - `verify-narration.mjs` passes on the stem and on the render.
 - The contact sheet shows six distinct scenes, a palette that travels from day to night, and no blank frames at the cuts.
@@ -125,6 +126,8 @@ The workspace keeps the latest export of each video in its root folder.
   ```
 
   The cut should land on the narration's phrase start, the new scene's first read (the place, then the hero) should get its frames before the voice names it, and a fade should change a little on every frame, not in steps.
+- Determinism check: the same scene still taken in two different orders must be identical, or a painter is keeping state between frames, which breaks seeking and every re-render.
+  Take the stills with the snapshot command from the look check at two times in one order, then in the other order, and `cmp` the PNG of the shared time; pick times on either side of a scene cut.
 - Text check: the title and tagline, the chapter labels and the closing line.
   In the still of every scene and at the first and last frame of each text window, confirm that no string comes within 3 px of the frame edge, that no two strings overlap, and that no leaf or vine crosses a string (the text is painted after the foreground, so this only fails when a painter draws foliage late).
   This is still a manual check here; the measured version lives in `pencil-storybook/template/textcheck.mjs`, and a port follows the animate skill's browser version: open the composition in Playwright, hook `CanvasRenderingContext2D.prototype.fillText`, and drive the HyperFrames timeline to the sampled times.
@@ -178,7 +181,7 @@ Fix: removed; paint sky objects in a scene's `skyFront` hook (after the trunks) 
 
 10. **`snapshot` sends frames to Gemini.**
 Symptom: a metered Gemini vision call is made for the captured frames, using the workspace key.
-Cause: HyperFrames 0.8.106 runs `--describe` by default whenever `GEMINI_API_KEY` is set.
+Cause: HyperFrames 0.8.140 runs `--describe` by default whenever `GEMINI_API_KEY` is set.
 Fix: always pass `--describe false` (the `npm run snapshot` script does).
 
 11. **The checks cannot see canvas text.**
@@ -207,9 +210,9 @@ Cause: the Gemini TTS models take pacing only from the delivery prompt.
 Fix: ask for "around 160 words per minute" in the style prompt and fit the length with `atempo` afterwards.
 
 16. **The original project pinned an older HyperFrames.**
-Symptom: `npm run check` in the original downloads hyperframes 0.8.97 although 0.8.106 is installed.
+Symptom: `npm run check` in the original downloads hyperframes 0.8.97 although 0.8.140 is installed.
 Cause: its scripts pin `npx --yes hyperframes@0.8.97`.
-Fix: the template pins 0.8.106, the version in `TOOLKIT.md`; the CLI reports 0.8.138 as latest, which has not been tested with this style.
+Fix: the template pins 0.8.140, the version in `TOOLKIT.md`; the CLI reports 0.8.138 as latest, which has not been tested with this style.
 
 17. **Generated files get stamped and cached.**
 Symptom: `data-hf-id` attributes appear in `index.html` and the compositions, and `.hyperframes/`, `.thumbnails/`, `.waveform-cache/` and `.media/` appear in the project.

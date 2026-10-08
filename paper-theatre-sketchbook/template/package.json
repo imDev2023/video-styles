@@ -6,10 +6,10 @@
   "scripts": {
     "assets": "node fetch-assets.mjs",
     "sync": "node tools/sync-config.mjs",
-    "dev": "node tools/sync-config.mjs && npx --yes hyperframes@0.8.106 preview",
-    "check": "node tools/sync-config.mjs && npx --yes hyperframes@0.8.106 check",
+    "dev": "node tools/sync-config.mjs && npx --yes hyperframes@0.8.140 preview",
+    "check": "node tools/sync-config.mjs && npx --yes hyperframes@0.8.140 check",
     "snapshot": "node tools/sync-config.mjs && node tools/snapshot.mjs",
     "window": "node tools/sync-config.mjs && node tools/render-window.mjs",
-    "render": "node tools/sync-config.mjs && npx --yes hyperframes@0.8.106 render --fps 24 --quality delivery --output out/video.mp4"
+    "render": "node tools/sync-config.mjs && npx --yes hyperframes@0.8.140 render --fps 24 --quality delivery --output out/video.mp4"
   }
 }

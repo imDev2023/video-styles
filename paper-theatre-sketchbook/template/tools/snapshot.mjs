@@ -13,4 +13,4 @@ const mids = cfg.beats.map((b, i, all) => {
 const at = process.argv[2] || mids.join(',');
 const outDir = join(PROJECT, 'out', 'snapshots');
 mkdirSync(outDir, { recursive: true });
-execFileSync('npx', ['--yes', 'hyperframes@0.8.106', 'snapshot', PROJECT, '--at', at, '--no-end', '--output', outDir], { stdio: 'inherit' });
+execFileSync('npx', ['--yes', 'hyperframes@0.8.140', 'snapshot', PROJECT, '--at', at, '--no-end', '--output', outDir], { stdio: 'inherit' });

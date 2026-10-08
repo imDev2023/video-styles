@@ -47,7 +47,7 @@ The export measures -15.2 LUFS integrated with a -1.9 dBTP peak.
 
 ## Stack
 
-Canvas 2D painter (`scene-renderer.js`) driven by GSAP timelines inside HyperFrames 0.8.106 HTML compositions, Gemini TTS narration fitted with ffmpeg `atempo` and `loudnorm`, verified word for word by whisper.cpp on the CPU, procedural Node ambience.
+Canvas 2D painter (`scene-renderer.js`) driven by GSAP timelines inside HyperFrames 0.8.140 HTML compositions, Gemini TTS narration fitted with ffmpeg `atempo` and `loudnorm`, verified word for word by whisper.cpp on the CPU, procedural Node ambience.
 
 ## Reference images
 

@@ -10,7 +10,7 @@ import { execFileSync } from 'node:child_process';
 import { PROJECT, loadConfig, sec } from './config.mjs';
 import { stampIndex } from './sync-config.mjs';
 
-const HF = 'hyperframes@0.8.106';
+const HF = 'hyperframes@0.8.140';
 const [startArg, lengthArg = '2', ...extra] = process.argv.slice(2);
 const start = Number(startArg), length = Number(lengthArg);
 const cfg = loadConfig();

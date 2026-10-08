@@ -158,6 +158,13 @@ node music.mjs ~/soundfonts/TimbresOfHeaven.sf2 timbres && node master.mjs timbr
    ```
 
    Count the frames each read gets (30 frames is 1 s here); a read under 8 frames, two reads on the same frames, or a pop between two frames means the beat table changes, not the drawing.
+12. Determinism check: the same frame rendered in two different orders must be identical, or state is leaking between frames (a counter, a cached hand-off point), which breaks the parallel segments and every re-render.
+
+   ```bash
+   node render.mjs test 12 40 && cp out/test/t12*.png /tmp/a.png && node render.mjs test 40 12 && cmp /tmp/a.png out/test/t12*.png && echo identical
+   ```
+
+   Pick times that straddle a hand-off, because a cached hand-off only shows when the frames cross it.
 
 ## 4. Gotchas
 

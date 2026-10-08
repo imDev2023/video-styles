@@ -9,9 +9,9 @@
     "assemble": "node scripts/assemble.mjs",
     "assemble:silent": "node scripts/assemble.mjs --silent-preview",
     "verify": "node scripts/verify-narration.mjs",
-    "dev": "npx --yes hyperframes@0.8.106 preview",
-    "check": "npx --yes hyperframes@0.8.106 check",
-    "snapshot": "npx --yes hyperframes@0.8.106 snapshot --describe false",
-    "render": "npx --yes hyperframes@0.8.106 render --fps 24 --quality delivery"
+    "dev": "npx --yes hyperframes@0.8.140 preview",
+    "check": "npx --yes hyperframes@0.8.140 check",
+    "snapshot": "npx --yes hyperframes@0.8.140 snapshot --describe false",
+    "render": "npx --yes hyperframes@0.8.140 render --fps 24 --quality delivery"
   }
 }
