@@ -143,6 +143,21 @@ node music.mjs ~/soundfonts/TimbresOfHeaven.sf2 timbres && node master.mjs timbr
    ```
 
    It decodes the film to 96 px grayscale and measures each frame against the frame half a second earlier; "still" is a quarter of the film's own median change, so the boiling pencil does not hide a dead beat (autumn's median change is 5.8, still is below 1.45, and it passes with no stretch over 2 s).
+10. Hard-cut check on the silent render: this style promises one travelling camera, so any hard cut is a bug.
+
+   ```bash
+   python3 ../../styles/tools/cuts.py out/silent.mp4 --max 0   # exit 1 on any hard cut
+   ```
+
+   It measures each frame against the frame before on a 96 px grayscale copy (a cut is a jump of 18, or 20 times the film's median change, never under 4, and three times its neighbours).
+   Autumn's median change is 0.87, so its limit is 17.4, and it reports 0 cut events.
+11. Frame strips of every hand-off, read against the panel's reads from the storyboard check.
+
+   ```bash
+   node ../../styles/tools/strip.mjs out/silent.mp4 --from <t> --dur 0.5   # every frame of a hand-off, numbered
+   ```
+
+   Count the frames each read gets (30 frames is 1 s here); a read under 8 frames, two reads on the same frames, or a pop between two frames means the beat table changes, not the drawing.
 
 ## 4. Gotchas
 

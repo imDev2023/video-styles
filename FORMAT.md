@@ -35,6 +35,9 @@ It also names the three check-ins, in order, and says that nothing is animated o
 1. Story check: a numbered beat table (time, what happens, the bridge into the next beat, the sound's role) to approve, change or redirect.
 2. Look check: 2 to 4 full-size frames of the most different beats, approved frame by frame.
 3. Storyboard check: every beat as one numbered panel in the approved look, approved by panel number.
+   Under each panel, its reads: what the viewer must understand in that beat, in order, each with a start and an end time.
+   A read needs time to be found and understood, no two important reads overlap, and the film's last read lands before the end; a beat whose reads do not fit is lengthened or loses a read, never squeezed.
+   The reads are the timing sheet the strip check reads against (adopted from the animation guide in JohnHeibel/ClaudeAnimationBase, MIT).
 
 Each one names the exact command that produces its frames in this style.
 
@@ -45,6 +48,8 @@ Each one names the exact command that produces its frames in this style.
 3. Checks before showing anyone anything (stills, contact sheet, QA scripts).
    Every style includes the dead-beat check (`tools/deadbeats.mjs` on the silent or final render, with any deliberate hold named in `--exempt`) and a text check for strings cut off by the frame edge, overlapping other text, or under the phone UI on a vertical frame.
    Where the text check is measured by code, say which script; where it is still done by eye, list every string the style draws and where it sits, and name the hook point for a port.
+   Every style also runs the hard-cut check (`tools/cuts.py`: `--max 0` where the style promises continuous motion, `--max N` where it cuts between N + 1 scenes on purpose, and `--beats` from `tools/beats.py` where it cuts on the music) and reads a frame strip (`tools/strip.mjs`) of every transition and every key motion against the panel's reads: how many frames each read gets, whether two reads overlap, whether anything pops between frames or every part moves at once.
+   Check the storyboard and the strips against the common failures: a sign or caption that repeats the story, a hero standing still while nothing happens, everything moving at one brisk speed with no holds, a moment over before the viewer understands it, faces that snap between expressions, every part moving at once or two things mirrored in sync, a hard cut where a transition was promised, and a film that just starts or just stops.
    Report the checks' numbers, not "looks good".
 4. Gotchas: every problem found while making the examples, as "symptom, cause, fix".
 5. Open questions or known weak spots.

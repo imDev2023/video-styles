@@ -80,6 +80,7 @@ Three check-ins, in this order, and nothing is animated or narrated before the t
    Wait for a thumbs up per frame, "change the look" or "try another style".
 3. Storyboard check (every scene).
    Paint every scene in the approved look and show one still per scene with its narration line under it, numbered in order.
+   Under each panel, list its reads: what the viewer must understand in that scene, in order, each with a start and an end time (the place, the hero's action, the thing the narration names), so no read is shorter than it needs and no two important reads overlap.
    Wait for thumbs up or down by panel number, repaint what is down, and show the set again until every panel is up.
    The panels are the film's own scene painters, so nothing is drawn twice.
 

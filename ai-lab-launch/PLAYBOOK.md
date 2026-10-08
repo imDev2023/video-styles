@@ -74,6 +74,25 @@ The dead-beat check is the shared tool from the library root: something new shou
 On the Stoker export it flags 19.5 to 23.0 s: the logo and the closing line, held 2 s by design and then the fade.
 Exempt only the held end card, and let the check see everything before it; this style's constant camera drift should keep every other scene alive.
 
+Cut check against the music: this style cuts its photos on 16th notes, so every hard cut should sit on the song's grid.
+
+```bash
+python3 ../../styles/tools/beats.py out/music-cut.wav --fps 60 > out/beats.json           # the music alone, trimmed to the film's segment (see below)
+python3 ../../styles/tools/cuts.py out/film.mp4 --min-gap 2 --beats out/beats.json --grid 4  # every hard cut, with its distance from the 16th grid
+```
+
+Make `out/music-cut.wav` with `ffmpeg -ss <DROP_IN_SONG minus T.drop> -t <DUR> -i assets/music/<song>.mp3 out/music-cut.wav` (`audio/mix.py` holds both numbers); the detector on the mix with the voice on top reads 81 BPM where the music file reads its true 130, and a grid from the whole track has the wrong phase.
+On the Stoker export it finds 32 cut events (the photo runs, merged within 2 frames), all 32 within 50 ms of the 16th grid at 130.02 BPM with a median offset of 26.5 ms, drifting from 0 to -48 ms across the film: the film's `SIX` constant and the song's measured tempo disagree by a hair, which no viewer sees but a longer film would.
+Only 9 of 32 sit on the beat itself (grid 1), as designed: the runs are 16ths.
+
+Frame strips of every scene change and of the first photo run, read against the panel's reads from the storyboard check.
+
+```bash
+node ../../styles/tools/strip.mjs out/film.mp4 --from <t> --dur 0.5 --cols 10   # every frame of a hand-off at 60 fps, numbered
+```
+
+A hand-off should carry its zoom across the seam (no pop between two frames), the typed line's first read should get its frames before the next control appears, and a 16th-note run should change on every 7th frame and nowhere else.
+
 Text check: the typed captions, the chip names, the slider labels, the prompt bar text and the closing line.
 At the last frame of every caption (fully typed) and at the first and last frame of every scene, confirm that no string comes within 3 px of the frame edge, that no two strings overlap (the caption pill over the burst in scene 7, the chip over the result card in scene 3), and that the gradient word's glow does not run under the next line.
 This is still a manual check here; the measured version lives in `pencil-storybook/template/textcheck.mjs`, and a port is nearly verbatim from the animate skill's browser version: `film/render.mjs` already drives the page in Playwright, so hook `CanvasRenderingContext2D.prototype.fillText` there and sample the frames.

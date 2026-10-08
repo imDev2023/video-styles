@@ -70,6 +70,7 @@ Three check-ins, in this order, and nothing is animated or scored before the thi
    Wait for a thumbs up per frame, "change the look" or "try another style".
 3. Storyboard check (every beat).
    Draw every beat in the approved look, render one still per beat (`python3 render.py test` with every beat time) and show them in order, numbered.
+   Under each panel, list its reads: what the viewer must understand in that beat, in order, each with a start and an end time (the spark arrives, the station fires, the object colours in, the spark leaves), so no read is shorter than it needs and no two important reads overlap.
    Wait for thumbs up or down by panel number, redraw what is down, and show the set again until every panel is up.
    The panels are the film's own scene code, so nothing is drawn twice.
 

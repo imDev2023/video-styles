@@ -110,6 +110,21 @@ The workspace keeps the latest export of each video in its root folder.
   It measures each frame against the frame half a second earlier on a 96 px grayscale copy, with "still" set at a quarter of the film's own median change (floor 0.8).
   On the finished jungle film it flags 38.5 to 47.0 s: the last scene, where the hero sleeps and only the fireflies drift.
   A narrated film may hold a picture while the voice carries it, but 8 s is long; give the closing scene one more small event (a firefly landing on the nose, the tail curling, a star appearing) or pass `--exempt` knowingly and say so in the session summary.
+- Hard-cut check on the render: this style cuts between its six scenes on purpose, so five cut events are expected and more means a jump inside a scene.
+
+  ```bash
+  python3 ../../styles/tools/cuts.py renders/<name>.mp4 --max 5   # exit 1 on a sixth cut event
+  ```
+
+  It measures each frame against the frame before on a 96 px grayscale copy (a cut is a jump of 18, or 20 times the film's median change, never under 4, and three times its neighbours); the jungle film's median change is 0.27, so its limit is 5.3.
+  On the finished jungle film it reports 11 events: the five scene cuts at 7.4, 14.3, 23.0, 29.7 and 38.0 s, plus six jumps of 6 to 11 between 23.1 and 24.0 s, which a strip shows to be the storm scene's fade-in stepping every three frames instead of easing; fix the stepped fade in the re-render, and until then pass `--min-gap 24` so the stepped fade counts as one event.
+- Frame strips of every scene cut, read against the panel's reads from the storyboard check.
+
+  ```bash
+  node ../../styles/tools/strip.mjs renders/<name>.mp4 --from <t> --dur 0.5   # every frame of a cut, numbered
+  ```
+
+  The cut should land on the narration's phrase start, the new scene's first read (the place, then the hero) should get its frames before the voice names it, and a fade should change a little on every frame, not in steps.
 - Text check: the title and tagline, the chapter labels and the closing line.
   In the still of every scene and at the first and last frame of each text window, confirm that no string comes within 3 px of the frame edge, that no two strings overlap, and that no leaf or vine crosses a string (the text is painted after the foreground, so this only fails when a painter draws foliage late).
   This is still a manual check here; the measured version lives in `pencil-storybook/template/textcheck.mjs`, and a port follows the animate skill's browser version: open the composition in Playwright, hook `CanvasRenderingContext2D.prototype.fillText`, and drive the HyperFrames timeline to the sampled times.

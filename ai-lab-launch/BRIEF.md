@@ -70,6 +70,7 @@ Three check-ins, in this order, and nothing is animated or mixed before the thir
 2. Look check (2 to 4 frames): the most different scenes as full-size stills (`node render.mjs stills <t> <t> <t>` in film/): the name typing over the collage, the glass prompt bar on the drop, the settings panel, the logo collapse.
    Wait for a thumbs up per frame or "change the look".
 3. Storyboard check (every scene): the 8 stills from PLAYBOOK.md section 5, one per scene plus the moments either side of a scene change, numbered in order.
+   Under each panel, list its reads: what the viewer must understand in that scene, in order, each with a start and an end time (the typed line, then the control, then the result), so no read is shorter than it needs and no two important reads overlap.
    Wait for thumbs up or down by panel number, redraw what is down, and show the set again until every panel is up.
 </check-ins>
 

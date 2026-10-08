@@ -81,6 +81,21 @@
   It measures each frame against the frame half a second earlier on a 96 px grayscale copy, with "still" set at a quarter of the film's own median change, so the boiling pencil does not hide a dead beat.
   On the finished night-stars export it flags 39.7 to 48.0 s: the held wide shot under the finished sky, where only "The End." fades up and out.
   A new film should give that hold idle life (stars that twinkle, a moon that blinks, a last breath of chimney smoke) rather than exempt it.
+- Hard-cut check on the silent render: the chain reaction is one continuous camera, so any hard cut is a bug.
+
+  ```bash
+  python3 ../../styles/tools/cuts.py out/silent.mp4 --max 0   # exit 1 on any hard cut
+  ```
+
+  It measures each frame against the frame before on a 96 px grayscale copy (a cut is a jump of 18, or 20 times the film's median change, never under 4, and three times its neighbours).
+  The finished night-stars export has a median change of 0.92, so its limit is 18, and it reports 0 cut events.
+- Frame strips of every station firing and every hand-off, read against the panel's reads from the storyboard check.
+
+  ```bash
+  node ../../styles/tools/strip.mjs out/silent.mp4 --from <t> --dur 0.5   # every frame of a hand-off, numbered
+  ```
+
+  Count the frames each read gets (30 frames is 1 s here): the spark arriving, the station firing and the object colouring in each need their own frames, and a read under 8 frames or two on the same frames means the beat table changes.
 - Text check: the title, the sign on the machine, the speech bubble and the end card.
   At the first and last frame of each string's window and in every beat still, confirm that no string comes within 3 px of the frame edge, that no two strings overlap, and that the speech bubble is not hidden behind a later layer.
   For a vertical film also keep every string out of the top 240/1920, the bottom 420/1920 and the right 140/1080 of the frame, where the phone UI sits.

@@ -90,6 +90,7 @@ Three check-ins, in this order, and nothing is animated or scored before the thi
    Wait for a thumbs up per frame, "change the look" or "try another style".
 3. Storyboard check (every beat).
    Draw every beat in the approved look and show `node render.mjs board`, one numbered panel per STORY beat with its time and line.
+   Under each panel, list its reads: what the viewer must understand in that beat, in order, each with a start and an end time (the hero arrives, the object colours in, the hand-off starts), so no read is shorter than it needs and no two important reads overlap.
    Wait for thumbs up or down by panel number, redraw what is down, and show the board again until every panel is up.
    The panels are the film's own scene code, so nothing is drawn twice.
 

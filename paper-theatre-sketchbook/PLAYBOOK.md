@@ -84,6 +84,22 @@ node ../../styles/tools/deadbeats.mjs out/video.mp4     # exit 1 on any stretch 
   It measures each frame against the frame half a second earlier on a 96 px grayscale copy, with "still" set at a quarter of the film's own median change.
   This style's median change is low (about 1.0 on the dinosaur film, because the stage holds and only the characters move), so the floor of 0.8 applies, and on the finished export it flags 0.5 to 3.5 s: the opening egg beat before anything hatches.
   Give the opening beat idle life (a wobble, a crack, a bird crossing) rather than exempt it.
+- Hard-cut check on the render: every beat change is meant to dissolve, so any hard cut is a bug.
+
+  ```bash
+  python3 ../../styles/tools/cuts.py out/video.mp4 --max 0   # exit 1 on any hard cut
+  ```
+
+  It measures each frame against the frame before on a 96 px grayscale copy (a cut is a jump of 18, or 20 times the film's median change, never under 4, and three times its neighbours).
+  This style's median change is tiny (0.19 on the dinosaur film), so the floor of 4 applies, and on the finished export it reports 4 cut events, at 8, 17, 25 and 35 s (jumps of 4.8 to 8.9): the beat changes that the dinosaur re-render replaces with dissolves.
+  Until that re-render, the gate fails, which is the point.
+- Frame strips of every dissolve, read against the panel's reads from the storyboard check.
+
+  ```bash
+  node ../../styles/tools/strip.mjs out/video.mp4 --from <t> --dur 0.75   # every frame of a dissolve, numbered
+  ```
+
+  Both panels should change together through the dissolve, and the caption should not be readable on top of two different pictures; count the frames the new beat's first read gets after the dissolve ends.
 - Text check: the title, the two panel names, the label under each panel, the caption, the chapter name and the range footer.
   The engine shrinks any string to its `maxWidth`, so cut-off is rare, but a long caption at y 998 can touch the chapter name and the range footer at y 1028, and a long label can touch the card edge.
   At the first and last frame of every beat and at the middle of each dissolve, confirm that no string touches another and that none comes within 3 px of the frame or a card edge.

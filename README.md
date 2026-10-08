@@ -21,8 +21,8 @@ Every style's template was smoke-tested from a fresh copy and re-renders its ori
 3. Follow the playbook, and run its checks before showing anyone anything.
 4. Write what you learn back here: new gotchas into `PLAYBOOK.md`, better defaults into `BRIEF.md`, engine fixes into `template/`.
 
-Every brief walks through three check-ins before anything is animated: a beat table to approve, 2 to 4 look frames, then a storyboard of every beat.
-Every playbook's checks include two measured ones adopted from the animate skill: a dead-beat check (`tools/deadbeats.mjs`, any pipeline) and a text check (cut off, overlapping, under the phone UI), measured by code in pencil-storybook and by eye elsewhere until ported.
+Every brief walks through three check-ins before anything is animated: a beat table to approve, 2 to 4 look frames, then a storyboard of every beat with each panel's reads (what the viewer must understand, each with a start and an end time).
+Every playbook's checks include measured ones: a dead-beat check (`tools/deadbeats.mjs`), a hard-cut check (`tools/cuts.py`, gated or compared with the beat grid from `tools/beats.py`), frame strips of every transition (`tools/strip.mjs`) read against the reads, and a text check (cut off, overlapping, under the phone UI), measured by code in pencil-storybook and by eye elsewhere until ported.
 
 `FORMAT.md` describes the folder shape for a new style and what may be committed.
 
@@ -30,6 +30,15 @@ Every playbook's checks include two measured ones adopted from the animate skill
 
 `tools/deadbeats.mjs <video> [--max 3] [--exempt a-b,...]` finds stretches where the picture barely changes, from the video file alone (ffmpeg, ffprobe and Node 18 or newer).
 It exits 1 when a stretch is longer than the limit, so a playbook can treat it as a gate.
+
+`tools/cuts.py <video> [--max N] [--min-gap f] [--beats beats.json --grid 4]` lists every hard cut (a frame whose 96 px grayscale picture jumps from the frame before) with its time, merges cuts within `--min-gap` frames into one event, exits 1 when there are more events than `--max`, and with `--beats` reports how many events sit on the music's grid (ffmpeg, ffprobe, Python 3 and numpy).
+
+`tools/beats.py <audio or video> [--fps 24]` prints the beat grid (BPM, phase, every beat with its bar position and strength), the onsets and the loudness per quarter second as JSON, for placing cuts and hits on the music and for `cuts.py --beats` (ffmpeg and numpy).
+It assumes a steady 4/4 grid, so for a rubato score read its onsets rather than its beats, and run it on the music alone: the Stoker mix with the voice on top reads 81 BPM where the music file reads its true 130.
+
+`tools/strip.mjs <video> --from <s> --dur <s> [--cols 6] [--w 240] [--out strip.jpg]` tiles every frame of a short stretch into one image with the frame number on each tile, for reading a transition or a key motion frame by frame (ffmpeg with drawtext, ffprobe and Node 18 or newer).
+
+`cuts.py` and `beats.py` are adapted from makevoid/motion-graphics-music-video-skill (MIT, Copyright (c) 2026 makevoid) and keep its notice in their headers; `strip.mjs` is written on ffmpeg after the strip mode of JohnHeibel/ClaudeAnimationBase.
 
 ## Assets and licences
 
