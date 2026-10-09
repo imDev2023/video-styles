@@ -9,6 +9,7 @@ snaps each grid beat to the strongest onset within 40 ms, and picks the downbeat
     python3 styles/tools/beats.py music.wav                 # summary on stderr, JSON on stdout
     python3 styles/tools/beats.py music.mp3 --fps 30        # frame numbers at the film's fps (default 24)
     python3 styles/tools/beats.py final.mp4 > beats.json    # a finished film's own track
+    python3 styles/tools/beats.py music.wav --bpm 130      # search only within 4 BPM of the tempo you know
 
 JSON: {duration, fps, bpm, period, phase, beats: [{t, f, n, bar_pos, strength, low}],
        onsets: [{t, f, strength, low}], loudness: [{t, db}] (per 0.25 s)}
@@ -60,7 +61,7 @@ def norm(x):
     return np.clip(x / (np.percentile(x, 95) + 1e-9), 0, None)
 
 
-def analyse(y, fps):
+def analyse(y, fps, bpm_hint=None):
     win = np.hanning(N_FFT).astype(np.float32)
     n = 1 + (len(y) - N_FFT) // HOP
     frames = np.lib.stride_tricks.as_strided(y, shape=(n, N_FFT), strides=(y.strides[0] * HOP, y.strides[0]))
@@ -90,7 +91,10 @@ def analyse(y, fps):
             cands.append((scores[k], p, phs[k]))
         return max(cands)
 
-    _, period, _ = best(np.arange(80, 180, 0.25), 48)
+    # With a known tempo (--bpm) the coarse search stays within 4 BPM of it: on a short excerpt the open search can
+    # lock onto a related tempo (97.5 for a 130 BPM track, a 3:4 comb) and move by a whole tempo when the excerpt shifts 35 ms.
+    coarse = np.arange(bpm_hint - 4, bpm_hint + 4, 0.25) if bpm_hint else np.arange(80, 180, 0.25)
+    _, period, _ = best(coarse, 48)
     _, period, phase = best(np.arange(60 / period - 0.3, 60 / period + 0.3, 0.02), 128)
     grid = np.arange(phase, t[-1], period)
 
@@ -135,8 +139,9 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("file", help="audio file, or a video with an audio track")
     ap.add_argument("--fps", type=float, default=24.0, help="film frame rate for the frame numbers (default 24)")
+    ap.add_argument("--bpm", type=float, default=None, help="the tempo you know; the search then stays within 4 BPM of it")
     a = ap.parse_args()
-    d = analyse(decode_mono(a.file), a.fps)
+    d = analyse(decode_mono(a.file), a.fps, a.bpm)
     downs = [b["t"] for b in d["beats"] if b["bar_pos"] == 0]
     print(f"{a.file}: {d['duration']:.2f} s, {d['bpm']} BPM, {len(d['beats'])} beats, {len(downs)} downbeats "
           f"(first at {downs[0] if downs else '-'} s), {len(d['onsets'])} onsets", file=sys.stderr)

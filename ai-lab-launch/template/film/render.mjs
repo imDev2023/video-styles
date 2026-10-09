@@ -4,6 +4,8 @@
 //   node render.mjs events                 sound events into ../out/events.json
 //   node render.mjs seg <f0> <f1> <out>    one segment of frames
 //   node render.mjs full [workers]         every frame, in parallel segments, into ../out/silent.mp4
+//
+// textcheck.mjs imports open() from here: the served page with window.film ready, plus an optional script injected before it loads.
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
@@ -33,10 +35,11 @@ function serve() {
   });
 }
 
-async function open() {
+export async function open({ init = null, initArg = undefined } = {}) {
   const srv = await serve();
   const browser = await chromium.launch({ args: ['--disable-gpu-vsync', '--force-color-profile=srgb'] });
   const page = await browser.newPage({ viewport: { width: 760, height: 760 } });
+  if (init) await page.addInitScript(init, initArg);
   page.on('console', (m) => { if (m.type() === 'error') console.error('[page]', m.text()); });
   page.on('pageerror', (e) => console.error('[page]', e.message));
   await page.goto(`http://127.0.0.1:${srv.address().port}/film/index.html`);
@@ -55,8 +58,11 @@ async function frame(page, f) {
 }
 async function write(p, buf) { if (!p.stdin.write(buf)) await new Promise((r) => p.stdin.once('drain', r)); }
 
+const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 const [mode, ...args] = process.argv.slice(2);
-if (mode === 'stills') {
+if (!isMain) {
+  // imported by textcheck.mjs: no command runs
+} else if (mode === 'stills') {
   const dir = path.join(OUT, 'stills'); fs.mkdirSync(dir, { recursive: true });
   const { page, close, info } = await open();
   for (const a of args) {

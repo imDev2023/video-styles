@@ -20,6 +20,7 @@ Python needs librosa, soundfile, scipy, numba, Pillow and faster-whisper, all li
 
 1. Ask for the inputs listed in `BRIEF.md`; take defaults for anything skipped.
 2. Brand: if the product's code is in the workspace, read its colour tokens and font from its CSS and layout (Stoker: `globals.css` and `layout.tsx`), and its icon.
+   Fill `config.brand.line`, `rail` and `ring` (the hairline, the slider rail and the knob ring) in the brand's own greys; shadows and tints take the ink at an alpha (`inkA`), so nothing on the page carries another brand's grey.
 3. Logo on a white page: `python3 tools/recolor_logo.py <icon.png> <bg> <fg1> <fg2> <new1> <new2>` turns an icon on a dark tile into ink and accent on transparency (`assets/logo.png`).
 4. Screenshots: capture the product's site with `agent-browser` in its own named session, light mode (`set media light`), retina (`set viewport 1440 1000 2`), then close that session by name.
 5. Images: `python3 tools/search_images.py openverse <queries...>` and `python3 tools/search_images.py picsum` make numbered contact sheets; look at them and pick by number into `config.images.<set>.items`.
@@ -36,7 +37,7 @@ Python needs librosa, soundfile, scipy, numba, Pillow and faster-whisper, all li
 4. If one line is off: `python3 voice/tts.py line <n> "<text>"` makes 4 versions with the neighbouring lines as context; measure them; splice only if one beats the take.
 5. Set `config.voice.take`, then `python3 voice/process.py` tightens pauses (over 0.28 s down to 0.2 s), levels phrases (85% toward the median, gain moved only inside pauses), and writes `voice/voice.wav` and `voice/words.json`.
 6. Set `config.anchors`: each scene boundary is a word index in `words.json` plus the word expected there, so a new take with different words fails loudly instead of cutting in the wrong place.
-   Set `config.captions` to the word ranges each caption types, `config.display.comma_after` for spoken dashes, and `config.display.gradient_word`.
+   Set `config.captions` to the word ranges each caption types, `config.display.comma_after` for spoken dashes, and `config.display.gradient_words`: the stressed words as the script spells them (`["ANY", "MORE"]`), so the capitals that tell the voice where to lean are the letters that take the gradient, and the first "more" does not; each gets a soft landing in the sound events.
 
 ## 4. Map the product
 
@@ -46,7 +47,12 @@ Everything per product lives in `config.scenes`:
 - `result`: the card's image set, the fixed part of its label (`base`), the chip prefix, and which tile the spoken input word picks (`pick_tile`).
 - `tiles`: [title, subtitle, tag] for the grid and ring, and the label sequence on the card (Stoker: Quote Assets).
   Draw them as typographic tiles in the brand's style; do not use other companies' logos.
-- `settings.sliders`: three sliders, each tied to the anchor word that names it, with its range and value format.
+- `settings.sliders`: three sliders, each tied to the anchor word that names it, with its range and value format; a slider that is a choice rather than a number lists its `stops` (`["in coin", "in SOL"]`) and shows the stop its position has reached.
+- `chart` (optional): `{"anchor": "trades", "bars": 9}` climbs a small price chart inside the result card once that word is spoken; leave it out for no chart.
+- `pill` (optional): `{"anchor": "earn", "text": "You earn {value}% of every trade", "from": 0, "to": 0.5, "decimals": 2, "duration": 0.6}` counts a number up in a glass pill under the scene 5 lines; leave it out for no pill.
+- `product.domain`: the address that fades in under the closing line on the end card; empty for none.
+- `storyboard`: the panels (time, title, reads) and the seam anchors that `tools/board.py` lays out for the storyboard check.
+- `check.text_ignore`: stretches where strings may cross the frame edge on purpose, as `[anchor, from, to, why]` (the tiles flying in).
 
 ## 5. Stills before anything else
 
@@ -58,8 +64,16 @@ Pick times that show each scene (shift them to the new film's anchors), look at 
 Crop the glass and the carets at 2x and look closely: a double caret or a frosted rectangle with hard edges is visible only there.
 Show the user 8 stills on one sheet and wait for a go.
 
-For the storyboard check, `tools/board.py` (in `videos/stoker-coming-soon/` until it is ported here) pastes the stills into `out/storyboard.jpg`, numbered with each panel's reads, and `out/seams.jpg`, the frame 0.1 s either side of every scene change.
-Edit its `PANELS` list when the anchors move, and open both sheets for the operator with `open out/storyboard.jpg out/seams.jpg` in the same turn as the message.
+For the storyboard check, `tools/board.py` pastes the stills into `out/storyboard.jpg`, numbered with each panel's reads, and `out/seams.jpg`, the frame 0.1 s either side of every scene change.
+
+```bash
+cd film && node render.mjs events                              # the anchors the seams sit on (out/events.json)
+node render.mjs stills $(python3 ../tools/board.py times)      # one still per panel, and 0.1 s either side of every seam
+cd .. && python3 tools/board.py                                # -> out/storyboard.jpg, out/seams.jpg
+```
+
+The panels and the seam anchors live in `config.storyboard`; edit the reads there when the anchors move.
+Open both sheets for the operator with `open out/storyboard.jpg out/seams.jpg` in the same turn as the message.
 
 ## 6. Render, mix, check
 
@@ -70,23 +84,26 @@ cd ../audio && python3 mix.py     # prints voice over music for every phrase; al
 python3 master.py                 # -14 LUFS, true peak under -1 dBTP
 cd .. && ffmpeg -y -i out/silent.mp4 -i audio/mix.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 256k -ar 48000 -movflags +faststart -shortest out/film.mp4
 python3 qa.py out/film.mp4        # contact sheet, single-frame pop scan, voice over music table
-node ../../styles/tools/deadbeats.mjs out/film.mp4 --exempt 21-23   # dead-beat check; the end-card hold is the one deliberate exemption
+node ../../styles/tools/deadbeats.mjs out/film.mp4 --exempt 20-22.25   # dead-beat check; the end-card hold is the one deliberate exemption
 ```
 
+On the coming-soon export `qa.py` reads 1335 frames, 0 single-frame pops outside the 16th-note runs, 32 jumps inside them, and +9.0 dB of voice over music on every phrase but the last ("Coming soon" sits at +20.6 dB because the music is already fading under the end card).
 The dead-beat check is the shared tool from the library root: something new should happen on screen every 2 to 4 seconds, and it flags any stretch over 3 s where the picture barely changes (each frame against the frame half a second earlier, on a 96 px grayscale copy, "still" at a quarter of the film's own median change).
-On the Stoker export it flags 19.5 to 23.0 s: the logo and the closing line, held 2 s by design and then the fade.
+On the first Stoker export it flags 19.5 to 23.0 s, the logo and the closing line held 2 s by design and then the fade; on the coming-soon export (median change 19.2, still below 4.8) it passes with 0 stretches once 20 to 22.25 s is exempt.
 Exempt only the held end card, and let the check see everything before it; this style's constant camera drift should keep every other scene alive.
 
 Cut check against the music: this style cuts its photos on 16th notes, so every hard cut should sit on the song's grid.
 
 ```bash
-python3 ../../styles/tools/beats.py out/music-cut.wav --fps 60 > out/beats.json           # the music alone, trimmed to the film's segment (see below)
+python3 ../../styles/tools/beats.py out/music-cut.wav --fps 60 --bpm 130 > out/beats.json   # the music alone, trimmed to the film's segment (see below), with the tempo you know
 python3 ../../styles/tools/cuts.py out/film.mp4 --min-gap 2 --beats out/beats.json --grid 4  # every hard cut, with its distance from the 16th grid
 ```
 
 Make `out/music-cut.wav` with `ffmpeg -ss <DROP_IN_SONG minus T.drop> -t <DUR> -i assets/music/<song>.mp3 out/music-cut.wav` (`audio/mix.py` holds both numbers); the detector on the mix with the voice on top reads 81 BPM where the music file reads its true 130, and a grid from the whole track has the wrong phase.
-On the Stoker export it finds 32 cut events (the photo runs, merged within 2 frames), all 32 within 50 ms of the 16th grid at 130.02 BPM with a median offset of 26.5 ms, drifting from 0 to -48 ms across the film: the film's `SIX` constant and the song's measured tempo disagree by a hair, which no viewer sees but a longer film would.
-Only 9 of 32 sit on the beat itself (grid 1), as designed: the runs are 16ths.
+Pass `--bpm` with `config.music.bpm`: on a 22 s excerpt the open search locked onto 97.5 BPM (a 3:4 comb) when the trim moved by 35 ms.
+On the first Stoker export it finds 32 cut events (the photo runs, merged within 2 frames), all 32 within 50 ms of the 16th grid at 130.02 BPM with a median offset of 26.5 ms, drifting from 0 to -48 ms across the film: the film's `SIX` constant and the song's measured tempo disagree by a hair, which no viewer sees but a longer film would.
+On the coming-soon export (drop at 75.72 s, grid from `beats.py --bpm 130`) it finds 30 cut events, 30 of 30 within 50 ms of the grid at 130.04 BPM with a median offset of 19.0 ms; with the drop at 75.755 s the same cuts sat at a median of 34.9 ms and 3 of 30 fell outside 50 ms.
+Only a quarter of the cuts sit on the beat itself (grid 1), as designed: the runs are 16ths.
 
 Frame strips of every scene change and of the first photo run, read against the panel's reads from the storyboard check.
 
@@ -95,6 +112,7 @@ node ../../styles/tools/strip.mjs out/film.mp4 --from <t> --dur 0.5 --cols 10   
 ```
 
 A hand-off should carry its zoom across the seam (no pop between two frames), the typed line's first read should get its frames before the next control appears, and a 16th-note run should change on every 7th frame and nowhere else.
+On the coming-soon export (strips at every seam, the input hand-off, the first photo run and the ring opening): every run changes on frames 7 apart (a 16th is 6.92 frames at 130 BPM and 60 fps), each outgoing line is gone before the next types in its place, and the only near-empty page is the 4 frames of the `through` fade before "The more they trade".
 
 Determinism check: the same still rendered in two different orders must be identical, or state is leaking between frames (a typed-caret counter, a cached image index), which breaks the parallel workers and every re-render.
 
@@ -102,11 +120,18 @@ Determinism check: the same still rendered in two different orders must be ident
 cd film && node render.mjs stills 4 12 && cp out/stills/t4*.png /tmp/a.png && node render.mjs stills 12 4 && cmp /tmp/a.png out/stills/t4*.png && echo identical
 ```
 
-Pick times on either side of a scene hand-off and inside a 16th-note run, where a cached index would show.
+Pick times on either side of a scene hand-off and inside a 16th-note run, where a cached index would show (the coming-soon film: 6.35, 9.05 and 14.65 s, identical in both orders).
 
-Text check: the typed captions, the chip names, the slider labels, the prompt bar text and the closing line.
-At the last frame of every caption (fully typed) and at the first and last frame of every scene, confirm that no string comes within 3 px of the frame edge, that no two strings overlap (the caption pill over the burst in scene 7, the chip over the result card in scene 3), and that the gradient word's glow does not run under the next line.
-This is still a manual check here; the measured version lives in `pencil-storybook/template/textcheck.mjs`, and a port is nearly verbatim from the animate skill's browser version: `film/render.mjs` already drives the page in Playwright, so hook `CanvasRenderingContext2D.prototype.fillText` there and sample the frames.
+Text check, measured:
+
+```bash
+cd film && node textcheck.mjs              # every 6th frame, the frame after each caption is typed, the frames either side of every anchor; about 25 s
+node textcheck.mjs --every 1               # every frame, for the final pass
+```
+
+It hooks every `fillText` in the film page (installed through `open()` in `render.mjs` before `scenes.js` loads), traces each string to screen space, joins the letters typed under one caption into one string (`drawCaption` tags the context with `ctx.__textGroup`), and fails on a string within 3 px of the frame edge, two strings overlapping by more than a quarter of the smaller, or a gradient word's glow (its shadow blur) running under other text.
+Stretches where strings may cross the edge on purpose go in `config.check.text_ignore` as `[anchor, from, to, why]`; on the coming-soon film the eight Quote Asset tiles fly in from outside the frame for 0.95 s after `s4`, 20 allowed issues.
+It found three real faults on this film that no sheet showed (see the gotchas on lines sharing the page and tiles crossing); after the fixes it samples 260 frames and passes with 0 cut off, 0 overlapping and 0 under a glow.
 
 Copy the finished export to the workspace root under the video's name.
 
@@ -175,29 +200,53 @@ Copy the finished export to the workspace root under the video's name.
 - **Blank page before scene 2.**
   Symptom: the frame before the cut to the full-bleed flashes is empty white.
   Cause: the collage drift and the card fades were timed in seconds from the first film, so with a slower read the cards had left long before this film's later cut.
-  Fix: time them to the anchor (`T.s2 - 2.5` for the drift, `T.s2 - 0.2` for the fades), never to absolute seconds; every motion in a scene hangs on the anchor that starts or ends it (in `videos/stoker-coming-soon/film/scenes.js` until ported).
+  Fix: time them to the anchor (`T.s2 - 2.5` for the drift, `T.s2 - 0.2` for the fades), never to absolute seconds; every motion in a scene hangs on the anchor that starts or ends it.
 - **Hue shift turns the settings picture the wrong colour.**
   Symptom: the fire set went green under a positive shift; the parrot set went pink at 250.
   Cause: a hue rotation moves every colour in the photo, not only the one you meant.
   Fix: pick a set that already sits in the brand's hue (the fire set for an ember brand) and keep `settings.hue` within about 10 degrees of 360 (350 for Stoker); render the settings still at a few hues onto one sheet before choosing.
 - **Whisper splits a compound.**
   Symptom: `process.py` stops with "found 50 words, the script has 49" because "launchpad" came back as "launch pad".
-  Fix: merge adjacent Whisper words whose letters add up to the script token before pairing (`videos/stoker-coming-soon/voice/process.py` until ported).
+  Fix: merge adjacent Whisper words whose letters add up to the script token before pairing (`voice/process.py`).
 - **A slider that is a choice, not a number.**
   Symptom: "Payout 0.7" for a setting whose values are "in coin" or "in SOL".
-  Fix: a `stops` list on the slider (`"stops": ["in coin", "in SOL"]`) shows the stop nearest the slider's value instead of a formatted number (in `scenes.js` of the same film until ported).
+  Fix: a `stops` list on the slider (`"stops": ["in coin", "in SOL"]`) shows the stop nearest the slider's value instead of a formatted number.
 - **Greys from the old brand.**
   Symptom: with a warm palette the shadows, hairlines and slider tracks still read cool blue-grey.
   Cause: `engine.js` and `scenes.js` carried the first film's cobalt-era greys as literals.
-  Fix: every grey comes from the brand (`inkA(alpha)` for shadows and hairlines; `line`, `rail` and `ring` in `config.brand`); grep both files for `rgba(` and `#` literals when porting to a new brand (same film until ported).
+  Fix: every grey comes from the brand (`inkA(alpha)` for shadows and hairlines; `line`, `rail` and `ring` in `config.brand`); grep both files for `rgba(` and `#` literals when porting to a new brand.
 - **A regenerated line rarely beats the take.**
   Symptom: four regenerations of the MORE line reached +3.8 dB of stress against the take's +7.4 dB.
   Fix: measure, keep the take, tell the user; budget one round of regenerations, not an afternoon.
+- **The read promises a gradient the frame does not show.**
+  Symptom: the approved story said "ANY" types in the gradient, the storyboard read said so, the frame showed plain ink: the engine took one gradient word per film and the config named "more".
+  Fix: `config.display.gradient_words` lists every stressed word as the script spells it; read the storyboard's reads against the frames, not only the frames.
+- **Hue shift goes the long way round.**
+  Symptom: with `settings.hue` at 350 the fire behind the panel turned green, then purple, for 0.9 s before settling, visible only on the contact sheet at 13.5 s.
+  Cause: the shift animated from 0 to 350 degrees, a tour of the whole wheel, where 10 degrees the other way was meant.
+  Fix: `picState` turns the short way (350 becomes -10); keep the config value as the brand's hue, not a direction.
+- **Two lines share the page at a hand-off.**
+  Symptom: "and it just trades" typed over "Pair it with a stock" for 3 frames while the old line was still fading.
+  Cause: the old line faded out from the new line's anchor instead of before it.
+  Fix: the outgoing line fades from `CAP.next.tFirst - 0.36` over 0.32 s, so it is gone before the first letter (the scene 1 pattern); the text check measures it.
+- **Tiles cross each other as the grid opens into a ring.**
+  Symptom: the mid-left tile crossed to the bottom-right through the card, and two tiles passed through each other.
+  Cause: ring slots were handed out in reading order while the grid cells sit at compass angles.
+  Fix: each tile takes the ring slot nearest its own cell (its grid angle plus 22.5 degrees), so no two paths cross; the ring looks the same.
+- **A tile wipes across the caption as it flies in.**
+  Symptom: the top-centre tile, entering from above, covered "Pair it with a stock" for 4 frames.
+  Fix: draw the tiles before the captions and the prompt bar, so they fly in under the text; the fly-in's edge crossings are allowed in `config.check.text_ignore`.
+- **The drop's attack and the beat grid disagree by 35 ms.**
+  Symptom: `tools/find_drop.py` put the attack at 75.755 s; the comb grid from `beats.py` over the film's segment, and the first film's value, say 75.72 s, and the cuts sat a steady 35 to 38 ms after the detected beats.
+  Fix: confirm the drop with `beats.py --bpm` and `cuts.py` on the trimmed music and use the value that centres the cuts on the grid; both are within a frame of the kicks, so neither is audible, but the measured one is the one to keep.
+- **The beat detector locks onto a related tempo.**
+  Symptom: `beats.py` read 97.5 BPM on the 22 s excerpt after the trim moved by 35 ms, 130 before.
+  Fix: pass `--bpm 130` (`config.music.bpm`); the search then stays within 4 BPM of it.
 
 ## Known weak spots
 
 - The voice reads a little slower than the reference film, so the Stoker film is 23 s instead of 22 s.
 - Scene layouts are tuned for one-line captions of about the Stoker lengths; a much longer line needs its caption size in `config.captions` reduced.
 - Only one song has been used; `config.mix.sfx_plan` gains were tuned by measurement, not by ear.
-- The template does not yet carry what the second film (`videos/stoker-coming-soon/`, 2026-10-08) added: the six gotchas above that say "until ported", a price chart in the result card on the stressed verb, a counting glass pill in scene 5, the domain line under the closing line (`config.product.domain`) and `tools/board.py`.
-  Porting them is the last step of that film's ticket; until then copy those parts from the film folder, not from here.
+- The reference stills are from the first film; the coming-soon film's contact sheet joins them once its export is approved.
+- The cut check's grid comes from a comb snapped to onsets within 40 ms, so its offsets scatter by about 20 ms around the true alignment; read the median, not one cut.

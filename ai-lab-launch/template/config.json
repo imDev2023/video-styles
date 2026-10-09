@@ -1,8 +1,9 @@
 {
- "_about": "Everything that changes per video. This example is the Stoker launch film (2026-10-05). Engine and scenes read only this file, voice/words.json and assets/.",
+ "_about": "Stoker coming-soon film (2026-10-08), from the ai-lab-launch template. Palette Furnace (brand/stoker round 2, provisional until the operator picks a mark).",
  "product": {
   "name": "Stoker",
-  "pitch": "Launch a coin on Solana, paired with any asset. Creators earn from every trade."
+  "pitch": "Launch a coin on Solana, paired with any asset. Creators earn from every trade, on the curve and after graduation.",
+  "domain": "stoker.markets"
  },
  "render": {
   "size": 1440,
@@ -25,14 +26,14 @@
   ],
   "lines": [
    "This is Stoker.",
-   "[softly] A Solana launchpad... made for creators.",
+   "[softly] A launchpad on Solana... made for creators.",
    "[excited] Launch against ANY asset.",
-   "[softly] Pair it with a stock - and it just... works.",
+   "[softly] Pair it with a stock - and it just... trades.",
    "The more they trade, the MORE you earn.",
-   "Tune its reward tax. Its burn. Its airdrop.",
-   "Every coin - exactly how you see it.",
+   "Tune its reward tax. Its payout. Its first buy.",
+   "Every payment - on the public ledger.",
    "Stoker.",
-   "Live on Solana."
+   "Coming soon."
   ],
   "take": "voice/takes/take2.mp3"
  },
@@ -47,52 +48,52 @@
   "gain_db": -10.5
  },
  "brand": {
-  "ink": "#121826",
-  "ink2": "#4a5468",
-  "ink3": "#7b8498",
-  "accent": "#2b45ff",
-  "accentStrong": "#1b2fd1",
-  "accent2": "#7086ff",
-  "plate": "#dfe3ff",
-  "fog": "#eef0f4",
+  "ink": "#1a1512",
+  "ink2": "#5a524a",
+  "ink3": "#8a847c",
+  "accent": "#ff4d12",
+  "accentStrong": "#d63a0a",
+  "accent2": "#ffa52b",
+  "plate": "#ffe3d1",
+  "fog": "#f6f1ea",
   "gradient": [
-   "#1b2fd1",
-   "#2b45ff",
-   "#7086ff"
+   "#d63a0a",
+   "#ff4d12",
+   "#ffa52b"
   ],
-  "glow": "rgba(43,69,255,0.45)",
+  "glow": "rgba(255,77,18,0.40)",
   "aura": [
    [
-    "#dfe3ff",
+    "#ffe3d1",
     0.95,
     520,
     0.11,
     0.0
    ],
    [
-    "#9fb0ff",
+    "#ffc9a3",
     0.55,
     380,
     0.17,
     1.7
    ],
    [
-    "#7086ff",
-    0.38,
+    "#ffa52b",
+    0.34,
     300,
     0.13,
     3.1
    ],
    [
-    "#c8bfff",
+    "#ffd9a6",
     0.5,
     340,
     0.09,
     4.4
    ],
    [
-    "#2b45ff",
-    0.16,
+    "#ff4d12",
+    0.14,
     260,
     0.15,
     5.6
@@ -105,76 +106,90 @@
    "stretch": "62% 125%"
   },
   "logo": "assets/logo.png",
-  "logo_height": 128
+  "logo_height": 128,
+  "line": "#ebe4da",
+  "rail": "#c9c0b6",
+  "ring": "#d8d0c6"
  },
  "_anchors": "Word index in voice/words.json and the word expected there. Rendering stops with an error if the take does not match.",
  "anchors": {
   "s2": [
-   6,
+   7,
    "made"
   ],
   "drop": [
-   9,
+   10,
    "launch"
   ],
   "s4": [
-   13,
+   14,
    "pair"
   ],
   "pick": [
-   17,
+   18,
    "stock"
   ],
   "s4b": [
-   18,
+   19,
    "and"
   ],
   "s5": [
-   22,
+   23,
    "the"
   ],
   "s6": [
-   30,
+   31,
    "tune"
   ],
   "set1": [
-   32,
+   33,
    "reward"
   ],
   "set2": [
-   35,
-   "burn"
+   36,
+   "payout"
   ],
   "set3": [
-   37,
-   "airdrop"
+   38,
+   "first"
   ],
   "s7": [
-   38,
+   40,
    "every"
   ],
   "logo": [
-   45,
+   46,
    "stoker"
   ],
   "tagline": [
-   46,
-   "live"
+   47,
+   "coming"
   ],
   "last": [
    48,
-   "solana"
+   "soon"
+  ],
+  "trades": [
+   22,
+   "trades"
+  ],
+  "earn": [
+   30,
+   "earn"
   ]
  },
  "display": {
   "comma_after": [
-   39
+   41
   ],
   "lowercase": [
    "ANY",
    "MORE"
   ],
-  "gradient_word": "more"
+  "gradient_words": [
+   "ANY",
+   "MORE"
+  ]
  },
  "captions": {
   "name": [
@@ -188,71 +203,71 @@
   "category": [
    [
     3,
-    5
+    6
    ],
    500,
    76
   ],
   "made": [
    [
-    6,
-    8
+    7,
+    9
    ],
    600,
    88
   ],
   "verb": [
    [
-    9,
-    12
+    10,
+    13
    ],
    500,
    50
   ],
   "input": [
    [
-    13,
-    17
+    14,
+    18
    ],
    500,
    50
   ],
   "getsyou": [
    [
-    18,
-    21
+    19,
+    22
    ],
    500,
    50
   ],
   "more1": [
    [
-    22,
-    25
+    23,
+    26
    ],
    500,
    54
   ],
   "more2": [
    [
-    26,
-    29
+    27,
+    30
    ],
    650,
    128
   ],
   "every": [
    [
-    38,
-    44
+    40,
+    45
    ],
    500,
    44
   ],
   "wordmark": [
    [
-    45,
-    45
+    46,
+    46
    ],
    800,
    124,
@@ -260,7 +275,7 @@
   ],
   "tagline": [
    [
-    46,
+    47,
     48
    ],
    500,
@@ -285,6 +300,10 @@
    "base": "EMBER",
    "chip_prefix": "paired with ",
    "pick_tile": 2
+  },
+  "chart": {
+   "anchor": "trades",
+   "bars": 9
   },
   "tiles": [
    [
@@ -364,47 +383,59 @@
    ]
   ],
   "tile_colors": [
-   "#2b45ff",
-   "#121826",
-   "#7086ff",
-   "#0e7f59",
-   "#c62d35",
-   "#8a5a00",
-   "#4a5468",
-   "#1b2fd1",
-   "#5b3cc4"
+   "#ff4d12",
+   "#1a1512",
+   "#ffa52b",
+   "#8f1d0a",
+   "#5a524a",
+   "#2b2522",
+   "#d63a0a",
+   "#8a847c",
+   "#b8541f"
   ],
+  "pill": {
+   "anchor": "earn",
+   "text": "You earn {value}% of every trade",
+   "from": 0,
+   "to": 0.5,
+   "decimals": 2,
+   "duration": 0.6
+  },
   "settings": {
    "header": "LAUNCH SETTINGS",
-   "set": "parrot",
-   "hue": 150,
+   "set": "fire",
+   "hue": 350,
    "sliders": [
     {
      "label": "Reward tax",
      "anchor": "set1",
-     "from": 0.2,
-     "to": 0.6,
+     "from": 0.1,
+     "to": 0.5,
      "scale": 10,
      "decimals": 1,
      "suffix": "%"
     },
     {
-     "label": "Burn",
+     "label": "Payout",
      "anchor": "set2",
-     "from": 0.1,
-     "to": 0.5,
-     "scale": 100,
+     "from": 0.0,
+     "to": 1.0,
+     "scale": 1,
      "decimals": 0,
-     "suffix": "%"
+     "suffix": "",
+     "stops": [
+      "in coin",
+      "in SOL"
+     ]
     },
     {
-     "label": "Airdrop",
+     "label": "First buy",
      "anchor": "set3",
-     "from": 0.0,
+     "from": 0.1,
      "to": 0.6,
-     "scale": 500,
-     "decimals": 0,
-     "suffix": " wallets"
+     "scale": 5,
+     "decimals": 1,
+     "suffix": " SOL"
     }
    ]
   },
@@ -1296,9 +1327,9 @@
      "license": "CC0"
     },
     {
-     "url": "https://cdn.stocksnap.io/img-thumbs/960w/JOQIB2Q07I.jpg",
-     "credit": "Pawel Kadysz",
-     "page": "https://stocksnap.io/photo/bonfire-fire-JOQIB2Q07I",
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/PYEFZG5D2P.jpg",
+     "credit": "Josh Felise",
+     "page": "https://stocksnap.io/photo/fire-bonfire-PYEFZG5D2P",
      "license": "CC0"
     },
     {
@@ -1338,9 +1369,9 @@
      "license": "CC0"
     },
     {
-     "url": "https://cdn.stocksnap.io/img-thumbs/960w/PYEFZG5D2P.jpg",
-     "credit": "Josh Felise",
-     "page": "https://stocksnap.io/photo/fire-bonfire-PYEFZG5D2P",
+     "url": "https://cdn.stocksnap.io/img-thumbs/960w/JOQIB2Q07I.jpg",
+     "credit": "Pawel Kadysz",
+     "page": "https://stocksnap.io/photo/bonfire-fire-JOQIB2Q07I",
      "license": "CC0"
     },
     {
@@ -1457,7 +1488,7 @@
     },
     {
      "picsum": 237,
-     "credit": "Andr\u00e9 Spieker",
+     "credit": "André Spieker",
      "page": "https://unsplash.com/photos/8wTPqxlnKM4",
      "license": "Unsplash License"
     },
@@ -1553,5 +1584,112 @@
    "url": "https://assets.mixkit.co/active_storage/sfx/790/790.wav",
    "title": "Cinematic trailer riser"
   }
+ },
+ "storyboard": {
+  "panels": [
+   {
+    "t": 1.2,
+    "title": "scene 1: the name",
+    "reads": [
+     "\"This is Stoker\" types, 0.5 to 1.6 s",
+     "the coin-art collage drifts outward, 0.4 to 3.6 s"
+    ]
+   },
+   {
+    "t": 2.9,
+    "title": "scene 1: the category",
+    "reads": [
+     "\"A launchpad on Solana\" replaces the name, 1.9 to 3.4 s",
+     "the last cards leave the frame as the cut comes, 3.0 to 3.7 s"
+    ]
+   },
+   {
+    "t": 4.3,
+    "title": "scene 2: made for creators",
+    "reads": [
+     "\"made for creators\" types in white over full-bleed flashes, 3.6 to 4.4 s",
+     "one flash per 16th note with a click, 3.6 to 5.0 s; the riser climbs into the drop"
+    ]
+   },
+   {
+    "t": 6.3,
+    "title": "scene 3: the drop",
+    "reads": [
+     "the drop lands at 5.0 s; \"$EMBER\" types in the launch bar, 5.0 to 5.7 s",
+     "\"Launch against ANY asset\", 5.0 to 6.3 s, ANY in the gradient with a soft landing at 5.8 s",
+     "the card arrives, 5.4 to 5.8 s, then its quote asset switches on every 16th, 5.9 to 7.0 s, the chip rolling with it"
+    ]
+   },
+   {
+    "t": 8.2,
+    "title": "scene 4: the pairing",
+    "reads": [
+     "\"Pair it with a stock\", 7.0 to 7.8 s",
+     "eight Quote Asset tiles fly into the grid on \"stock\", 7.6 to 8.3 s"
+    ]
+   },
+   {
+    "t": 9.4,
+    "title": "scene 4: it just trades",
+    "reads": [
+     "\"and it just... trades\", 8.3 to 9.4 s",
+     "the grid opens into a ring, 8.3 to 9.0 s",
+     "a price chart climbs inside the card, 8.9 to 9.6 s"
+    ]
+   },
+   {
+    "t": 12.2,
+    "title": "scene 5: the MORE line",
+    "reads": [
+     "\"The more they trade\", 9.9 to 10.6 s",
+     "\"the MORE you earn\", 11.1 to 11.9 s, MORE in the gradient at 11.3 s",
+     "the glass pill counts \"You earn 0.50% of every trade\", 11.9 to 12.5 s"
+    ]
+   },
+   {
+    "t": 14.0,
+    "title": "scene 6: the settings",
+    "reads": [
+     "the panel rises in, 12.5 to 12.9 s",
+     "Reward tax moves on \"reward\", 13.0 to 13.7 s; Payout flips to \"in SOL\" on \"payout\", 14.3 to 15.0 s; First buy on \"first\", 15.3 to 16.0 s",
+     "the fire behind the glass rolls on 16ths from 14.3 s and turns poster at 15.3 s"
+    ]
+   },
+   {
+    "t": 17.3,
+    "title": "scene 7: the ledger",
+    "reads": [
+     "\"Every payment, on the public ledger\" types in the caption pill, 16.4 to 18.1 s",
+     "120 coins burst from the centre behind it, 16.4 to 18.3 s"
+    ]
+   },
+   {
+    "t": 21.0,
+    "title": "scene 7: the end card",
+    "reads": [
+     "the burst collapses into the mark, 18.3 to 18.7 s",
+     "\"Stoker\" types, 18.7 to 19.4 s; \"Coming soon\" under it, 19.6 to 20.3 s; \"stoker.markets\" fades in after it, 20.5 to 21.0 s",
+     "hold on the card to 22.25 s while the music fades"
+    ]
+   }
+  ],
+  "seams": [
+   "s2",
+   "drop",
+   "s4",
+   "s5",
+   "s6",
+   "s7"
+  ]
+ },
+ "check": {
+  "text_ignore": [
+   [
+    "s4",
+    0.0,
+    0.95,
+    "the Quote Asset tiles fly in from outside the frame"
+   ]
+  ]
  }
 }

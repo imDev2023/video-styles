@@ -32,7 +32,8 @@ Take the words' text from the script, not from Whisper.
 A square launch film, 1440x1440 at 60fps, about 22 seconds, in the style of an AI lab's launch: a white page, one typeface, black ink, real images, and every caption typed word by word at the exact moment it's spoken.
 Every control (the prompt bar, the settings panel, the caption pill) is liquid glass: the scene behind it frosted, its edge bending that scene like thick glass, a top sheen, a bright rim and a soft lift shadow.
 Put a slow pastel aura in my brand colours, or a blurred wash of the photo, behind it.
-The one word she stresses types in a gradient of my brand colours with a faint glow behind it.
+The words she stresses (the ones the script writes in capitals, ANY and MORE) type in a gradient of my brand colours with a faint glow behind them.
+Every grey on the page (hairlines, slider rails, knob rings, shadows) comes from my brand's ink, never from a default.
 Motion rules: the camera always drifts (a 1.0 to 1.04 push per scene, and when one scene hands its content to the next, the next starts at the zoom the last one ended on), nothing pops in (fades of at least 0.3s, eased), images switch on 16th notes with a click each, scene changes land on phrase starts, and the music's drop lands on the [Verb] line.
 No full stops on screen; a spoken dash becomes a comma.
 Banned: selection-box highlights, beat-snapped slams, white flashes, 3D, templates, other companies' logos or characters in the images.
@@ -44,12 +45,13 @@ Seven scenes, each hung on the voice:
 2. "made for [value]": full-bleed flashes of my best images on 16th notes into the drop, with the line typed over them in white.
 3.
 The drop: a glass prompt bar types my product's real input, then the result card switches on every 16th, with a black chip that rolls to each new name and a strip of thumbnails.
-4. "Show it a [input]": 8 tiles fly into a 3x3 grid around the result card, then open into a ring as "it just gets you" types.
-5. "The more you use it, the better it gets": two typed lines, the stressed word in the gradient.
+4. "Show it a [input]": 8 tiles fly into a 3x3 grid around the result card, then open into a ring as "it just gets you" types; on the verb a small price chart can climb inside the card.
+5. "The more you use it, the better it gets": two typed lines, the stressed word in the gradient; a glass pill under them can count a number up as she says it.
+   Each line is gone before the next types in its place; two lines never share the page.
 6.
-The settings: a glass panel of 3 sliders, each moving as she names it.
+The settings: a glass panel of 3 sliders, each moving as she names it; a setting that is a choice rather than a number shows its stops ("in coin", "in SOL").
 The picture shifts hue a little (pick a set already near the brand colour; a large shift recolours the whole photo), rolls new images on 16ths, then turns poster, and a blurred wash of its own colours shifts with it behind the glass.
-7. "Every [output], exactly how you see it": 120 of my images burst from the centre behind a glass caption pill, then collapse into my logo before the name types, with the closing line underneath.
+7. "Every [output], exactly how you see it": 120 of my images burst from the centre behind a glass caption pill, then collapse into my logo before the name types, with the closing line underneath and my product's address under that.
 Hold 2s.
 Swap the prompt bar, the results, the tiles and the sliders for my product's real input, outputs and settings.
 </structure>
@@ -58,7 +60,7 @@ Swap the prompt bar, the results, the tiles and the sliders for my product's rea
 Start the song so its measured drop lands on the [Verb] line, and anchor the beat grid there.
 Measure the drop yourself; listed drop times are often off by a third of a second.
 Duck the music under the voice with a 3-band sidechain (lows 30%, mids 85%, air 55%; 0.3s hold, 50ms look-ahead, 0.5s release), then move each phrase's mids until the voice sits 9 dB over the music between 300 Hz and 4 kHz.
-One downloaded Mixkit SFX per event, placed by its measured peak: a click on every image switch, a key on every typed letter, a soft landing on the stressed word, whooshes, and impacts on the drop and the logo, trimmed around their peak.
+One downloaded Mixkit SFX per event, placed by its measured peak: a click on every image switch, a key on every typed letter, a soft landing on every stressed word, whooshes, and impacts on the drop and the logo, trimmed around their peak.
 Fade the music on a dB curve under the end card.
 Master to -14 LUFS with true peaks under -1 dBTP using a transparent look-ahead limiter.
 </sound>
@@ -69,14 +71,14 @@ Three check-ins, in this order, and nothing is animated or mixed before the thir
    Wait for "approve", "change beats" or "different angle", then generate the voice takes from the approved script.
 2. Look check (2 to 4 frames): the most different scenes as full-size stills (`node render.mjs stills <t> <t> <t>` in film/): the name typing over the collage, the glass prompt bar on the drop, the settings panel, the logo collapse.
    Wait for a thumbs up per frame or "change the look".
-3. Storyboard check (every scene): the 8 to 10 stills from PLAYBOOK.md section 5, one per scene plus the moments either side of a scene change, numbered in order on one sheet, with a second sheet of the frame either side of every seam; open both sheets for me.
+3. Storyboard check (every scene): the 8 to 10 stills from PLAYBOOK.md section 5, one per scene plus the moments either side of a scene change, numbered in order on one sheet, with a second sheet of the frame either side of every seam (`tools/board.py`, from the panels in `config.storyboard`); open both sheets for me.
    Under each panel, list its reads: what the viewer must understand in that scene, in order, each with a start and an end time (the typed line, then the control, then the result), so no read is shorter than it needs and no two important reads overlap.
    Wait for thumbs up or down by panel number, redraw what is down, and show the set again until every panel is up.
 </check-ins>
 
 <build>
 Use the ai-lab-launch template from the video-styles library: copy it to videos/<name>/, fill config.json, run fetch-assets.py, and follow its PLAYBOOK.md.
-After the full render and before you show me anything: a contact sheet, a frame-diff scan for single-frame pops (only the 16th-note runs may jump), the voice-over-music ratio for every phrase, the dead-beat check and the text check from PLAYBOOK.md section 6, with their numbers.
+After the full render and before you show me anything: a contact sheet, a frame-diff scan for single-frame pops (only the 16th-note runs may jump), the voice-over-music ratio for every phrase, the dead-beat check, the cut check against the music's 16th grid, a frame strip of every seam, the determinism check and the measured text check from PLAYBOOK.md section 6, with their numbers.
 </build>
 
 <start>

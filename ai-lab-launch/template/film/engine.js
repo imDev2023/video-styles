@@ -44,7 +44,10 @@ export async function load(build) {
   S.V0 = cfg.render.voice_lead_in;
   S.SIX = 60 / cfg.music.bpm / 4;
   const b = cfg.brand;
-  S.C = { ink: b.ink, ink2: b.ink2, ink3: b.ink3, line: '#e3e6ee', cobaltStrong: b.accentStrong, cobalt: b.accent, peri: b.accent2, plate: b.plate, fog: b.fog };
+  // every grey derives from the brand: the hairline, the slider rail and knob ring, and the ink at any alpha for shadows and tints
+  const inkRGB = [1, 3, 5].map((i) => parseInt(b.ink.slice(i, i + 2), 16));
+  S.C = { ink: b.ink, ink2: b.ink2, ink3: b.ink3, line: b.line || '#e3e6ee', rail: b.rail || '#9aa3b8', ring: b.ring || '#b8bfce',
+    cobaltStrong: b.accentStrong, cobalt: b.accent, peri: b.accent2, plate: b.plate, fog: b.fog, inkA: (a) => `rgba(${inkRGB.join(',')},${a})` };
   const wj = await (await fetch('../voice/words.json')).json();
   for (const w of wj.words) S.words.push({ ...w, t0: w.t0 + S.V0, t1: w.t1 + S.V0 });
   for (const [k, [i, expect]] of Object.entries(cfg.anchors)) {
@@ -78,7 +81,7 @@ let SHADOW;
 function buildShadow() {
   SHADOW = canvas(400, 400);
   const x = SHADOW.getContext('2d');
-  x.shadowColor = 'rgba(18,24,38,0.30)'; x.shadowBlur = 48; x.shadowOffsetX = 2000; x.shadowOffsetY = 18;
+  x.shadowColor = S.C.inkA(0.30); x.shadowBlur = 48; x.shadowOffsetX = 2000; x.shadowOffsetY = 18;
   x.fillStyle = '#000'; rr(x, 100 - 2000, 100, 200, 200, 22); x.fill();
 }
 export function shadow(ctx, cx, cy, w, h, alpha = 1) {
@@ -106,13 +109,17 @@ export function caption(idx, style, extra = {}) {
   const c = canvas(8, 8).getContext('2d');
   font(c, style.weight, style.size, style.stretch);
   c.letterSpacing = style.spacing || '0px';
+  // The stressed words type in the brand gradient: config.display.gradient_words, spelled as the script spells them
+  // (the capitals that tell the voice where to lean), so "MORE" takes the gradient and the first "more" does not.
+  const d = S.cfg.display, grads = d.gradient_words || (d.gradient_word ? [d.gradient_word.toUpperCase()] : []);
   let text = '';
   const marks = [];
   idx.forEach((i, n) => {
     const w = S.words[i], s = display(w.w, i);
     const times = letterTimes(w, s.length);
+    const grad = grads.includes(w.w.replace(/[^A-Za-z]/g, ''));
     if (n > 0) marks.push({ ch: ' ', t: w.t0, grad: false });
-    [...s].forEach((ch, k) => marks.push({ ch, t: times[k], grad: style.grad && w.w.toLowerCase() === style.grad, word: i }));
+    [...s].forEach((ch, k) => marks.push({ ch, t: times[k], grad, word: i }));
     text += (n ? ' ' : '') + s;
   });
   const full = c.measureText(text).width;
@@ -143,6 +150,7 @@ export function drawCaption(ctx, cap, t, x, y, { alpha = 1, align = 'center', co
   font(ctx, s.weight, s.size, s.stretch);
   ctx.letterSpacing = s.spacing || '0px';
   ctx.textBaseline = 'alphabetic';
+  ctx.__textGroup = cap.text;   // read by textcheck.mjs, which joins the letters drawn under one group into one string
   let lastX = x0;
   // Gradient word: a faint glow first, then the letters in the brand gradient.
   const g = cap.chars.filter((m) => m.grad);
@@ -179,6 +187,7 @@ export function drawCaption(ctx, cap, t, x, y, { alpha = 1, align = 'center', co
       ctx.fillRect(lastX + s.size * 0.06, y - s.size * 0.78, cw, s.size * 0.98);
     }
   }
+  ctx.__textGroup = null;
   ctx.restore();
 }
 
@@ -232,13 +241,13 @@ export function glass(ctx, bg, x, y, w, h, r, { alpha = 1, z = 1, milk = 0.34 } 
   const rim = ctx.createLinearGradient(x, y, x + w, y + h);
   rim.addColorStop(0, 'rgba(255,255,255,0.95)'); rim.addColorStop(0.5, 'rgba(255,255,255,0.45)'); rim.addColorStop(1, 'rgba(255,255,255,0.85)');
   ctx.lineWidth = 2 * z; ctx.strokeStyle = rim; rr(ctx, x + z, y + z, w - 2 * z, h - 2 * z, r - z); ctx.stroke();
-  ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(18,24,38,0.08)'; rr(ctx, x - 0.5, y - 0.5, w + 1, h + 1, r); ctx.stroke();
+  ctx.lineWidth = 1; ctx.strokeStyle = S.C.inkA(0.08); rr(ctx, x - 0.5, y - 0.5, w + 1, h + 1, r); ctx.stroke();
   ctx.save(); rr(ctx, x, y, w, h, r); ctx.clip();
   const top = ctx.createLinearGradient(0, y, 0, y + 3 * z);
   top.addColorStop(0, 'rgba(255,255,255,1)'); top.addColorStop(1, 'rgba(255,255,255,0)');
   ctx.lineWidth = 3 * z; ctx.strokeStyle = top; rr(ctx, x + 1.5 * z, y + 1.5 * z, w - 3 * z, h - 3 * z, r - 1.5 * z); ctx.stroke();
   const low = ctx.createLinearGradient(0, y + h - 14 * z, 0, y + h);
-  low.addColorStop(0, 'rgba(18,24,38,0)'); low.addColorStop(1, 'rgba(18,24,38,0.06)');
+  low.addColorStop(0, S.C.inkA(0)); low.addColorStop(1, S.C.inkA(0.06));
   ctx.fillStyle = low; ctx.fillRect(x, y + h - 14 * z, w, 14 * z);
   ctx.restore();
   ctx.restore();
@@ -345,5 +354,6 @@ export function boot(build, events) {
   window.film = {
     ready: load(build).then(() => ({ duration: S.T.end, T: S.T, frames: Math.round(S.T.end * S.cfg.render.fps) })),
     seek, events, frameRGB,
+    captions: () => Object.fromEntries(Object.entries(S.CAP).map(([k, c]) => [k, { text: c.text, tFirst: c.tFirst, tLast: c.tLast }])),
   };
 }

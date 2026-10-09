@@ -181,8 +181,19 @@ if __name__ == "__main__":
     words = words_by_chunk(leveled, model)
     # Whisper supplies the timings; the text comes from the script, which Whisper mishears ("BUN" for burn).
     script = [(tok, li) for li, l in enumerate(LINES) for tok in re.sub(r"\[[a-z ]+\]", "", l).split() if tok != "-"]
-    if len(script) != len(words):
-        raise SystemExit(f"Whisper found {len(words)} words, the script has {len(script)}: check the take")
+    # Whisper splits compounds ("launch pad" for launchpad): merge adjacent Whisper words whose letters add up to the script token.
+    letters = lambda s: re.sub(r"[^a-z]", "", s.lower())
+    merged, i = [], 0
+    for tok, li in script:
+        if i >= len(words):
+            break
+        w = dict(words[i]); i += 1
+        while letters(w["w"]) != letters(tok) and i < len(words) and letters(tok).startswith(letters(w["w"]) + letters(words[i]["w"])[:1]) and len(letters(w["w"])) < len(letters(tok)):
+            w["w"] += words[i]["w"]; w["t1"] = words[i]["t1"]; i += 1
+        merged.append(w)
+    if len(script) != len(merged) or i != len(words):
+        raise SystemExit(f"Whisper found {len(words)} words ({len(merged)} after merging compounds), the script has {len(script)}: check the take")
+    words = merged
     for w, (tok, li) in zip(words, script):
         w["w"], w["line"] = tok, li
     json.dump({"duration": round(len(leveled) / SR, 3), "phrases": [[round(a, 3), round(b, 3)] for a, b in phrases], "words": words}, open(HERE / "words.json", "w"), indent=1)

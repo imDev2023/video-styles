@@ -3,8 +3,8 @@
 //   1 "This is <name>"        collage drifts out as the name types, then the category line replaces it
 //   2 "made for <value>"      full-bleed images on 16th notes into the drop, line typed in white
 //   3 the drop                glass prompt bar types, result card switches on every 16th with a rolling chip
-//   4 "<input> ... gets you"  tiles fly into a 3x3 grid around the card, then open into a ring
-//   5 "the more ..."          two typed lines, the stressed word in the brand gradient
+//   4 "<input> ... gets you"  tiles fly into a 3x3 grid around the card, then open into a ring; an optional chart climbs in the card
+//   5 "the more ..."          two typed lines, the stressed word in the brand gradient, an optional counting glass pill
 //   6 the settings            glass panel of 3 sliders; the picture shifts hue, rolls seeds, turns poster
 //   7 "Every <output> ..."    120 images burst behind a glass pill, then collapse into the logo
 import {
@@ -28,7 +28,7 @@ function build() {
   Object.assign(CAP, {
     name: cap('name', C.ink), category: cap('category', C.ink), made: cap('made', '#fff'),
     verb: cap('verb', C.ink), input: cap('input', C.ink), getsyou: cap('getsyou', C.ink),
-    more1: cap('more1', C.ink3), more2: cap('more2', C.ink, { grad: S.cfg.display.gradient_word }),
+    more1: cap('more1', C.ink3), more2: cap('more2', C.ink),
     every: cap('every', C.ink), wordmark: cap('wordmark', C.ink), tagline: cap('tagline', C.ink3),
   });
   CAP.prompt = typedText(SC.prompt.text, T.drop + 0.1, 0.065, { weight: 600, size: 38, stretch: 'normal', color: C.ink });
@@ -53,17 +53,17 @@ function scene1(L, t) {
   const z = zoomAt(0, t), ctx = L.ctx;
   ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
   camera(ctx, z);
-  const out = eIn3((t - 0.7) / 2.2);           // the collage drifts out past the frame
+  const out = eIn3((t - (T.s2 - 2.5)) / 2.85);   // the collage drifts out past the frame, timed to leave just after the cut to scene 2
   for (const c of COLLAGE) {
     const rad = c.rad * (1 + 0.07 * (t / 3) + 1.15 * out);
     const a = c.a + 0.04 * t;
-    const alpha = fade(t, c.d, 0.45) * (1 - fade(t, 2.55 + c.d * 0.5, 0.45));
+    const alpha = fade(t, c.d, 0.45) * (1 - fade(t, T.s2 - 0.2 + c.d * 0.5, 0.45));   // the last cards are still leaving as scene 2 flashes in: never a blank page
     card(ctx, c.im, W / 2 + Math.cos(a) * rad, H / 2 + Math.sin(a) * rad * 0.92, c.size, { alpha, rot: c.rot + c.spin * t });
   }
   const cat = CAP.category.tFirst;
   const nameA = 1 - fade(t, cat - 0.36, 0.32);   // gone before the category line types in its place
   drawCaption(ctx, CAP.name, t, W / 2, H / 2 + 36 - 18 * eSine((t - cat + 0.36) / 0.32), { alpha: nameA, caretHold: 9 });
-  drawCaption(ctx, CAP.category, t, W / 2, H / 2 + 27, { alpha: 1 - fade(t, T.s2 - XA - 0.32, 0.32), caretHold: 9 });
+  drawCaption(ctx, CAP.category, t, W / 2, H / 2 + 27, { alpha: 1 - fade(t, T.s2 - XA - 0.3, 0.3), caretHold: 9 });   // gone exactly as the crossfade starts, so it never shares the page with "made for"
 }
 
 // ---------------------------------------------------------------- scene 2: "made for <value>", full-bleed 16ths
@@ -94,7 +94,7 @@ function buildTiles() {
   TILES = order.map((cellIdx, i) => {
     const gx = (cellIdx % 3) - 1, gy = Math.floor(cellIdx / 3) - 1;
     const ang = Math.atan2(gy, gx) + (r() - 0.5) * 0.4;
-    const ringA = -Math.PI / 2 + (i / 8) * Math.PI * 2 + Math.PI / 8;
+    const ringA = Math.atan2(gy, gx) + Math.PI / 8;   // the ring slot nearest the tile's own cell, one half-slot round: no two paths cross
     return {
       q: tile(i), col: SC.tile_colors[i % SC.tile_colors.length], gx: W / 2 + gx * (cell + gap), gy: CY + gy * (cell + gap),
       fromX: W / 2 + Math.cos(ang) * 1300, fromY: CY + Math.sin(ang) * 1300,
@@ -113,7 +113,7 @@ function drawTile(ctx, tl, cx, cy, size, alpha) {
   tint.addColorStop(0, hexA(tl.col, 0.26)); tint.addColorStop(0.6, hexA(tl.col, 0.07)); tint.addColorStop(1, hexA(tl.col, 0));
   ctx.fillStyle = tint; ctx.fillRect(x, y, s, s);
   ctx.restore();
-  ctx.lineWidth = 1.5; ctx.strokeStyle = 'rgba(18,24,38,0.07)'; rr(ctx, x, y, s, s, s * 0.1); ctx.stroke();
+  ctx.lineWidth = 1.5; ctx.strokeStyle = C.inkA(0.07); rr(ctx, x, y, s, s, s * 0.1); ctx.stroke();
   const mr = s * 0.15, mx = x + s * 0.11 + mr, my = y + s * 0.11 + mr;
   ctx.fillStyle = tl.col; ctx.beginPath(); ctx.arc(mx, my, mr, 0, Math.PI * 2); ctx.fill();
   font(ctx, 800, s * 0.13, 'expanded'); ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
@@ -152,9 +152,19 @@ function scene34(L, t) {
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(L.bg, 0, 0);
   camera(ctx, z);
 
-  // caption over the bar, then the scene 4 captions
+  // tiles first, so they fly in under the captions and the bar: fly into the grid, then open into a ring
+  for (const tl of TILES) {
+    const fly = eOut3((t - T.s4 - 0.12 - tl.d) / 0.62);
+    const a = fade(t, T.s4 + 0.1 + tl.d, 0.32);
+    let x = lerp(tl.fromX, tl.gx, fly), y = lerp(tl.fromY, tl.gy, fly), s = 300;
+    x = lerp(x, tl.rx, toRing); y = lerp(y, tl.ry, toRing); s = lerp(s, 222, toRing);
+    y += Math.sin(t * 1.3 + tl.bob) * 5 * toRing;
+    drawTile(ctx, tl, x, y, s, a);
+  }
+
+  // caption over the bar, then the scene 4 captions; each line is gone before the next types in its place
   drawCaption(ctx, CAP.verb, t, W / 2, 300, { alpha: 1 - fade(t, T.s4 - 0.1, 0.3), caretHold: 9 });
-  drawCaption(ctx, CAP.input, t, W / 2, 150, { alpha: 1 - fade(t, T.s4b - 0.08, 0.3), caretHold: 9 });
+  drawCaption(ctx, CAP.input, t, W / 2, 150, { alpha: 1 - fade(t, CAP.getsyou.tFirst - 0.36, 0.32), caretHold: 9 });
   drawCaption(ctx, CAP.getsyou, t, W / 2, 150);
 
   // prompt bar
@@ -174,16 +184,6 @@ function scene34(L, t) {
     ctx.restore();
   }
 
-  // tiles: fly into the grid, then open into a ring
-  for (const tl of TILES) {
-    const fly = eOut3((t - T.s4 - 0.12 - tl.d) / 0.62);
-    const a = fade(t, T.s4 + 0.1 + tl.d, 0.32);
-    let x = lerp(tl.fromX, tl.gx, fly), y = lerp(tl.fromY, tl.gy, fly), s = 300;
-    x = lerp(x, tl.rx, toRing); y = lerp(y, tl.ry, toRing); s = lerp(s, 222, toRing);
-    y += Math.sin(t * 1.3 + tl.bob) * 5 * toRing;
-    drawTile(ctx, tl, x, y, s, a);
-  }
-
   // the result card
   const cin = fade(t, CARD_IN(), 0.36);
   const cs = lerp(lerp(560, 300, toPair), 440, toRing);
@@ -198,6 +198,23 @@ function scene34(L, t) {
     const g = ctx.createLinearGradient(0, cy + cs * 0.1, 0, cy + cs / 2);
     g.addColorStop(0, 'rgba(10,12,20,0)'); g.addColorStop(1, 'rgba(10,12,20,0.62)');
     ctx.fillStyle = g; ctx.fillRect(cx - cs / 2, cy, cs, cs / 2);
+    // Once the chart's anchor word is spoken (config scenes.chart: "trades"), a small price chart climbs inside the card:
+    // the pair is live and moving. No chart when scenes.chart is absent.
+    const ch = SC.chart, chartT = ch && T[ch.anchor];
+    const chartA = chartT ? fade(t, chartT - 0.15, 0.3) * toRing : 0;
+    if (chartA > 0.001) {
+      const n = ch.bars || 9, left = cx - cs / 2 + cs * 0.1, right = cx + cs / 2 - cs * 0.1, base = cy + cs * 0.26, bw = ((right - left) / n) * 0.52;
+      const jit = (i) => ((i * 9301 + 49297) % 233280) / 233280;
+      for (let i = 0; i < n; i++) {
+        const grow = eOut3((t - chartT + 0.1 - i * 0.06) / 0.5);
+        const h = (0.1 + 0.075 * i + 0.05 * jit(i)) * cs * grow, wick = 0.07 * cs * grow;
+        const x = left + ((right - left) * (i + 0.24)) / n;
+        ctx.globalAlpha = cin * chartA;
+        ctx.fillStyle = C.cobalt; rr(ctx, x, base - h, bw, h, bw * 0.3); ctx.fill();
+        ctx.fillStyle = C.peri; rr(ctx, x + bw / 2 - 2, base - h - wick, 4, wick, 2); ctx.fill();
+      }
+      ctx.globalAlpha = cin;
+    }
     // The label side of the mark rolls to each new name.
     const tr = tq(t), roll = step < 0 ? eOut3((tr - T.pick) / 0.09) : eOut3(((tr - T.drop) / SIX - Math.floor((tr - T.drop) / SIX)) / 0.75);
     const prev = step < 0 ? tile(stepAt(T.pick - 0.001)) : tile(Math.max(0, step - 1));
@@ -237,18 +254,41 @@ function scene34(L, t) {
 
 // ---------------------------------------------------------------- scene 5: "The more ..., the MORE ..."
 function scene5(L, t) {
-  const z = zoomAt(4, t), ctx = L.ctx;
-  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
+  const z = zoomAt(4, t), ctx = L.ctx, bctx = L.bctx;
+  // a glass pill under the two lines counts a number up once its anchor word is spoken (config scenes.pill: anchor, text with
+  // {value}, from, to, decimals, duration); none when scenes.pill is absent. The aura behind it makes the glass read.
+  const pill = SC.pill, pillT = pill && T[pill.anchor];
+  const pillA = pillT ? fade(t, pillT - 0.05, 0.4) : 0;
+  bctx.setTransform(1, 0, 0, 1, 0, 0); bctx.fillStyle = '#fff'; bctx.fillRect(0, 0, W, H);
+  camera(bctx, z);
+  aura(bctx, t + 5, W / 2, 960, 0.9, 0.7 * pillA);
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(L.bg, 0, 0);
   camera(ctx, z);
   drawCaption(ctx, CAP.more1, t, W / 2, 618, { caretHold: CAP.more2.tFirst - CAP.more1.tLast - 0.05 });
   drawCaption(ctx, CAP.more2, t, W / 2, 790, { caretHold: 9 });
+  if (pillA > 0.001) {
+    const pw = 620, ph = 84, px = W / 2 - pw / 2, py = 930 + 14 * (1 - pillA);
+    glass(ctx, L.bg, px, py, pw, ph, 42, { alpha: pillA, z });
+    camera(ctx, z);
+    const count = eOut3((tq(t) - pillT) / (pill.duration || 0.6));   // reads the frame's centre time, so the blur never shows two values
+    const value = lerp(pill.from || 0, pill.to, count).toFixed(pill.decimals || 0);
+    ctx.save(); ctx.globalAlpha = pillA; font(ctx, 600, 32); ctx.textAlign = 'center';
+    ctx.fillStyle = C.ink2; ctx.fillText(pill.text.replace('{value}', value), W / 2, py + 54);
+    ctx.restore();
+  }
 }
 
 // ---------------------------------------------------------------- scene 6: the settings
-const sliders = () => SC.settings.sliders.map((s) => ({ ...s, t: T[s.anchor], val: (v) => `${(v * s.scale).toFixed(s.decimals)}${s.suffix}` }));
+// A slider shows a number (scale, decimals, suffix) or, with `stops`, the label its position has reached: a choice, not a quantity.
+const sliders = () => SC.settings.sliders.map((s) => ({
+  ...s, t: T[s.anchor],
+  val: (v) => (s.stops ? s.stops[Math.min(s.stops.length - 1, Math.round(v * (s.stops.length - 1)))] : `${(v * s.scale).toFixed(s.decimals)}${s.suffix}`),
+}));
 function picState(t) {
   const n = set(SC.settings.set).length;
-  const hue = SC.settings.hue * eInOut3((t - T.set1) / 0.9);
+  // the shift takes the short way round the wheel: a hue of 350 is a 10 degree turn, not a 350 degree tour through green and purple
+  const turn = ((SC.settings.hue % 360) + 540) % 360 - 180;
+  const hue = turn * eInOut3((t - T.set1) / 0.9);
   let im = 0;
   const tt = t;
   t = tq(t);
@@ -301,11 +341,11 @@ function scene6(L, t) {
     font(ctx, 600, 34); ctx.fillStyle = mix(C.ink3, C.ink, on); ctx.fillText(s.label, px + 44, y);
     font(ctx, 500, 26); ctx.fillStyle = mix(C.ink3, C.ink2, on); ctx.textAlign = 'right'; ctx.fillText(s.val(v), px + pw - 44, y); ctx.textAlign = 'left';
     const tx = px + 44, tw = pw - 88, ty = y + 40;
-    ctx.fillStyle = 'rgba(18,24,38,0.12)'; rr(ctx, tx, ty - 4, tw, 8, 4); ctx.fill();
-    ctx.fillStyle = mix('#9aa3b8', C.cobalt, on); rr(ctx, tx, ty - 4, tw * v, 8, 4); ctx.fill();
+    ctx.fillStyle = C.inkA(0.12); rr(ctx, tx, ty - 4, tw, 8, 4); ctx.fill();
+    ctx.fillStyle = mix(C.rail, C.cobalt, on); rr(ctx, tx, ty - 4, tw * v, 8, 4); ctx.fill();
     shadow(ctx, tx + tw * v, ty + 3, 22, 22, 0.7);
     ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(tx + tw * v, ty, 17, 0, Math.PI * 2); ctx.fill();
-    ctx.lineWidth = 2.5; ctx.strokeStyle = mix('#b8bfce', C.cobalt, on); ctx.stroke();
+    ctx.lineWidth = 2.5; ctx.strokeStyle = mix(C.ring, C.cobalt, on); ctx.stroke();
   });
   ctx.restore();
 }
@@ -352,6 +392,12 @@ function scene7(L, t) {
   }
   drawCaption(ctx, CAP.wordmark, t, W / 2, 822, { caretHold: CAP.tagline.tFirst - CAP.wordmark.tLast - 0.05 });
   drawCaption(ctx, CAP.tagline, t, W / 2, 912, { caretHold: 0.9 });
+  // the address under the closing line, once it has been read (config product.domain; nothing when it is empty)
+  const domain = S.cfg.product.domain, da = domain ? fade(t, CAP.tagline.tLast + 0.25, 0.45) : 0;
+  if (da > 0.001) {
+    ctx.save(); ctx.globalAlpha = da; font(ctx, 500, 30); ctx.letterSpacing = '1px'; ctx.textAlign = 'center';
+    ctx.fillStyle = C.ink3; ctx.fillText(domain, W / 2, 978 + 8 * (1 - da)); ctx.restore();
+  }
 }
 
 // ---------------------------------------------------------------- sound events, from the same timeline
@@ -364,8 +410,10 @@ function events() {
   ev.push({ t: T.pick, k: 'click' });
   for (let k = 1; T.set2 + k * SIX < T.set3; k++) ev.push({ t: T.set2 + k * SIX, k: 'click' });
   ev.push({ t: T.set2, k: 'click' });
-  const grad = CAP.more2.chars.filter((m) => m.grad);
-  ev.push({ t: grad[grad.length - 1].t + 0.03, k: 'land' });
+  for (const cap of Object.values(CAP)) {   // a soft landing on the last letter of every stressed (gradient) word
+    const grad = cap.chars.filter((m) => m.grad);
+    if (grad.length) ev.push({ t: grad[grad.length - 1].t + 0.03, k: 'land' });
+  }
   ev.push({ t: T.drop, k: 'impact_drop' }, { t: T.drop, k: 'riser_peak' });
   ev.push({ t: 1.0, k: 'whoosh_2' }, { t: T.s4 + 0.4, k: 'whoosh_1' }, { t: T.s4b + 0.3, k: 'whoosh_2' }, { t: T.s7 + 0.25, k: 'whoosh_1' });
   ev.push({ t: T.logo + 0.3, k: 'impact_logo' });
