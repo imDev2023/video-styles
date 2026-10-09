@@ -58,6 +58,9 @@ Pick times that show each scene (shift them to the new film's anchors), look at 
 Crop the glass and the carets at 2x and look closely: a double caret or a frosted rectangle with hard edges is visible only there.
 Show the user 8 stills on one sheet and wait for a go.
 
+For the storyboard check, `tools/board.py` (in `videos/stoker-coming-soon/` until it is ported here) pastes the stills into `out/storyboard.jpg`, numbered with each panel's reads, and `out/seams.jpg`, the frame 0.1 s either side of every scene change.
+Edit its `PANELS` list when the anchors move, and open both sheets for the operator with `open out/storyboard.jpg out/seams.jpg` in the same turn as the message.
+
 ## 6. Render, mix, check
 
 ```bash
@@ -169,9 +172,32 @@ Copy the finished export to the workspace root under the video's name.
   Never build a filesystem path from `URL.pathname`; use `fileURLToPath(new URL('.', import.meta.url))` in Node and `Path(__file__).resolve()` in Python, and after the first run check `ls /Volumes/Farhan` for folders containing `%20`.
 - **A product repo can be on another branch.**
   Another session may have the product's repo checked out on a branch where a file you read earlier no longer exists; read it from history with `git show <commit>:<path>` instead of checking anything out.
+- **Blank page before scene 2.**
+  Symptom: the frame before the cut to the full-bleed flashes is empty white.
+  Cause: the collage drift and the card fades were timed in seconds from the first film, so with a slower read the cards had left long before this film's later cut.
+  Fix: time them to the anchor (`T.s2 - 2.5` for the drift, `T.s2 - 0.2` for the fades), never to absolute seconds; every motion in a scene hangs on the anchor that starts or ends it (in `videos/stoker-coming-soon/film/scenes.js` until ported).
+- **Hue shift turns the settings picture the wrong colour.**
+  Symptom: the fire set went green under a positive shift; the parrot set went pink at 250.
+  Cause: a hue rotation moves every colour in the photo, not only the one you meant.
+  Fix: pick a set that already sits in the brand's hue (the fire set for an ember brand) and keep `settings.hue` within about 10 degrees of 360 (350 for Stoker); render the settings still at a few hues onto one sheet before choosing.
+- **Whisper splits a compound.**
+  Symptom: `process.py` stops with "found 50 words, the script has 49" because "launchpad" came back as "launch pad".
+  Fix: merge adjacent Whisper words whose letters add up to the script token before pairing (`videos/stoker-coming-soon/voice/process.py` until ported).
+- **A slider that is a choice, not a number.**
+  Symptom: "Payout 0.7" for a setting whose values are "in coin" or "in SOL".
+  Fix: a `stops` list on the slider (`"stops": ["in coin", "in SOL"]`) shows the stop nearest the slider's value instead of a formatted number (in `scenes.js` of the same film until ported).
+- **Greys from the old brand.**
+  Symptom: with a warm palette the shadows, hairlines and slider tracks still read cool blue-grey.
+  Cause: `engine.js` and `scenes.js` carried the first film's cobalt-era greys as literals.
+  Fix: every grey comes from the brand (`inkA(alpha)` for shadows and hairlines; `line`, `rail` and `ring` in `config.brand`); grep both files for `rgba(` and `#` literals when porting to a new brand (same film until ported).
+- **A regenerated line rarely beats the take.**
+  Symptom: four regenerations of the MORE line reached +3.8 dB of stress against the take's +7.4 dB.
+  Fix: measure, keep the take, tell the user; budget one round of regenerations, not an afternoon.
 
 ## Known weak spots
 
 - The voice reads a little slower than the reference film, so the Stoker film is 23 s instead of 22 s.
 - Scene layouts are tuned for one-line captions of about the Stoker lengths; a much longer line needs its caption size in `config.captions` reduced.
 - Only one song has been used; `config.mix.sfx_plan` gains were tuned by measurement, not by ear.
+- The template does not yet carry what the second film (`videos/stoker-coming-soon/`, 2026-10-08) added: the six gotchas above that say "until ported", a price chart in the result card on the stressed verb, a counting glass pill in scene 5, the domain line under the closing line (`config.product.domain`) and `tools/board.py`.
+  Porting them is the last step of that film's ticket; until then copy those parts from the film folder, not from here.

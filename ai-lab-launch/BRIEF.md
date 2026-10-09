@@ -48,7 +48,7 @@ The drop: a glass prompt bar types my product's real input, then the result card
 5. "The more you use it, the better it gets": two typed lines, the stressed word in the gradient.
 6.
 The settings: a glass panel of 3 sliders, each moving as she names it.
-The picture shifts hue, rolls new images on 16ths, then turns poster, and a blurred wash of its own colours shifts with it behind the glass.
+The picture shifts hue a little (pick a set already near the brand colour; a large shift recolours the whole photo), rolls new images on 16ths, then turns poster, and a blurred wash of its own colours shifts with it behind the glass.
 7. "Every [output], exactly how you see it": 120 of my images burst from the centre behind a glass caption pill, then collapse into my logo before the name types, with the closing line underneath.
 Hold 2s.
 Swap the prompt bar, the results, the tiles and the sliders for my product's real input, outputs and settings.
@@ -69,7 +69,7 @@ Three check-ins, in this order, and nothing is animated or mixed before the thir
    Wait for "approve", "change beats" or "different angle", then generate the voice takes from the approved script.
 2. Look check (2 to 4 frames): the most different scenes as full-size stills (`node render.mjs stills <t> <t> <t>` in film/): the name typing over the collage, the glass prompt bar on the drop, the settings panel, the logo collapse.
    Wait for a thumbs up per frame or "change the look".
-3. Storyboard check (every scene): the 8 stills from PLAYBOOK.md section 5, one per scene plus the moments either side of a scene change, numbered in order.
+3. Storyboard check (every scene): the 8 to 10 stills from PLAYBOOK.md section 5, one per scene plus the moments either side of a scene change, numbered in order on one sheet, with a second sheet of the frame either side of every seam; open both sheets for me.
    Under each panel, list its reads: what the viewer must understand in that scene, in order, each with a start and an end time (the typed line, then the control, then the result), so no read is shorter than it needs and no two important reads overlap.
    Wait for thumbs up or down by panel number, redraw what is down, and show the set again until every panel is up.
 </check-ins>
