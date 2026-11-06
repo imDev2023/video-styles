@@ -164,7 +164,9 @@ export function drawCaption(ctx, cap, t, x, y, { alpha = 1, align = 'center', co
     if (t < m.t) break;
     const k = clamp((t - m.t) / 0.06);
     const a = alpha * k;
-    lastX = x0 + m.x + (m.x1 - m.x) * eSine(k);   // the caret glides with the letter as it fades in
+    // the caret steps past a letter as it starts, as an editor's does, and the letter fades in behind it; a caret that
+    // glided across the letter while it faded in stood in the middle of every S for a frame and drew a "$"
+    lastX = x0 + m.x1;
     if (m.ch === ' ') continue;
     ctx.globalAlpha = a;
     if (m.grad) {

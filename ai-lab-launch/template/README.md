@@ -1,13 +1,16 @@
 # ai-lab-launch template
 
 Copy this folder to `<workspace>/videos/<name>/`, edit `config.json`, and run the steps in `../PLAYBOOK.md`.
-As shipped, `config.json` is the Stoker coming-soon film (2026-10-09) and re-renders it exactly (you supply `assets/logo.png` and the voice).
+As shipped, `config.json` is the Stoker coming-soon film (2026-10-09, revised 2026-11-06) and re-renders it exactly (you supply the logo that `brand.logo` names, and the voice).
 
 ```bash
 python3 fetch-assets.py                        # font, song, SFX, image sets into assets/
 python3 tools/find_drop.py                     # measure the drop, put it in config.music.drop (then confirm it with cuts.py below)
 python3 voice/tts.py takes                     # 4 voice takes (needs ELEVENLABS_API_KEY in the workspace .env)
 python3 voice/process.py                       # tighten, level, word timings -> voice/voice.wav, voice/words.json
+# one line changed after the voice was approved: put its new words in config.voice.lines, then
+python3 voice/tts.py line 7 "<the new words>"  # 4 takes of line 7, its neighbours as context -> voice/lines/line7_<k>.mp3
+python3 voice/splice.py voice/takes/take2.mp3 7 voice/lines/line7_2.mp3 voice/takes/take2-line7.wav   # into the approved read; point config.voice.take at it, run process.py, move the later anchors and captions
 cd film && node render.mjs stills 1.2 6.3 17.9 # look check: a few stills first
 node render.mjs events                         # sound events and the anchors (out/events.json)
 node render.mjs stills $(python3 ../tools/board.py times) && cd .. && python3 tools/board.py   # storyboard check: out/storyboard.jpg, out/seams.jpg
@@ -29,7 +32,7 @@ node ../../styles/tools/strip.mjs out/film.mp4 --from <seam minus 0.25> --dur 0.
 | `film/scenes.js` | The seven scenes; reads only the config. |
 | `film/render.mjs` | Playwright renderer: stills, events, segments, full film; exports the page opener for the text check. |
 | `film/textcheck.mjs` | Hooks every text draw in the page and flags strings cut off by the frame, overlapping, or under a gradient word's glow. |
-| `voice/` | `tts.py` (ElevenLabs), `process.py` (tighten, level, word table, compound merge), `measure.py` (stress per word). |
+| `voice/` | `tts.py` (ElevenLabs), `process.py` (tighten, level, word table, compound merge), `splice.py` (one re-recorded line into the approved take), `measure.py` (stress per word). |
 | `audio/` | `mix.py` (3-band sidechain, per-phrase solve, SFX by peak), `master.py` (limiter, -14 LUFS). |
 | `qa.py` | Contact sheet, single-frame pop scan, voice over music table. |
 | `tools/` | `find_drop.py`, `recolor_logo.py`, `search_images.py`, `board.py` (storyboard and seam sheets from `config.storyboard`). |

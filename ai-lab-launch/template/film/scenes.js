@@ -13,7 +13,7 @@ import {
   setScenes, boot,
 } from './engine.js';
 
-let CAP, T, C, SIX, IMG, SC, TILES, COLLAGE, BURST;
+let CAP, T, C, SIX, IMG, SC, TILES, COLLAGE, BURST, LABEL;
 const set = (name) => IMG[name];
 
 function build() {
@@ -34,7 +34,7 @@ function build() {
   CAP.prompt = typedText(SC.prompt.text, T.drop + 0.1, 0.065, { weight: 600, size: 38, stretch: 'normal', color: C.ink });
 
   setCameras([[0, T.s2], [T.s2, T.drop], [T.drop, T.s4], [T.s4, T.s5, 'handoff'], [T.s5, T.s6], [T.s6, T.s7], [T.s7, T.end]]);
-  buildCollage(); buildBurst(); buildTiles();
+  buildCollage(); buildBurst(); buildTiles(); buildLabel();
   setScenes([
     { a: 0, b: T.s2, draw: scene1 }, { a: T.s2, b: T.drop, draw: scene2 }, { a: T.drop, b: T.s5, draw: scene34, out: 'through' },
     { a: T.s5, b: T.s6, draw: scene5, out: 'through' }, { a: T.s6, b: T.s7, draw: scene6, out: 'through' }, { a: T.s7, b: T.end + 1, draw: scene7 },
@@ -128,6 +128,16 @@ function drawTile(ctx, tl, cx, cy, size, alpha) {
   ctx.fillStyle = C.ink2; ctx.fillText(q.c, x + s * 0.89 - tw - s * 0.05, y + s * 0.213);
   ctx.restore();
 }
+// The card's label, "BASE/QUOTE", keeps one size through the whole roll, as a share of the card: the largest at which the
+// widest quote still fits inside the card with the same margin on the right as on the left, and at most 0.085 of it.
+// A fixed share let "HEARTH/GOOGLx" run 25 px past the card's edge, where the card's clip cut its last letter.
+function buildLabel() {
+  const c = canvas(8, 8).getContext('2d'), u = 100;
+  font(c, 800, u, 'expanded');
+  const widest = Math.max(...SC.tiles.map(([t]) => c.measureText(t).width));
+  const w = c.measureText(SC.result.base).width + u * 0.02 + c.measureText('/').width + u * 0.04 + widest;   // as slashMark sets it
+  LABEL = Math.min(0.085, (1 - 2 * 0.07) / (w / u));
+}
 // Which result image and label the card shows: both switch on every 16th once the card is up,
 // until the spoken input word picks one (config scenes.result.pick_tile).
 const CARD_IN = () => T.drop + 0.42;
@@ -218,7 +228,7 @@ function scene34(L, t) {
     // The label side of the mark rolls to each new name.
     const tr = tq(t), roll = step < 0 ? eOut3((tr - T.pick) / 0.09) : eOut3(((tr - T.drop) / SIX - Math.floor((tr - T.drop) / SIX)) / 0.75);
     const prev = step < 0 ? tile(stepAt(T.pick - 0.001)) : tile(Math.max(0, step - 1));
-    const size = cs * 0.085, px = cx - cs / 2 + cs * 0.07, py = cy + cs / 2 - cs * 0.075;
+    const size = cs * LABEL, px = cx - cs / 2 + cs * 0.07, py = cy + cs / 2 - cs * 0.075;
     slashMark(ctx, SC.result.base, (c, qx, qy) => {
       c.save(); c.beginPath(); c.rect(qx - 4, qy - size * 1.05, cs, size * 1.35); c.clip();
       if (step !== 0) { c.globalAlpha *= 1 - roll; c.fillText(prev.t, qx, qy - size * 1.1 * roll); c.globalAlpha = cin * 0.72 * roll; }

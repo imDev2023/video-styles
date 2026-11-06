@@ -23,7 +23,8 @@ const { chromium } = require('playwright');
 const CFG = JSON.parse(fs.readFileSync(path.join(ROOT, 'config.json'), 'utf8'));
 const W = 1440, FPS = CFG.render.fps;
 
-const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json', '.jpg': 'image/jpeg', '.png': 'image/png', '.ttf': 'font/ttf' };
+// every type the page loads: an image served without its type never decodes (an SVG logo stalls the film's load)
+const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json', '.jpg': 'image/jpeg', '.png': 'image/png', '.svg': 'image/svg+xml', '.ttf': 'font/ttf' };
 function serve() {
   return new Promise((res) => {
     const srv = http.createServer((req, rsp) => {

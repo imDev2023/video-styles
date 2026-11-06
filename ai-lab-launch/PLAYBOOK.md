@@ -35,6 +35,8 @@ Python needs librosa, soundfile, scipy, numba, Pillow and faster-whisper, all li
 3. Measure each take before sending it: `python3 voice/measure.py voice/takes/take1.mp3,voice/takes/take2.mp3 more any` prints the transcript and the loudness and pitch of the stressed words.
    Send the user the 4 files and that table; let them pick.
 4. If one line is off: `python3 voice/tts.py line <n> "<text>"` makes 4 versions with the neighbouring lines as context; measure them; splice only if one beats the take.
+   To splice: `python3 voice/splice.py <take> <n> voice/lines/line<n>_<k>.mp3 voice/takes/<take>-line<n>.wav` finds the old line between its unchanged neighbours (Whisper's words aligned to the script), swaps its speech for the new take's, keeps the pauses either side, and joins each side with a 10 ms crossfade inside a pause; then point `config.voice.take` at the result.
+   The same path changes a line's words after the voice is approved: put the new words in `config.voice.lines` first (they are the context and the script `process.py` checks against).
 5. Set `config.voice.take`, then `python3 voice/process.py` tightens pauses (over 0.28 s down to 0.2 s), levels phrases (85% toward the median, gain moved only inside pauses), and writes `voice/voice.wav` and `voice/words.json`.
 6. Set `config.anchors`: each scene boundary is a word index in `words.json` plus the word expected there, so a new take with different words fails loudly instead of cutting in the wrong place.
    Set `config.captions` to the word ranges each caption types, `config.display.comma_after` for spoken dashes, and `config.display.gradient_words`: the stressed words as the script spells them (`["ANY", "MORE"]`), so the capitals that tell the voice where to lean are the letters that take the gradient, and the first "more" does not; each gets a soft landing in the sound events.
@@ -43,7 +45,8 @@ Python needs librosa, soundfile, scipy, numba, Pillow and faster-whisper, all li
 
 Everything per product lives in `config.scenes`:
 
-- `prompt.text`: what the glass prompt bar types (Stoker: `$EMBER`, a coin name).
+- `prompt.text`: what the glass prompt bar types (Stoker: `$HEARTH`, a made-up coin).
+  A made-up name must not be a real coin or a rival's: the first cut typed `$EMBER`, which is the token of EmberCurve, a rival launchpad, and the owner had it taken out of every film.
 - `result`: the card's image set, the fixed part of its label (`base`), the chip prefix, and which tile the spoken input word picks (`pick_tile`).
 - `tiles`: [title, subtitle, tag] for the grid and ring, and the label sequence on the card (Stoker: Quote Assets).
   Draw them as typographic tiles in the brand's style; do not use other companies' logos.
@@ -242,6 +245,22 @@ Copy the finished export to the workspace root under the video's name.
 - **The beat detector locks onto a related tempo.**
   Symptom: `beats.py` read 97.5 BPM on the 22 s excerpt after the trim moved by 35 ms, 130 before.
   Fix: pass `--bpm 130` (`config.music.bpm`); the search then stays within 4 BPM of it.
+- **A changed caption is a changed voice line.**
+  Symptom: the review asked for "Every payment, on the blockchain" in place of "on the public ledger"; typing the new words over the old read would show one thing while she says another.
+  Cause: every caption is a range of the read's own words (`config.captions`), typed at the moments she says them.
+  Fix: re-record only that line and splice it into the approved take (section 3, step 4), pick the take nearest the old line's pace and median pitch (the Stoker splice: 2.25 s against 2.18 s, 202 Hz against 204 Hz), run `process.py`, then move every later anchor and caption by the change in word count (one fewer word moved `logo`, `tagline`, `last` and three captions up by one).
+- **The typing caret draws a "$" through every S.**
+  Symptom: for one frame in each typed S (the S of "Stoker" in "This is Stoker" and on the end card, the S of "Solana"), the caret stood in the letter's middle and the pair read as "$"; frame strips show it, a contact sheet never does.
+  Cause: `drawCaption` glided the caret across each letter while the letter faded in, so the caret crossed every glyph halfway through its fade.
+  Fix: the caret steps past a letter as it starts, as an editor's does, and the letter fades in behind it (`engine.js`, 2026-11-06); read a strip of the end card's first typed letters after any change to the caret.
+- **A longer coin name runs off the card.**
+  Symptom: with the coin renamed from EMBER to HEARTH, the card's label "HEARTH/GOOGLx" ran 25 px past the card's right edge during the roll, and the card's clip cut its last letter; the text check passed, because it only measures against the frame's edges.
+  Cause: the label was set at a fixed 0.085 of the card, whatever its length.
+  Fix: `buildLabel()` in `film/scenes.js` sets one size for the whole roll, the largest at which the widest quote fits with equal margins (0.07 of the card each side), at most 0.085; check a new name or quote list with a still on the roll's widest label.
+- **An SVG logo cannot load.**
+  Cause: `film/render.mjs` serves files with a type from its `TYPES` table, which had no `.svg`, and an image sent as `application/octet-stream` does not decode; the Stoker teasers' engine (`js-kit/stoker-teasers/`) stalled on the same thing.
+  Fix: `image/svg+xml` is in the table now (2026-11-06, for the Stoker ring); add any new file type there before the page loads it.
+  An SVG is the better logo: the browser draws it at the size the end card asks for, so it stays sharp through the scale-in.
 
 ## Known weak spots
 
