@@ -48,6 +48,8 @@ Everything per product lives in `config.scenes`:
 - `prompt.text`: what the glass prompt bar types (Stoker: `$HEARTH`, a made-up coin).
   A made-up name must not be a real coin or a rival's: the first cut typed `$EMBER`, which is the token of EmberCurve, a rival launchpad, and the owner had it taken out of every film.
 - `result`: the card's image set, the fixed part of its label (`base`), the chip prefix, and which tile the spoken input word picks (`pick_tile`).
+  The coming-soon film's card reads `STOKER`, the platform's own coin, and lands on `SPY` (the owner's review of version 3, 2026-11-06), while its bar still types `$HEARTH`.
+  The picked tile need not be one of the eight in the grid: `SPY` is tile 8, so it shows only in the roll and on the card.
 - `tiles`: [title, subtitle, tag] for the grid and ring, and the label sequence on the card (Stoker: Quote Assets).
   Draw them as typographic tiles in the brand's style; do not use other companies' logos.
 - `settings.sliders`: three sliders, each tied to the anchor word that names it, with its range and value format; a slider that is a choice rather than a number lists its `stops` (`["in coin", "in SOL"]`) and shows the stop its position has reached.
@@ -274,6 +276,10 @@ Copy the finished export to the workspace root under the video's name.
   Cause: x264's look-ahead weighs a frame by the frames that follow it, so a change shifts the encoding of up to about 25 frames before it (49 to 61 dB PSNR, invisible).
   Fix: none needed; to prove a change touches nothing before it, compare lossless stills from both versions of the code, not the encoded frames.
   To re-render only a late change, render just the `full` run's segments that hold it (`render.mjs seg <f0> <f1> out/segs/segNN.mp4` with the same boundaries, `ceil(frames / workers)` apart), concatenate `out/segs/list.txt` again, and copy the audio stream from the previous export instead of mixing it again; drop `-shortest` when copying, or the last video frame goes.
+- **A short pick makes the chip too narrow for the roll.**
+  Symptom: with the card's pick changed from TSLAx to SPY, "paired with GOOGLx" (264.9 px) was wider than the chip sized for "paired with SPY" (257.8 px), so its white letters would have run past the black pill onto the white page; the text check cannot see it, because it measures strings against the frame, not against the shape behind them.
+  Cause: the chip took its width from the picked name alone, which was among the widest while TSLAx was the pick.
+  Fix: the chip takes the width of the widest name in `scenes.tiles` (`scene34()` in `film/scenes.js`), as the card's label already does; for the Stoker list it grew 32 px, and every name keeps 28 px or more each side.
 
 ## Known weak spots
 

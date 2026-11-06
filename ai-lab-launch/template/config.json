@@ -308,9 +308,9 @@
   },
   "result": {
    "set": "fire",
-   "base": "HEARTH",
+   "base": "STOKER",
    "chip_prefix": "paired with ",
-   "pick_tile": 2
+   "pick_tile": 8
   },
   "chart": {
    "anchor": "trades",
@@ -358,8 +358,8 @@
     "Stablecoin"
    ],
    [
-    "SPYx",
-    "S&P 500 xStock",
+    "SPY",
+    "S&P 500",
     "Stock"
    ],
    [
