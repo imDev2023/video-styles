@@ -290,5 +290,5 @@ Copy the finished export to the workspace root under the video's name.
 - The voice reads a little slower than the reference film, so the Stoker film is 23 s instead of 22 s.
 - Scene layouts are tuned for one-line captions of about the Stoker lengths; a much longer line needs its caption size in `config.captions` reduced.
 - Only one song has been used; `config.mix.sfx_plan` gains were tuned by measurement, not by ear.
-- The reference stills are from the first film; the coming-soon film's contact sheet joins them once its export is approved.
+- The eight review stills are from the first film; the coming-soon film has only its contact sheet (`reference/coming-soon-contact-sheet.jpg`, the approved version 6).
 - The cut check's grid comes from a comb snapped to onsets within 40 ms, so its offsets scatter by about 20 ms around the true alignment; read the median, not one cut.
