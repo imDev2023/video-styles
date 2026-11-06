@@ -310,7 +310,6 @@
    "set": "fire",
    "base": "STOKER",
    "chip_prefix": "paired with ",
-   "chip_text": "paired with TSLAx or any other famous xStock",
    "pick_tile": 8
   },
   "chart": {
@@ -1629,7 +1628,7 @@
     "reads": [
      "the drop lands at 5.0 s; \"$STOKER\" types in the launch bar, 5.0 to 5.7 s",
      "\"Launch against ANY asset\", 5.0 to 6.3 s, ANY in the gradient with a soft landing at 5.8 s",
-     "the card arrives, 5.4 to 5.8 s, then its quote asset switches on every 16th, 5.9 to 7.0 s, over the fixed chip \"paired with TSLAx or any other famous xStock\""
+     "the card arrives, 5.4 to 5.8 s, then its quote asset switches on every 16th, 5.9 to 7.0 s, the chip rolling with it"
     ]
    },
    {

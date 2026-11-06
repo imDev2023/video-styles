@@ -50,7 +50,9 @@ Everything per product lives in `config.scenes`:
 - `result`: the card's image set, the fixed part of its label (`base`), the chip prefix, and which tile the spoken input word picks (`pick_tile`).
   The coming-soon film's card reads `STOKER` and lands on `SPY` (the owner's reviews of versions 3 and 4, 2026-11-06).
   The picked tile need not be one of the eight in the grid: `SPY` is tile 8, so it shows only in the roll and on the card.
-  `chip_text` (optional) replaces the rolling "paired with <quote>" chip with one fixed line that holds still while the card rolls (the coming-soon film: "paired with TSLAx or any other famous xStock"); the chip takes that line's width.
+  `chip_text` (optional) replaces the rolling "paired with <quote>" chip with one fixed line that holds still while the card rolls; the chip takes that line's width.
+  The coming-soon film tried "paired with TSLAx or any other famous xStock" in version 5, and the owner went back to the rolling chip in version 6.
+  A fixed line there gets about 1.5 s on screen while the caption and the bar type above it, so keep it to a few words.
   In the owner's review of version 4, BONK gave way to another xStock, MSFTx; when a list needs a tokenized stock, take it from the original Stoker's own list of xStocks, `apps/api/src/quotes/markets.ts` in `Dev/AI/stonk-fun-solana`.
 - `tiles`: [title, subtitle, tag] for the grid and ring, and the label sequence on the card (Stoker: Quote Assets).
   Draw them as typographic tiles in the brand's style; do not use other companies' logos.
