@@ -243,10 +243,11 @@ function scene34(L, t) {
   if (chipA > 0.001) {
     ctx.save(); ctx.globalAlpha = chipA;
     font(ctx, 600, 28);
-    const text = SC.result.chip_prefix + label.t;
-    // the chip fits the widest name the roll shows, not only the one it lands on: sized to a short pick (SPY), it let
-    // "paired with GOOGLx" spill past its ends onto the white page
-    const tw = Math.max(...SC.tiles.map(([q]) => ctx.measureText(SC.result.chip_prefix + q).width)) + 56;
+    // a fixed line (config scenes.result.chip_text) holds still while the card rolls; without one, the chip rolls with
+    // the card as "paired with <quote>" and fits the widest name the roll shows, not only the one it lands on (sized to
+    // a short pick, SPY, it let "paired with GOOGLx" spill past its ends onto the white page)
+    const fixed = SC.result.chip_text, text = fixed || SC.result.chip_prefix + label.t;
+    const tw = (fixed ? ctx.measureText(fixed).width : Math.max(...SC.tiles.map(([q]) => ctx.measureText(SC.result.chip_prefix + q).width))) + 56;
     const chy = cy + cs / 2 + 34;
     ctx.fillStyle = C.ink; rr(ctx, W / 2 - tw / 2, chy, tw, 54, 27); ctx.fill();
     ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.fillText(text, W / 2, chy + 37);

@@ -45,11 +45,13 @@ Python needs librosa, soundfile, scipy, numba, Pillow and faster-whisper, all li
 
 Everything per product lives in `config.scenes`:
 
-- `prompt.text`: what the glass prompt bar types (Stoker: `$HEARTH`, a made-up coin).
+- `prompt.text`: what the glass prompt bar types (the coming-soon film: `$STOKER`, the platform's own coin, since the owner's review of version 4; before that `$HEARTH`, a made-up coin).
   A made-up name must not be a real coin or a rival's: the first cut typed `$EMBER`, which is the token of EmberCurve, a rival launchpad, and the owner had it taken out of every film.
 - `result`: the card's image set, the fixed part of its label (`base`), the chip prefix, and which tile the spoken input word picks (`pick_tile`).
-  The coming-soon film's card reads `STOKER`, the platform's own coin, and lands on `SPY` (the owner's review of version 3, 2026-11-06), while its bar still types `$HEARTH`.
+  The coming-soon film's card reads `STOKER` and lands on `SPY` (the owner's reviews of versions 3 and 4, 2026-11-06).
   The picked tile need not be one of the eight in the grid: `SPY` is tile 8, so it shows only in the roll and on the card.
+  `chip_text` (optional) replaces the rolling "paired with <quote>" chip with one fixed line that holds still while the card rolls (the coming-soon film: "paired with TSLAx or any other famous xStock"); the chip takes that line's width.
+  In the owner's review of version 4, BONK gave way to another xStock, MSFTx; when a list needs a tokenized stock, take it from the original Stoker's own list of xStocks, `apps/api/src/quotes/markets.ts` in `Dev/AI/stonk-fun-solana`.
 - `tiles`: [title, subtitle, tag] for the grid and ring, and the label sequence on the card (Stoker: Quote Assets).
   Draw them as typographic tiles in the brand's style; do not use other companies' logos.
 - `settings.sliders`: three sliders, each tied to the anchor word that names it, with its range and value format; a slider that is a choice rather than a number lists its `stops` (`["in coin", "in SOL"]`) and shows the stop its position has reached.
