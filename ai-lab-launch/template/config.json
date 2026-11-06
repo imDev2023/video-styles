@@ -107,6 +107,17 @@
   },
   "logo": "assets/stoker-mark.svg",
   "logo_height": 128,
+  "logo_light": {
+   "_about": "A white-hot light that circles the logo's ring once it lands (the operator's note on version 2, 2026-11-06: make the logo a bit dynamic, the golden ring circling or shining). Geometry in the logo's own units (its viewBox): the ring's centre x, centre y, radius and stroke width, and the tile's corner radius. It ignites `start` s after T.logo (the logo's impact), at `from` degrees (canvas: 0 right, 90 down), runs `whip` extra laps that settle over `settle` s, then circles clockwise once every `period` s. Leave the key out for a still logo.",
+   "viewbox": 32,
+   "ring": [16, 16, 8.6, 4.2],
+   "tile_radius": 7,
+   "start": 0.3,
+   "from": 135,
+   "whip": 1,
+   "settle": 0.45,
+   "period": 2.4
+  },
   "line": "#ebe4da",
   "rail": "#c9c0b6",
   "ring": "#d8d0c6"

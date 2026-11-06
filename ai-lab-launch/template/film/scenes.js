@@ -396,9 +396,11 @@ function scene7(L, t) {
   const la = fade(t, T.logo - 0.12, 0.45, eOut3);
   if (la > 0.001) {
     const lh = S.cfg.brand.logo_height * lerp(0.9, 1, la), lw = lh * IMG.logo.width / IMG.logo.height;
+    const lx = W / 2 - lw / 2, ly = 585 - lh / 2 + 12 * (1 - la);
     ctx.save(); ctx.globalAlpha = la;
-    ctx.drawImage(IMG.logo, W / 2 - lw / 2, 585 - lh / 2 + 12 * (1 - la), lw, lh);
+    ctx.drawImage(IMG.logo, lx, ly, lw, lh);
     ctx.restore();
+    ringLight(ctx, t, lx, ly, lw, lh, la);
   }
   drawCaption(ctx, CAP.wordmark, t, W / 2, 822, { caretHold: CAP.tagline.tFirst - CAP.wordmark.tLast - 0.05 });
   drawCaption(ctx, CAP.tagline, t, W / 2, 912, { caretHold: 0.9 });
@@ -408,6 +410,49 @@ function scene7(L, t) {
     ctx.save(); ctx.globalAlpha = da; font(ctx, 500, 30); ctx.letterSpacing = '1px'; ctx.textAlign = 'center';
     ctx.fillStyle = C.ink3; ctx.fillText(domain, W / 2, 978 + 8 * (1 - da)); ctx.restore();
   }
+}
+
+// The light on the logo's ring (config brand.logo_light; without it the logo stays still). On the logo's impact the
+// whole ring flares and a white-hot light ignites; it whips round fast, settles into a slow clockwise circling, and
+// trails a tail that is longer while it is fast. It is added onto the ring (the 'lighter' blend) and clipped to the
+// tile, so the page round the tile never changes; (x, y, w, h) is the logo's box as drawn.
+function ringLight(ctx, t, x, y, w, h, alpha) {
+  const L = S.cfg.brand.logo_light, dt = L ? t - T.logo - L.start : 0;
+  if (!L || dt <= 0) return;
+  const u = h / L.viewbox, cx = x + L.ring[0] * u, cy = y + L.ring[1] * u, R = L.ring[2] * u, sw = L.ring[3] * u;
+  const fast = Math.exp(-dt / L.settle);
+  const head = (L.from / 180) * Math.PI + 2 * Math.PI * (L.whip * (1 - fast) + dt / L.period);
+  const speed = (L.whip / L.settle) * fast + 1 / L.period;              // laps per second
+  const tail = Math.min(0.5, 0.16 + 0.13 * speed) * eOut3(dt / 0.3);     // in turns; it grows out of the ignition
+  const on = alpha * eOut3(dt / 0.12), flare = Math.exp(-dt / 0.3);
+  const g = ctx.createConicGradient(head - 1.5 * Math.PI, cx, cy);      // the head sits at 0.75 of the turn
+  g.addColorStop(0, 'rgba(255,190,90,0)');
+  g.addColorStop(0.75 - tail, 'rgba(255,190,90,0)');
+  g.addColorStop(0.75 - tail * 0.5, 'rgba(255,214,150,0.34)');
+  g.addColorStop(0.75 - tail * 0.12, 'rgba(255,238,205,0.82)');
+  g.addColorStop(0.75, 'rgba(255,252,244,1)');
+  g.addColorStop(0.77, 'rgba(255,252,244,0)');
+  g.addColorStop(1, 'rgba(255,190,90,0)');
+  const ring = (width, style, a, blur) => {
+    ctx.globalAlpha = a; ctx.filter = blur ? `blur(${blur}px)` : 'none';
+    ctx.lineWidth = width; ctx.strokeStyle = style;
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, 2 * Math.PI); ctx.stroke();
+  };
+  ctx.save();
+  rr(ctx, x, y, w, h, L.tile_radius * u); ctx.clip();
+  ctx.globalCompositeOperation = 'lighter';
+  ring(sw * 1.3, g, on * 0.7, sw * 0.45);                                // its glow on the tile
+  ring(sw * 0.62, g, on * 0.95, 0);                                      // its core, inside the ring's band
+  if (flare > 0.01) {                                                     // the ring flares as it ignites, keeping its ramp
+    ring(sw * 1.3, 'rgb(255,190,110)', on * 0.3 * flare, sw * 0.5);
+    ring(sw * 0.7, 'rgb(255,222,170)', on * 0.2 * flare, 0);
+  }
+  const hx = cx + R * Math.cos(head), hy = cy + R * Math.sin(head), hr = sw * 0.85;   // the hot point at its head
+  const hg = ctx.createRadialGradient(hx, hy, 0, hx, hy, hr);
+  hg.addColorStop(0, 'rgba(255,255,250,0.9)'); hg.addColorStop(0.35, 'rgba(255,240,210,0.4)'); hg.addColorStop(1, 'rgba(255,220,160,0)');
+  ctx.globalAlpha = on; ctx.filter = 'none'; ctx.fillStyle = hg;
+  ctx.beginPath(); ctx.arc(hx, hy, hr, 0, 2 * Math.PI); ctx.fill();
+  ctx.restore();
 }
 
 // ---------------------------------------------------------------- sound events, from the same timeline

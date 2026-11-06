@@ -54,6 +54,10 @@ Everything per product lives in `config.scenes`:
 - `chart` (optional): `{"anchor": "trades", "bars": 9}` climbs a small price chart inside the result card once that word is spoken; leave it out for no chart.
 - `pill` (optional): `{"anchor": "earn", "text": "You earn {value}% of every trade", "from": 0, "to": 0.5, "decimals": 2, "duration": 0.6}` counts a number up in a glass pill under the scene 5 lines; leave it out for no pill.
 - `product.domain`: the address that fades in under the closing line on the end card; empty for none.
+- `brand.logo_light` (optional, for a logo with a ring in it): a white-hot light that circles the ring once the logo lands (`ringLight()` in `film/scenes.js`).
+  On the logo's impact the ring flares, the light whips round once and then circles clockwise with a short warm trail to the end; it is added onto the ring with the 'lighter' blend and clipped to the logo's tile, so the page never changes.
+  It takes the ring in the logo's own units (`viewbox`, `ring` as centre x, centre y, radius and stroke width, `tile_radius`) and its timing (`start` s after `T.logo`, `from` degrees, `whip` extra laps settling over `settle` s, then a lap every `period` s); the Stoker ring circles every 2.4 s.
+  Leave it out for a still logo.
 - `storyboard`: the panels (time, title, reads) and the seam anchors that `tools/board.py` lays out for the storyboard check.
 - `check.text_ignore`: stretches where strings may cross the frame edge on purpose, as `[anchor, from, to, why]` (the tiles flying in).
 
@@ -261,6 +265,15 @@ Copy the finished export to the workspace root under the video's name.
   Cause: `film/render.mjs` serves files with a type from its `TYPES` table, which had no `.svg`, and an image sent as `application/octet-stream` does not decode; the Stoker teasers' engine (`js-kit/stoker-teasers/`) stalled on the same thing.
   Fix: `image/svg+xml` is in the table now (2026-11-06, for the Stoker ring); add any new file type there before the page loads it.
   An SVG is the better logo: the browser draws it at the size the end card asks for, so it stays sharp through the scale-in.
+- **The ring's ignition washes out its colours.**
+  Symptom: in the first try at the Stoker ring's light, the whole ring turned pale yellow for half a second after the logo's impact, and the ember-to-amber ramp that makes the mark was gone.
+  Cause: the ignition flare added a near-white stroke over the whole ring at 0.45 to 0.55 alpha with the 'lighter' blend, which pushes orange to white.
+  Fix: flare in the ring's own warm tones at 0.2 to 0.3 alpha, decaying over 0.3 s, and keep the white for the moving light's head; read the ring at 2x in the frames 0.05 to 0.5 s after the impact.
+- **A changed end card re-encodes frames before the change.**
+  Symptom: after the ring's light was added, frames 1116 to 1138 of the coming-soon film differed from the earlier render, though the light starts at frame 1139 and stills of those frames from the old and new code are identical.
+  Cause: x264's look-ahead weighs a frame by the frames that follow it, so a change shifts the encoding of up to about 25 frames before it (49 to 61 dB PSNR, invisible).
+  Fix: none needed; to prove a change touches nothing before it, compare lossless stills from both versions of the code, not the encoded frames.
+  To re-render only a late change, render just the `full` run's segments that hold it (`render.mjs seg <f0> <f1> out/segs/segNN.mp4` with the same boundaries, `ceil(frames / workers)` apart), concatenate `out/segs/list.txt` again, and copy the audio stream from the previous export instead of mixing it again; drop `-shortest` when copying, or the last video frame goes.
 
 ## Known weak spots
 
